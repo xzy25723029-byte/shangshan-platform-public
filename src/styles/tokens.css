@@ -1,0 +1,28 @@
+/* ============================================================
+   上善若水 · 设计令牌（移植自 HTML 原型 src/styles.css）
+   现代水科技：白底 / 冰蓝 / 青绿 / 浅灰蓝；禁用黑色大屏与鲜红告警
+   ============================================================ */
+:root {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+  color: #183747;
+  background: #f7fbfc;
+  font-synthesis: none;
+
+  /* 平台色板 */
+  --teal: #087b86;
+  --teal2: #1995a0;
+  --deep: #0b5360;
+  --line: #dbe9ed;
+  --muted: #6f8791;
+  --pale: #eff8fa;
+  --shadow: 0 8px 28px rgba(41, 95, 107, 0.08);
+
+  /* 失败/继续打磨类状态色：低饱和暖色，与正向状态同视觉权重 */
+  --state-warm: #a8743f;
+  --state-warm-bg: #f6efe6;
+  --state-ok: #16848a;
+  --state-ok-bg: #e2f5f4;
+
+  /* 品牌字体（仅品牌名/一级标题/精神内核/箴言使用） */
+  --font-kai: "STKaiti", "KaiTi", serif;
+}

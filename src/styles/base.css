@@ -1,0 +1,313 @@
+/* ============================================================
+   上善若水 · 全局基础样式（移植自 HTML 原型）
+   壳层 + 全站通用组件；页面级样式在各组件 scoped 中
+   ============================================================ */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-width: 1180px;
+  min-height: 100vh;
+  background: #f7fbfc;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(30, 159, 174, 0.26);
+  outline-offset: 2px;
+}
+img { max-width: 100%; }
+
+/* ---------- 壳层 ---------- */
+.app-shell {
+  display: grid;
+  grid-template-columns: 228px minmax(0, 1fr);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f9fcfd, #f4fafb);
+}
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 228px;
+  padding: 16px 16px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border-right: 1px solid var(--line);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px 22px;
+}
+.brand img { width: 54px; height: 54px; object-fit: contain; }
+.brand strong {
+  font-family: var(--font-kai);
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #123642;
+  display: block;
+}
+.brand span { font-size: 11px; color: #44616b; display: block; margin-top: 2px; }
+.sidebar nav { display: grid; gap: 6px; }
+.sidebar nav button, .sidebar nav a.nav-item {
+  height: 46px;
+  border: 0;
+  background: transparent;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 15px;
+  color: #284c5c;
+  text-decoration: none;
+  text-align: left;
+  width: 100%;
+}
+.sidebar nav button:hover, .sidebar nav a.nav-item:hover { background: #eff8f9; }
+.sidebar nav a.nav-item.active {
+  background: linear-gradient(110deg, #05616e, #2795a0);
+  color: white;
+  box-shadow: 0 6px 16px rgba(6, 111, 123, 0.18);
+}
+.sidebar .nav-section-label {
+  margin: 14px 14px 4px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #8ba0a8;
+  font-weight: 700;
+}
+.sensor-card {
+  margin-top: auto;
+  padding: 15px;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #eef7f9, #fff);
+  border: 1px solid #e0edf0;
+}
+.sensor-head, .sensor-main, .sensor-card dl div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sensor-head strong { font-size: 12px; }
+.sensor-head span, .sensor-card small { font-size: 10px; color: #8ba0a8; }
+.sensor-main { margin: 14px 0 3px; color: #258696; font-size: 12px; }
+.sensor-card dl { margin: 4px 0 13px; }
+.sensor-card dl div { border-bottom: 1px solid #e1ecef; padding: 6px 0; font-size: 11px; }
+.sensor-card dd { margin: 0; font-weight: 700; color: #1f6c79; }
+
+.main-shell { grid-column: 2; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
+.topbar {
+  height: 70px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+.global-search {
+  display: flex;
+  align-items: center;
+  width: min(800px, 62%);
+  height: 40px;
+  border: 1px solid #dbe7eb;
+  border-radius: 20px;
+  padding: 0 14px;
+  gap: 10px;
+  background: white;
+}
+.global-search input { border: 0; outline: 0; flex: 1; background: transparent; font-size: 13px; }
+.top-actions { display: flex; align-items: center; gap: 20px; }
+.top-actions > button {
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.notice { position: relative; }
+.notice i {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #e45454; position: absolute; top: 0; right: 0;
+}
+.profile { display: flex; align-items: center; gap: 9px; }
+.profile img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.profile strong, .profile span { display: block; }
+.profile strong { font-size: 13px; }
+.profile span { font-size: 10px; color: #8a9ba2; margin-top: 2px; }
+.page-content { padding: 20px 28px 32px; flex: 1; }
+
+/* ---------- 通用组件 ---------- */
+.card {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.btn {
+  border: 0;
+  background: linear-gradient(110deg, #087481, #1898a2);
+  color: white;
+  border-radius: 7px;
+  min-height: 36px;
+  padding: 0 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-weight: 700;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn.ghost {
+  background: white;
+  color: var(--teal);
+  border: 1px solid #9bcbd1;
+}
+.pill, .tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #e9f7f5;
+  color: #168180;
+  font-size: 11px;
+  font-style: normal;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  color: #125664;
+}
+.section-title b {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #1a929b; color: white; font-size: 12px;
+}
+.section-title h3 { font-size: 16px; margin: 0; }
+.section-title small { font-weight: 400; color: #7e929a; }
+.section-title > button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+}
+.ai-fab {
+  position: fixed;
+  right: 26px;
+  bottom: 25px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 4px solid rgba(120, 226, 239, 0.55);
+  background: linear-gradient(145deg, #2eb5c4, #077581);
+  box-shadow: 0 10px 30px rgba(5, 111, 124, 0.28);
+  color: white;
+  font-weight: 700;
+  z-index: 12;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.ai-fab img {
+  position: absolute;
+  inset: -2px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.42;
+}
+.ai-fab span { position: relative; z-index: 1; }
+.text-link { border: 0; background: transparent; color: var(--teal); display: flex; align-items: center; gap: 5px; }
+
+/* 上传框（SubmissionBox / FileUploadBox 共用） */
+.upload {
+  min-height: 120px;
+  border: 1px dashed #72bdc7;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #247985;
+  text-align: center;
+  cursor: pointer;
+}
+.upload span { font-size: 10px; color: #899ba3; }
+.upload.tall { min-height: 145px; }
+
+/* 平权状态卡（成功/继续打磨 同尺寸同权重） */
+.state-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.state-pair .state-cell {
+  padding: 12px;
+  border-radius: 8px;
+  background: #f7fafb;
+  border: 1px solid #e2ecef;
+}
+.state-pair .state-cell.ok { background: var(--state-ok-bg); border-color: #bfe3e1; }
+.state-pair .state-cell.warm { background: var(--state-warm-bg); border-color: #e7d5bc; }
+
+/* 平权状态标签：成功与「请再想想」同尺寸同权重 */
+.verdict-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.verdict-tag.ok { background: var(--state-ok-bg); color: var(--state-ok); }
+.verdict-tag.warm { background: var(--state-warm-bg); color: var(--state-warm); }
+
+/* 楷体标题（品牌气质，仅用于一级标题/精神内核/箴言） */
+.kai-title { font-family: var(--font-kai); letter-spacing: 2px; color: #0f5a65; }
+
+/* 页面横幅（各页共用） */
+.page-banner {
+  min-height: 88px;
+  padding: 14px 24px;
+  border-radius: 11px;
+  background: linear-gradient(90deg, #f4fafb, rgba(255, 255, 255, 0.6)), url("/assets/hero-water-city.png") right center / 60% 100% no-repeat;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.page-banner h1 {
+  font-family: var(--font-kai);
+  color: #0f5a65;
+  margin: 0;
+  font-size: 37px;
+  letter-spacing: 2px;
+}
+.page-banner p { margin: 5px 0; color: #5c7882; font-size: 13px; }
+.page-banner .banner-side { display: flex; align-items: center; gap: 10px; }
+
+@media (max-width: 1300px) {
+  body { min-width: 1024px; }
+  .app-shell { grid-template-columns: 200px; }
+  .sidebar { width: 200px; }
+  .brand strong { font-size: 20px; }
+  .page-content { padding: 16px; }
+  .topbar { padding: 0 18px; }
+  .ai-fab { width: 74px; height: 74px; }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "shangshan-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "上善若水 · 本科生科研素养实训平台（第一期）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "qa": "node scripts/qa-smoke.mjs",
+    "matrix": "node scripts/matrix-check.mjs",
+    "audit": "node scripts/ui-audit.mjs",
+    "deep": "node scripts/regression-deep.mjs",
+    "full-check": "npm run lint && npm run build && npm run qa && npm run matrix && npm run audit && npm run deep"
+  },
+  "dependencies": {
+    "@phosphor-icons/vue": "2.2.1",
+    "element-plus": "2.9.9",
+    "pinia": "3.0.1",
+    "vue": "3.5.13",
+    "vue-router": "4.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-vue": "5.2.3",
+    "eslint": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
+    "playwright": "^1.62.1",
+    "vite": "6.4.2"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
+  }
+}

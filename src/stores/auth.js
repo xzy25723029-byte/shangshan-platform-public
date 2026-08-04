@@ -1,0 +1,75 @@
+import { defineStore } from "pinia";
+import { useMock, mockApi, remoteApi } from "../api";
+import { demoAccounts } from "../api/mock";
+
+const api = useMock ? mockApi : remoteApi;
+const KEY = "ss_session";
+
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    user: null,
+    loading: false,
+    error: "",
+  }),
+  getters: {
+    role: (s) => s.user?.role || "",
+    isStudent: (s) => s.user?.role === "student",
+    isMentor: (s) => s.user?.role === "mentor",
+    isAdmin: (s) => s.user?.role === "admin",
+    isSuperAdmin: (s) => s.user?.role === "super_admin",
+    canManageContent: (s) => ["admin", "super_admin"].includes(s.user?.role),
+  },
+  actions: {
+    restore() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) this.user = JSON.parse(raw);
+      } catch {
+        this.user = null;
+      }
+    },
+    async login(credentials) {
+      this.loading = true;
+      this.error = "";
+      try {
+        this.user = await api.login(credentials);
+        localStorage.setItem(KEY, JSON.stringify(this.user));
+      } catch (e) {
+        this.error = e.message || "登录失败";
+        throw e;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async redeemInvite(code) {
+      this.loading = true;
+      this.error = "";
+      try {
+        this.user = await api.redeemInvite(code);
+        localStorage.setItem(KEY, JSON.stringify(this.user));
+      } catch (e) {
+        this.error = e.message || "邀请码无效";
+        throw e;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async logout() {
+      await api.logout();
+      this.user = null;
+      localStorage.removeItem(KEY);
+    },
+    // 演示入口：直接选择演示账号
+    async loginAs(accountId) {
+      const acc = demoAccounts.find((a) => a.id === accountId);
+      if (!acc) return;
+      this.user = { ...acc };
+      localStorage.setItem(KEY, JSON.stringify(this.user));
+    },
+    homePath() {
+      if (this.role === "mentor") return "/mentor/week";
+      if (this.role === "admin" || this.role === "super_admin") return "/admin/people";
+      return "/student/home";
+    },
+  },
+});

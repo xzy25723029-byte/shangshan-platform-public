@@ -1,0 +1,55 @@
+step 1 login: 学生登录
+step 2 pages: 学生端 36 个路由页面级检查
+   ok /student/home
+   ok /student/triple-core
+   ok /student/guiding-principles
+   ok /student/first-lesson
+   ok /student/energy-flow
+   ok /student/strategy-research
+   ok /student/oath
+   ok /student/thought-notes
+   ok /student/origin-archive
+   ok /student/scientist-hall
+   ok /student/hard-bone
+   ok /student/cognitive-profile
+   ok /student/ai-mentor
+   ok /student/map
+   ok /student/layer1
+   ok /student/layer1/paper-figure
+   ok /student/project
+   ok /student/project/p1
+   ok /student/graduation
+   ok /student/graduation/topic
+   ok /student/graduation/proposal
+   ok /student/graduation/experiment
+   ok /student/graduation/midterm
+   ok /student/graduation/writing
+   ok /student/graduation/defense
+   ok /student/graduation/archive
+   ok /student/voice
+   ok /student/alumni
+   ok /student/members
+   ok /student/ai-settings
+   ok /student/layer2
+   ok /student/layer3
+   ok /student/achievements
+   ok /student/track
+   ok /student/account
+   ok /student/research-records
+step 3 dead-buttons: 关键页死按钮扫描
+   /student/home → clean
+   /student/energy-flow → clean
+   /student/thought-notes → clean
+   /student/hard-bone → clean
+   /student/cognitive-profile → clean
+   /student/layer1 → clean
+   /student/project/p1 → clean
+   /student/graduation → clean
+   /student/voice → clean
+   /student/members → clean
+   /student/ai-settings → clean
+step 4 fab-overlap: 学生页 ai-fab 遮挡扫描
+step 5 links: 导航链接有效性
+step 6 mentor: 导师端
+step 7 admin: 管理端
+最终数据: 共 0 个问题（高 0 / 中 0 / 低 0）

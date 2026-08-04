@@ -1,0 +1,12 @@
+node_modules
+dist
+*.local
+.env
+.env.local
+.DS_Store
+npm-debug.log*
+
+# 本地检查产物（不进仓库）
+qa/dev-server.log
+qa/audit/screenshots/
+outputs/
