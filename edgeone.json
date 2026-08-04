@@ -1,0 +1,7 @@
+{
+  "name": "shangshan-platform",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "./dist",
+  "nodeVersion": "22.11.0"
+}

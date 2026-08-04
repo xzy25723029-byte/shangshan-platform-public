@@ -86,3 +86,26 @@ npm run audit        # 使用体验审计：死按钮/遮挡/裁切/坏图/坏�
 ## 接入 Supabase / 部署 EdgeOne Pages
 
 见 `docs/backend-integration.md`。部署：推送到 Git 仓库后，腾讯云 EdgeOne Pages 关联仓库自动构建（`npm run build`，输出 `dist/`），纯静态托管，无常驻后端进程。
+
+### 云端部署（腾讯云 EdgeOne Pages）
+
+**方式一 · 一键部署按钮**（推荐，已配置 `edgeone.json`，构建配置自动读取）：
+
+[![使用 EdgeOne 部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2FAaron927-dev%2Fshangshan-platform)
+
+点击上方按钮 → 登录腾讯云 → 授权连接 GitHub（选择 `Aaron927-dev` 账号）→ 确认仓库与分支 `main` → 开始部署。构建配置已由仓库根目录 `edgeone.json` 提供：
+
+```json
+{
+  "name": "shangshan-platform",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "./dist",
+  "nodeVersion": "22.11.0"
+}
+```
+
+**方式二 · 控制台手动创建**：腾讯云控制台 → EdgeOne → Pages 服务 → 创建项目 → 关联 GitHub 仓库 `shangshan-platform` → 分支 `main` → 构建设置按 `edgeone.json` 填写（构建命令 `npm run build`，输出目录 `dist`）→ 开始部署。
+
+部署完成后获得公网网址（`https://<项目名>.edgeone.app`），之后每次推送 `main` 自动重新构建。
+
