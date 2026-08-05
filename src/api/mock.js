@@ -6,7 +6,7 @@
 
 import { layer1Modules, moduleDemoContent, moduleBrief, layer2Groups, layer3Directions, trustTopics } from "../data/modules";
 import { scientists, personLibrary } from "../data/people";
-import { videoLibrary } from "../data/videos";
+import { videoLibrary, BILIBILI_LIBRARY } from "../data/videos";
 import { projects, graduation } from "../data/projects";
 import { voices, members, alumni, reviewQueue, studentCognitiveProfiles } from "../data/community";
 import { cognitiveAxes } from "../data/chuxintang";
@@ -167,17 +167,29 @@ export async function savePerson(person) {
   return person;
 }
 
+/* 模块详情：演示内容（科技论文绘图）优先，其余模块用 B 站视频库填充 */
+function withVideos(m) {
+  const detail = m.id === "paper-figure" ? moduleDemoContent : moduleBrief(m);
+  const lib = BILIBILI_LIBRARY[m.id];
+  if (!lib) return { ...m, detail };
+  const libVideos = {
+    must: lib.filter((v) => v.level === "必看").map(({ level: _l, ...rest }) => rest),
+    optional: lib.filter((v) => v.level === "需要时再看").map(({ level: _l, ...rest }) => rest),
+  };
+  // 演示内容有自己视频时保留（科技论文绘图），否则用 B 站库
+  const videos = detail.videos.must.length ? detail.videos : libVideos;
+  return { ...m, detail: { ...detail, videos } };
+}
+
 export async function getModules() {
   await delay(200);
-  return layer1Modules.map((m) =>
-    m.id === "paper-figure" ? { ...m, detail: moduleDemoContent } : { ...m, detail: moduleBrief(m) },
-  );
+  return layer1Modules.map(withVideos);
 }
 export async function getModule(id) {
   await delay(200);
   const m = layer1Modules.find((x) => x.id === id);
   if (!m) throw new Error("模块不存在");
-  return m.id === "paper-figure" ? { ...m, detail: moduleDemoContent } : { ...m, detail: moduleBrief(m) };
+  return withVideos(m);
 }
 export async function getLayer2Groups() {
   await delay(200);

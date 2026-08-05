@@ -113,14 +113,12 @@ export const moduleDemoContent = {
   id: "paper-figure",
   videos: {
     must: [
-      { title: "绘图思维：从数据到图形", time: "12:34", note: "建立「先想清楚再画」的起点" },
-      { title: "Origin 基础操作进阶", time: "18:45", note: "掌握坐标、图层、导出全流程" },
-      { title: "图表美化：配色与排版", time: "15:22", note: "配色克制、字号统一的具体做法" },
+      { title: "研一必学：Origin 入门教程与科研绘图", time: "约 1.5 小时", note: "Origin 基本操作与科研绘图规范", url: "https://www.bilibili.com/video/BV18fsbepETy" },
+      { title: "Origin2025 零基础入门教程（180 集）", time: "系统课程", note: "数据导入、绘图、拟合、导出全流程", url: "https://www.bilibili.com/video/BV16RFUe8EoM" },
+      { title: "Origin 柱状图保姆级教程（新手入门）", time: "约 25 分钟", note: "常见图型快速上手", url: "https://www.bilibili.com/video/BV1yU421d7Q8" },
     ],
     optional: [
-      { title: "多图拼排与组合布局", time: "16:11", note: "需要拼图时再看" },
-      { title: "高级图表：三维与热图", time: "21:08", note: "遇到三维/热图场景时再看" },
-      { title: "绘图效率提升技巧", time: "10:27", note: "批量处理与模板复用" },
+      { title: "XRD 曲线绘制与 Origin 拟合技巧", time: "约 20 分钟", note: "专业数据出图的进阶操作", url: "https://www.bilibili.com/video/BV1RLWvzaEJj" },
     ],
   },
   groupStandard: [

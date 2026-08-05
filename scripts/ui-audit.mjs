@@ -4,6 +4,7 @@
    前提：npm run dev 已启动（127.0.0.1:4173）
    ============================================================ */
 import { chromium } from "playwright";
+import { scanButtonsOnPage } from "./lib/dead-button-scan.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -129,56 +130,8 @@ async function pageChecks(route, name, ctx) {
 async function deadButtonScan(route, ctx) {
   await goto(route);
   await page.waitForTimeout(300);
-  const buttons = await page.evaluate(() =>
-    [...document.querySelectorAll("button")]
-      .filter((b) => {
-        const r = b.getBoundingClientRect();
-        const cs = getComputedStyle(b);
-        return r.width > 20 && r.height > 20 && cs.visibility !== "hidden" && cs.display !== "none" && !b.disabled;
-      })
-      .map((b) => ({ text: b.textContent.trim().slice(0, 30), aria: b.getAttribute("aria-label") || "" }))
-      .filter((b) => b.text || b.aria),
-  );
-  const dead = [];
-  for (const b of buttons) {
-    const feedback = await page.evaluate(async (btnText) => {
-      const candidates = [...document.querySelectorAll("button")].filter(
-        (x) => x.textContent.trim().slice(0, 30) === btnText && x.getBoundingClientRect().width > 20,
-      );
-      const el = candidates[0];
-      if (!el) return "not-found";
-      const beforeHash = location.hash;
-      const beforeMsgs = document.querySelectorAll(".el-message").length;
-      // 只统计可见弹层（EP 预渲染的 display:none overlay 不计）
-      const visibleOverlays = () =>
-        [...document.querySelectorAll(".el-overlay")].filter((o) => getComputedStyle(o).display !== "none").length;
-      const beforeDialogs = visibleOverlays();
-      const beforeInputs = [...document.querySelectorAll("input, textarea")].map((i) => i.value);
-      let mutations = 0;
-      const obs = new MutationObserver((m) => { mutations += m.length; });
-      obs.observe(document.body, { childList: true, subtree: true, attributes: true });
-      el.scrollIntoView({ block: "center" });
-      el.click();
-      await new Promise((r) => setTimeout(r, 600));
-      obs.disconnect();
-      const msgs = document.querySelectorAll(".el-message").length;
-      const dialogs = visibleOverlays();
-      const inputChanged = [...document.querySelectorAll("input, textarea")].some((i, idx) => i.value !== (beforeInputs[idx] || ""));
-      return {
-        changed: mutations > 4 || location.hash !== beforeHash || msgs > beforeMsgs || dialogs > beforeDialogs || inputChanged,
-        openedDialog: dialogs > beforeDialogs,
-        mutations,
-        hash: location.hash,
-      };
-    }, b.text || b.aria);
-    if (feedback === "not-found") continue;
-    // 本次探测打开了弹层 → 用真实 Escape 键关闭（可信事件，EP 正常复位 v-model）
-    if (feedback.openedDialog) {
-      await page.keyboard.press("Escape");
-      await page.waitForTimeout(450);
-    }
-    if (!feedback.changed) dead.push(b.text || b.aria);
-  }
+  const dead = await scanButtonsOnPage(page);
+  for (const d of dead) addIssue(route, 'medium', '疑似死按钮', d);
   return dead;
 }
 

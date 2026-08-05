@@ -1,13 +1,13 @@
 <script setup>
 
 import SectionTitle from "../../../components/common/SectionTitle.vue";
-import { getLocalAiKey } from "../../../utils/aiMentor";
+import { hasAnyKey } from "../../../utils/aiMentor";
 
 /* AI 导师 · 水问（初心堂专属页）
    第0层 AI 只使用苏格拉底反问模式：
    只反问、不下结论、不替学生写、不判断对错、不影响评价或准入 */
 
-const hasKey = Boolean(getLocalAiKey());
+const hasKey = hasAnyKey();
 
 const rules = [
   "只反问，不下结论",
@@ -42,7 +42,7 @@ const examples = [
           <li v-for="r in rules" :key="r">{{ r }}</li>
         </ul>
         <p class="am-key-note">
-          {{ hasKey ? "已配置 API Key（仅保存在本机浏览器）。" : "尚未配置 API Key：当前可体验本地反问引导，也可前往设置自己的 Key。" }}
+          {{ hasKey ? "已配置模型（Key 仅保存在本机浏览器）。" : "尚未配置模型：当前可体验本地反问引导，也可前往设置添加模型（推荐硅基流动）。" }}
         </p>
         <router-link class="btn ghost" to="/student/ai-settings">AI 导师设置</router-link>
       </div>

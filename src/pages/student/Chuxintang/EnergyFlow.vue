@@ -2,6 +2,7 @@
 import { reactive } from "vue";
 import { energyFlow } from "../../../data/chuxintang";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
+import EnergyFlowSim from "../../../components/module/EnergyFlowSim.vue";
 import { Eye } from "@/icons";
 
 /* 能量流物质流模型
@@ -29,6 +30,11 @@ function reveal(i) {
         <h1>能量流物质流模型</h1>
         <p>不看口号，看账本——先把系统边界画出来，再算两本账</p>
       </div>
+    </div>
+
+    <div class="card ef-sim-block">
+      <SectionTitle title="先把系统画出来" note="六步推演的第一步：画边界，再算两本账" />
+      <EnergyFlowSim />
     </div>
 
     <div class="card ef-steps">
@@ -85,7 +91,7 @@ function reveal(i) {
 </template>
 
 <style scoped>
-.ef-steps, .ef-case-block, .ef-q-block { padding: 18px 22px; margin-bottom: 14px; }
+.ef-sim-block, .ef-steps, .ef-case-block, .ef-q-block { padding: 18px 22px; margin-bottom: 14px; }
 .ef-step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
 .ef-step { padding: 16px; border: 1px solid #e0eaec; border-radius: 10px; background: #fafdfd; }
 .ef-step b {

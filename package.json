@@ -10,10 +10,11 @@
     "preview": "vite preview",
     "lint": "eslint src",
     "qa": "node scripts/qa-smoke.mjs",
+    "verify": "esbuild scripts/verify-chat-payload.mjs --bundle --platform=node --format=esm --outfile=node_modules/.cache/ss-verify.mjs && node node_modules/.cache/ss-verify.mjs",
     "matrix": "node scripts/matrix-check.mjs",
     "audit": "node scripts/ui-audit.mjs",
     "deep": "node scripts/regression-deep.mjs",
-    "full-check": "npm run lint && npm run build && npm run qa && npm run matrix && npm run audit && npm run deep"
+    "full-check": "npm run lint && npm run build && npm run qa && npm run verify && npm run matrix && npm run audit && npm run deep"
   },
   "dependencies": {
     "@phosphor-icons/vue": "2.2.1",

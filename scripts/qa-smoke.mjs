@@ -164,10 +164,30 @@ await page.locator(".filters input").fill("碳排放");
 await page.waitForTimeout(300);
 check("原话墙搜索过滤", await page.locator(".voice-card").count() === 1);
 
+// AI 导师模型配置（内置推荐 / 添加 / 删除）
+await go("/student/ai-settings");
+check("AI 设置内置推荐模型清单", (await page.locator(".model-card").count()) >= 6);
+await page.locator("button:has-text('添加自定义模型')").click();
+await page.waitForTimeout(300);
+await page.locator(".cfg-form input").nth(0).fill("QA 测试模型");
+await page.locator(".cfg-form input").nth(1).fill("https://api.example.com/v1");
+await page.locator(".cfg-form input").nth(2).fill("test/qa-model");
+await page.locator(".cfg-form input").nth(3).fill("sk-qa-test");
+await page.locator(".el-dialog button:has-text('保存配置')").click();
+await page.waitForTimeout(400);
+check("添加自定义模型", (await page.locator(".model-card h3:has-text('QA 测试模型')").count()) > 0);
+await page.locator(".model-card:has-text('QA 测试模型') .danger").click();
+await page.waitForTimeout(300);
+check("删除自定义模型", (await page.locator(".model-card h3:has-text('QA 测试模型')").count()) === 0);
+// 无 Key 时 dock 保持本地引导（不真实外呼）
+await go("/student/home");
+await page.locator(".ai-fab").click();
+const modelBtnText = await page.locator(".model-btn").textContent().catch(() => "");
+check("dock 未配置模型显示本地引导", modelBtnText.includes("本地引导"), modelBtnText);
+
 /* ---------- 导师端 ---------- */
 await page.evaluate(() => localStorage.clear());
 await page.reload({ waitUntil: "networkidle" });
-  await page.reload({ waitUntil: "networkidle" });
 await go("/login");
 await page.locator(".demo-item").nth(1).click();
 await page.waitForURL("**/#/mentor/week");

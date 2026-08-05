@@ -8,6 +8,7 @@
    用法：npm run matrix （需先 npm run dev）
    ============================================================ */
 import { chromium } from "playwright";
+import { scanButtonsOnPage } from "./lib/dead-button-scan.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -75,75 +76,7 @@ async function checkPage(role, route, name) {
 /* ---------- 页面内所有按钮逐一验证（死按钮检测） ---------- */
 async function scanButtons(role, route, name) {
   await goto(route);
-  const buttons = await page.evaluate(() =>
-    [...document.querySelectorAll("button")]
-      .filter((b) => {
-        const r = b.getBoundingClientRect();
-        const cs = getComputedStyle(b);
-        return r.width > 20 && r.height > 20 && cs.visibility !== "hidden" && cs.display !== "none" && !b.disabled;
-      })
-      .map((b) => ({ text: b.textContent.trim().slice(0, 30), aria: b.getAttribute("aria-label") || "" }))
-      .filter((b) => b.text || b.aria),
-  );
-  const dead = [];
-  for (const b of buttons) {
-    const fb = await page.evaluate(async (btnText) => {
-      const cands = [...document.querySelectorAll("button")].filter(
-        (x) => x.textContent.trim().slice(0, 30) === btnText && x.getBoundingClientRect().width > 20,
-      );
-      if (!cands.length) return "not-found";
-      const visibleOverlays = () =>
-        [...document.querySelectorAll(".el-overlay")].filter((o) => getComputedStyle(o).display !== "none").length;
-      // 同文本按钮可能有多个实例（列表项）；逐一尝试，任一实例有响应即判定可用
-      // 例如已选中的批阅条目点击后渲染结果不变（Vue 跳过 patch），但其他实例可正常切换
-      for (const el of cands) {
-        const beforeHash = location.hash;
-        const beforeMsgs = document.querySelectorAll(".el-message").length;
-        const beforeDialogs = visibleOverlays();
-        const beforeInputs = [...document.querySelectorAll("input, textarea")].map((i) => i.value);
-        let mutations = 0;
-        const obs = new MutationObserver((m) => {
-          // EP 预渲染弹层靠 attribute 显隐（无节点增删）；抽屉等用节点插入
-          // 两者都要计入：节点数 + 记录数
-          for (const rec of m) mutations += rec.addedNodes.length + rec.removedNodes.length + 1;
-        });
-        obs.observe(document.body, { childList: true, subtree: true, attributes: true });
-        el.scrollIntoView({ block: "center" });
-        el.click();
-        await new Promise((r) => setTimeout(r, 550));
-        obs.disconnect();
-        const inputChanged = [...document.querySelectorAll("input, textarea")].some((i, idx) => i.value !== (beforeInputs[idx] || ""));
-        const changed =
-          mutations > 2 || location.hash !== beforeHash ||
-          document.querySelectorAll(".el-message").length > beforeMsgs ||
-          visibleOverlays() > beforeDialogs || inputChanged;
-        const opened = visibleOverlays() > beforeDialogs;
-        if (changed) return { changed: true, opened };
-      }
-      // 选择器类按钮（点击已选中项无可见变化，属正常 UX）：
-      // 点击同容器兄弟按钮验证页面可响应，可响应则判定按钮可用
-      const el0 = cands[0];
-      const sibs = [...el0.parentElement.querySelectorAll("button")].filter(
-        (s) => s !== el0 && s.textContent.trim().slice(0, 30) !== btnText && s.getBoundingClientRect().width > 20,
-      );
-      for (const s of sibs) {
-        let m = 0;
-        const obs = new MutationObserver((ms) => { for (const rec of ms) m += rec.addedNodes.length + rec.removedNodes.length + 1; });
-        obs.observe(document.body, { childList: true, subtree: true, attributes: true });
-        s.click();
-        await new Promise((r) => setTimeout(r, 550));
-        obs.disconnect();
-        if (m > 2) return { changed: true, opened: false, selectorOk: true };
-      }
-      return { changed: false, opened: false };
-    }, b.text || b.aria);
-    if (fb === "not-found") continue;
-    if (fb.opened) {
-      await page.keyboard.press("Escape");
-      await page.waitForTimeout(450);
-    }
-    if (!fb.changed) dead.push(b.text || b.aria);
-  }
+  const dead = await scanButtonsOnPage(page);
   check(role, `${name} 全部按钮可用`, dead.length === 0, dead.slice(0, 4).join("; "));
 }
 

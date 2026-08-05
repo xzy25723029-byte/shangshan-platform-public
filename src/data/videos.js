@@ -1,14 +1,90 @@
 /* ============================================================
-   视频资源数据（第2层教学资源规范：5-8 条以内，分必看/需要时再看）
+   视频资源数据
+   全部为 B 站真实视频（BV 号于 2026-08 检索确认），
+   分「必看 / 需要时再看」，只存链接不下载转存
    ============================================================ */
 
-export const videoLibrary = [
-  { title: "XRD 物相分析入门：从图谱到结论", module: "A1 XRD 物相分析", level: "必看", time: "14:20", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "XPS 分峰的常见误区", module: "A2 XPS 分峰", level: "必看", time: "18:05", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "ImageJ 图像测量基础", module: "A3 电镜图像分析", level: "必看", time: "16:44", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "Tafel 曲线分析：区间选择的意义", module: "B2 Tafel 分析", level: "必看", time: "12:58", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "EIS 阻抗谱与等效电路（1）", module: "B3 EIS 交流阻抗", level: "必看", time: "22:31", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "EIS 阻抗谱与等效电路（2）", module: "B3 EIS 交流阻抗", level: "需要时再看", time: "19:12", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "三维荧光 EEM 数据预处理", module: "C1 EEM / FRI / PARAFAC", level: "必看", time: "17:36", status: "有效", url: "https://www.bilibili.com/" },
-  { title: "staRdom 在 R 中的 PARAFAC 实现", module: "C1 EEM / FRI / PARAFAC", level: "需要时再看", time: "24:08", status: "失效待检", url: "https://www.bilibili.com/" },
-];
+const bv = (id, title, time, note, level) => ({ title, time, note, url: `https://www.bilibili.com/video/${id}`, level });
+
+/* 按模块组织的 B 站视频库（第1层模块 key + 第2层模块 code） */
+export const BILIBILI_LIBRARY = {
+  /* 初心堂：科学家精神与楷模纪录片（BV 号于 2026-08 检索确认） */
+  chuxintang: [
+    bv("BV1Qt411a7x2", "文献纪录片《走近毛泽东》(2003)", "约 90 分钟", "大型文献纪录片：革命家、战略家、理论家的一生", "必看"),
+    bv("BV1vFTG6jEdm", "《中华脊梁·钱学森》全 5 集", "约 2.5 小时", "两弹一星元勋的系统工程人生", "必看"),
+    bv("BV1k6z2YzEpN", "《袁隆平：人就像种子，要做一粒好种子》", "约 20 分钟", "学习强国出品：把论文写在大地上的科学家", "必看"),
+    bv("BV1oy4y1r71Z", "CCTV-9 纪录片《天眼》", "约 50 分钟", "南仁东与 FAST：二十年磨一剑的完整记录", "必看"),
+    bv("BV1Fz4y1f75P", "《追梦身影》之黄大年", "约 15 分钟", "科学家精神专题片：心有大我、至诚报国", "需要时再看"),
+  ],
+  "lab-safety": [
+    bv("BV1SX4y1a78e", "实验室安全系列课程（八章完整版）", "约 2 小时", "安全理念、危化品、三废管理、风险评估全流程", "必看"),
+    bv("BV1MX4y1s7Ee", "实验室事故安全应急处置（火灾/爆炸/灼伤）", "约 20 分钟", "遇到事故怎么办——应急流程必看", "必看"),
+    bv("BV1c64y1p7eW", "化学实验基础知识", "约 30 分钟", "基础操作规范，需要时再看", "需要时再看"),
+  ],
+  "literature-search": [
+    bv("BV1vPtHzMEvg", "1 小时彻底学会文献检索（PubMed/WOS/知网/万方/Scopus）", "约 1 小时", "五大数据库实操全覆盖，新手必看", "必看"),
+    bv("BV19R4y1Q7YB", "文献检索教程合集（5 集：检索/下载/前沿/查全/管理）", "约 45 分钟", "查全查准技巧与文献下载", "需要时再看"),
+    bv("BV1yi4y1v7iL", "文献检索最强实战", "约 41 分钟", "实战向检索流程", "需要时再看"),
+  ],
+  zotero: [
+    bv("BV1oa4y1K7VE", "Zotero 快速安装与入门（安装/插件/坚果云/Word 引文）", "约 15 分钟", "从安装到 Word 插入参考文献一条龙", "必看"),
+    bv("BV1Cv4y1M7BY", "Zotero 详细教学（文献获取/题录管理/引文插入）", "约 40 分钟", "系统学习 Zotero 全功能", "需要时再看"),
+    bv("BV1AopNzFE8o", "Zotero 7 零基础教程（30 分钟搞定）", "约 30 分钟", "新版 Zotero 7 快速上手", "需要时再看"),
+  ],
+  "paper-figure": [
+    bv("BV18fsbepETy", "研一必学：Origin 入门教程与科研绘图", "约 1.5 小时", "Origin 基本操作与科研绘图规范", "必看"),
+    bv("BV1yU421d7Q8", "Origin 柱状图保姆级教程（新手入门）", "约 25 分钟", "柱状图等常见图型快速上手", "需要时再看"),
+    bv("BV16RFUe8EoM", "Origin2025 零基础入门教程（180 集）", "约 8 小时", "系统课程，按需选看", "需要时再看"),
+  ],
+  "blender-3d": [
+    bv("BV1oPhyzjEBP", "Blender 科研绘图：3D 反应釜绘制", "约 30 分钟", "从零绘制科研装置 3D 模型", "必看"),
+    bv("BV1agbXztEtf", "Blender 科研绘图：双膜多孔模型（6 分钟）", "约 6 分钟", "短平快掌握一个典型模型", "需要时再看"),
+    bv("BV1fx4y1L71E", "3D 科研绘图：实验耗材离心管绘制案例", "约 20 分钟", "实验耗材建模练习", "需要时再看"),
+  ],
+  "paper-writing": [
+    bv("BV1zv41177JQ", "斯坦福《SCI 论文写作》公开课（Writing in the Sciences）", "约 12 小时", "论文构思、章节写法、句法打磨全流程", "必看"),
+    bv("BV1e34y1g7ZD", "博士手把手带你亲历 SCI 论文从撰写到投稿", "约 1 小时", "从封面到投稿的完整过程", "需要时再看"),
+    bv("BV17nd2Y3EgB", "28 集完整版论文写作教程（选题/文献/摘要/图表）", "约 6 小时", "系统写作课，按需选看", "需要时再看"),
+  ],
+  "git-basics": [
+    bv("BV1cE411G7yc", "Git & GitHub 入门教程（必学）", "约 2 小时", "版本管理原理与协作流程", "必看"),
+    bv("BV1ne4y1E7np", "武沛齐讲 Git（看完绝对上瘾）", "约 3 小时", "用故事讲透 Git 三大区域与分支", "需要时再看"),
+    bv("BV1iv411p7ap", "Git 快速入门完整版（59 课）", "约 5 小时", "系统课程，按需选看", "需要时再看"),
+  ],
+  "A1": [
+    bv("BV1mzXoBqETs", "JADE 软件功能介绍合集（物相鉴定/峰拟合/精修/定量）", "约 3 小时", "Jade 物相分析全流程", "必看"),
+    bv("BV1wD4y1m7kD", "XRD 数据处理原理与基本操作", "约 40 分钟", "Jade 定性分析与检索技巧", "需要时再看"),
+  ],
+  "A2": [
+    bv("BV1Me411y7wh", "XPS 分峰拟合：N1s 精细谱理论 + 实操", "约 30 分钟", "分峰实操与结合能分析", "必看"),
+    bv("BV1K7411d7pv", "XPS 样品制备与测试准备", "约 15 分钟", "制样细节影响结果", "需要时再看"),
+  ],
+  "B3": [
+    bv("BV1yZ4y1D7js", "ZSimpWin：EIS 等效电路拟合基本操作", "约 20 分钟", "等效电路拟合软件实操", "必看"),
+    bv("BV1ix42197Ac", "普林斯顿系列：交流阻抗等效电路模型", "约 25 分钟", "等效电路如何选择（原理向）", "需要时再看"),
+  ],
+  "C1": [
+    bv("BV1Y8KD6jEKT", "Python 实现三维荧光 PARAFAC 分析 + OpenFluor 对比", "约 21 分钟", "PARAFAC 实操与数据库比对", "必看"),
+    bv("BV1ra411P7qN", "R 语言 EEM 数据处理与 PARAFAC（staRdom 包）", "约 30 分钟", "开源路线（staRdom）实现", "需要时再看"),
+  ],
+  "E1": [
+    bv("BV1o2KY6rEmg", "COMSOL 从零开始保姆级教程（第一期）", "约 30 分钟", "界面与建模流程零基础起步", "必看"),
+    bv("BV18zTf6KECN", "COMSOL 入门综合介绍与学习方法（中科科英合集）", "约 3 小时", "几何建模/网格/后处理系统课", "需要时再看"),
+  ],
+  "F2": [
+    bv("BV1X95N6rEar", "生命周期评价全流程实战：OpenLCA+GREET+R（7 案例）", "约 3 小时", "LCA 建模全链路实战", "必看"),
+    bv("BV1DP2SYjELB", "OpenLCA 建模指南：创建 Process 与流程连接", "约 25 分钟", "数据库与 Process 建模细节", "需要时再看"),
+  ],
+};
+
+/* 管理端「视频资源」页数据（由库生成，全量展示） */
+export const videoLibrary = Object.entries(BILIBILI_LIBRARY).flatMap(([module, videos]) =>
+  videos.map((v) => ({
+    title: v.title,
+    module: module,
+    level: v.level,
+    time: v.time,
+    url: v.url,
+    status: "有效",
+  })),
+);

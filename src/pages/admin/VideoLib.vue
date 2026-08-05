@@ -7,6 +7,24 @@ import { MagnifyingGlass, Plus, LinkSimple, PlayCircle } from "@/icons";
 
 /* 内容管理 · 视频资源：5-8 条以内/模块，分必看/需要时再看，失效自动隐藏 */
 
+const MODULE_NAMES = {
+  chuxintang: "初心堂",
+  "lab-safety": "实验室安全",
+  "literature-search": "文献检索",
+  zotero: "Zotero 文献管理",
+  "paper-figure": "论文绘图",
+  "blender-3d": "Blender 建模",
+  "paper-writing": "论文写作",
+  "git-basics": "Git 基础",
+  A1: "A1 XRD 物相",
+  A2: "A2 XPS 表面",
+  B3: "B3 EIS 阻抗",
+  C1: "C1 三维荧光",
+  E1: "E1 COMSOL 仿真",
+  F2: "F2 生命周期评价",
+};
+const moduleName = (k) => MODULE_NAMES[k] || k;
+
 const videos = ref([]);
 const drawer = ref(false);
 const form = ref({ title: "", module: "", level: "必看", time: "", url: "" });
@@ -72,7 +90,7 @@ async function bulkCheckLinks() {
             <td>
               <div class="video-cell"><PlayCircle :size="18" /><b>{{ v.title }}</b></div>
             </td>
-            <td>{{ v.module }}</td>
+            <td>{{ moduleName(v.module) }}</td>
             <td><span class="pill">{{ v.level }}</span></td>
             <td>{{ v.time }}</td>
             <td><span class="pill" :class="{ warn: v.status === '失效待检' }">{{ v.status }}</span></td>
