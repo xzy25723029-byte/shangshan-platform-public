@@ -72,27 +72,21 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
       </div>
     </div>
 
-    <!-- 四阶段流程：立心 → 筑基 → 践行 → 笃行 -->
+    <!-- 四阶段旅程：2×2 排布，S 型水流衔接，水到渠成 -->
     <section class="journey">
       <div class="journey-head">
         <h2>一段初心之旅</h2>
-        <p>十二个站点，四个阶段——每一站都为下一站埋下伏笔</p>
+        <p>十二站沿水流排布，一站引向下一站——水到渠成</p>
       </div>
 
-      <div class="stages">
-        <section v-for="(s, si) in stages" :key="s.name" class="stage">
+      <div class="flow-row">
+        <section class="stage">
           <div class="stage-head">
-            <span class="stage-node" :class="{ last: si === stages.length - 1 }">
-              <component :is="s.icon" :size="20" weight="duotone" />
-            </span>
-            <div>
-              <h3>{{ s.name }}</h3>
-              <p>{{ s.sub }}</p>
-            </div>
+            <span class="stage-node"><component :is="stages[0].icon" :size="20" weight="duotone" /></span>
+            <div><h3>{{ stages[0].name }}</h3><p>{{ stages[0].sub }}</p></div>
           </div>
-
           <div class="stage-grid">
-            <article v-for="f in s.items" :key="f.title" class="card f-card" :class="{ featured: f.featured }">
+            <article v-for="f in stages[0].items" :key="f.title" class="card f-card" :class="{ featured: f.featured }">
               <div class="f-icon"><component :is="f.icon" :size="26" weight="duotone" /></div>
               <div class="f-body">
                 <h4>{{ f.title }}</h4>
@@ -106,6 +100,95 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
             </article>
           </div>
         </section>
+
+        <div class="flow-h" aria-hidden="true">
+          <svg viewBox="0 0 64 24">
+            <path class="fh-wave" d="M2 16 Q 8 10 14 16 T 26 16 T 38 16 T 50 16 T 62 16" fill="none" />
+            <path class="fh-wave fh-wave-2" d="M2 20 Q 8 14 14 20 T 26 20 T 38 20 T 50 20 T 62 20" fill="none" />
+            <circle class="fh-dot" cx="6" cy="16" r="3.4" />
+          </svg>
+        </div>
+
+        <section class="stage">
+          <div class="stage-head">
+            <span class="stage-node"><component :is="stages[1].icon" :size="20" weight="duotone" /></span>
+            <div><h3>{{ stages[1].name }}</h3><p>{{ stages[1].sub }}</p></div>
+          </div>
+          <div class="stage-grid">
+            <article v-for="f in stages[1].items" :key="f.title" class="card f-card">
+              <div class="f-icon"><component :is="f.icon" :size="26" weight="duotone" /></div>
+              <div class="f-body">
+                <h4>{{ f.title }}</h4>
+                <p class="f-sub">{{ f.sub }}</p>
+                <p class="f-desc">{{ f.desc }}</p>
+              </div>
+              <div class="f-foot">
+                <router-link class="btn" :to="f.to">进入查看 <CaretRight :size="13" /></router-link>
+                <p class="f-link"><LinkSimple :size="11" />{{ f.link }}</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <!-- 行间水流：从右列落下，折向左列 -->
+      <div class="flow-v" aria-hidden="true"><span class="fv-dot"></span></div>
+
+      <div class="flow-row">
+        <section class="stage">
+          <div class="stage-head">
+            <span class="stage-node"><component :is="stages[2].icon" :size="20" weight="duotone" /></span>
+            <div><h3>{{ stages[2].name }}</h3><p>{{ stages[2].sub }}</p></div>
+          </div>
+          <div class="stage-grid">
+            <article v-for="f in stages[2].items" :key="f.title" class="card f-card">
+              <div class="f-icon"><component :is="f.icon" :size="26" weight="duotone" /></div>
+              <div class="f-body">
+                <h4>{{ f.title }}</h4>
+                <p class="f-sub">{{ f.sub }}</p>
+                <p class="f-desc">{{ f.desc }}</p>
+              </div>
+              <div class="f-foot">
+                <router-link class="btn" :to="f.to">进入查看 <CaretRight :size="13" /></router-link>
+                <p class="f-link"><LinkSimple :size="11" />{{ f.link }}</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <div class="flow-h" aria-hidden="true">
+          <svg viewBox="0 0 64 24">
+            <path class="fh-wave" d="M2 16 Q 8 10 14 16 T 26 16 T 38 16 T 50 16 T 62 16" fill="none" />
+            <path class="fh-wave fh-wave-2" d="M2 20 Q 8 14 14 20 T 26 20 T 38 20 T 50 20 T 62 20" fill="none" />
+            <circle class="fh-dot" cx="6" cy="16" r="3.4" />
+          </svg>
+        </div>
+
+        <section class="stage">
+          <div class="stage-head">
+            <span class="stage-node"><component :is="stages[3].icon" :size="20" weight="duotone" /></span>
+            <div><h3>{{ stages[3].name }}</h3><p>{{ stages[3].sub }}</p></div>
+          </div>
+          <div class="stage-grid">
+            <article v-for="f in stages[3].items" :key="f.title" class="card f-card">
+              <div class="f-icon"><component :is="f.icon" :size="26" weight="duotone" /></div>
+              <div class="f-body">
+                <h4>{{ f.title }}</h4>
+                <p class="f-sub">{{ f.sub }}</p>
+                <p class="f-desc">{{ f.desc }}</p>
+              </div>
+              <div class="f-foot">
+                <router-link class="btn" :to="f.to">进入查看 <CaretRight :size="13" /></router-link>
+                <p class="f-link"><LinkSimple :size="11" />{{ f.link }}</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <div class="flow-end">
+        <span class="pool"><i></i><i></i></span>
+        <p>水到渠成——十二站走完，初心已成习惯</p>
       </div>
     </section>
 
@@ -176,14 +259,14 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .home-hero h1 { font-family: var(--font-kai); font-size: 54px; margin: 0 0 3px; letter-spacing: 7px; }
 .home-hero blockquote { margin: 0; font-family: var(--font-kai); line-height: 1.8; }
 
-/* 四阶段旅程 */
+/* 四阶段旅程：2×2 + S 型水流 */
 .journey { margin: 0 0 22px; }
 .journey-head { margin: 0 0 14px; }
 .journey-head h2 { margin: 0 0 4px; font-size: 19px; color: #0d5e68; }
 .journey-head p { margin: 0; font-size: 12px; color: #7a8d95; }
 
-.stages { display: grid; gap: 26px; }
-.stage { position: relative; }
+.flow-row { display: flex; align-items: stretch; gap: 0; }
+.stage { flex: 1; min-width: 0; }
 .stage-head { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
 .stage-node {
   width: 40px; height: 40px; border-radius: 50%;
@@ -196,28 +279,68 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .stage-head h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: #0d5e68; letter-spacing: 4px; }
 .stage-head p { margin: 1px 0 0; font-size: 11px; color: #7a8d95; }
 
-/* 阶段间连接线：从上一节点垂下的水线 */
-.stage:not(:first-child)::before {
+/* 阶段间横向水流：波纹 + 流动水滴 */
+.flow-h { flex: 0 0 64px; display: grid; place-items: center; align-self: center; }
+.flow-h svg { width: 64px; height: 24px; display: block; }
+.fh-wave { stroke: #9cc9cf; stroke-width: 1.6; stroke-linecap: round; }
+.fh-wave-2 { stroke: #c3e3e7; }
+.fh-dot { fill: #2e97a2; animation: fh-flow 1.7s linear infinite; }
+@keyframes fh-flow {
+  0% { transform: translateX(0); opacity: 0; }
+  18% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateX(46px); opacity: 0; }
+}
+
+/* 行间水流：右列垂下，折向左列 */
+.flow-v { position: relative; height: 30px; margin: 2px 0 6px; }
+.flow-v::before {
   content: "";
   position: absolute;
-  top: -26px; left: 19px;
-  width: 2px; height: 26px;
+  top: 0; left: calc(75% - 1px);
+  width: 2px; height: 15px;
   background: linear-gradient(180deg, #c9e6ea, #e8f4f6);
 }
-.stage:not(:first-child) .stage-head::before {
+.flow-v::after {
   content: "";
   position: absolute;
-  top: -13px; left: 16px;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: #8fd0d6;
-  animation: stage-drop 2.4s ease-in-out infinite;
+  top: 13px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #eef7f8, #c9e6ea 60%, #a7d4da);
 }
-@keyframes stage-drop {
-  0% { transform: translateY(-8px); opacity: 0; }
-  35% { opacity: 1; }
-  100% { transform: translateY(6px); opacity: 0; }
+.fv-dot {
+  position: absolute;
+  top: -4px; left: calc(75% - 4px);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #6fc3ca;
+  animation: fv-drop 2.2s ease-in-out infinite;
 }
+@keyframes fv-drop {
+  0% { transform: translate(0, 0); opacity: 0; }
+  25% { opacity: 1; }
+  55% { transform: translate(0, 15px); opacity: 1; }
+  100% { transform: translate(calc(-75% + 8px), 15px); opacity: 0; }
+}
+
+/* 水到渠成：终点水滴落潭 */
+.flow-end { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 0 4px; }
+.pool { position: relative; width: 26px; height: 26px; display: grid; place-items: center; }
+.pool::before {
+  content: "";
+  width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #7fd4da, #2e97a2);
+}
+.pool i {
+  position: absolute; inset: 0;
+  border: 1.6px solid #9cc9cf; border-radius: 50%;
+  animation: pool-ripple 2.6s ease-out infinite;
+}
+.pool i:last-child { animation-delay: -1.3s; }
+@keyframes pool-ripple {
+  0% { transform: scale(0.55); opacity: 0.8; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.flow-end p { margin: 0; font-family: var(--font-kai); font-size: 14px; color: #28707a; letter-spacing: 1px; }
 
 .stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .f-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -306,14 +429,29 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   .models-grid { grid-template-columns: repeat(2, 1fr); }
   .videos-list { grid-template-columns: 1fr; }
 }
+@media (max-width: 900px) {
+  .flow-row { flex-direction: column; gap: 8px; }
+  .flow-h, .flow-v { display: none; }
+  .stage + .stage { margin-top: 4px; }
+  /* 手机上同一阶段的卡片横向滑动，减少纵向长度 */
+  .stage-grid {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .f-card { min-width: 248px; flex: 0 0 248px; scroll-snap-align: start; }
+  .f-card:hover { transform: none; }
+}
 @media (max-width: 640px) {
-  .stage-grid { grid-template-columns: 1fr; }
+  .principles { grid-template-columns: 1fr; gap: 12px; }
   .models-grid { grid-template-columns: 1fr; }
   .f-foot { flex-direction: column; align-items: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-text { animation: none; }
-  .stage:not(:first-child) .stage-head::before { animation: none; }
+  .hero-text, .fh-dot, .fv-dot, .pool i { animation: none; }
 }
 </style>

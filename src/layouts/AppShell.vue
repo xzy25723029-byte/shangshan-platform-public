@@ -1,11 +1,12 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { studentNav, mentorNav, adminNav } from "../router/nav";
 import SidebarNav from "./SidebarNav.vue";
 import TopbarSearch from "./TopbarSearch.vue";
 import AIMentorDock from "./AIMentorDock.vue";
+import { ListBullets } from "@/icons";
 
 const auth = useAuthStore();
 const route = useRoute();
@@ -17,11 +18,19 @@ const nav = computed(() => {
 });
 
 const isStudent = computed(() => auth.isStudent);
+
+/* 手机端：侧栏抽屉开关，路由变化后自动收起 */
+const navOpen = ref(false);
+watch(() => route.fullPath, () => { navOpen.value = false; });
 </script>
 
 <template>
   <div class="app-shell">
-    <aside class="sidebar">
+    <button class="m-nav-toggle" aria-label="打开导航菜单" @click="navOpen = true">
+      <ListBullets :size="20" />
+    </button>
+
+    <aside class="sidebar" :class="{ open: navOpen }">
       <router-link class="brand" to="/student/home">
         <img src="/assets/brand-mark.png" alt="上善若水品牌图形" />
         <div><strong>上善若水</strong><span>本科生科研素养实训平台</span></div>
@@ -44,6 +53,9 @@ const isStudent = computed(() => auth.isStudent);
         <small>认知侧写仅供教学参考<br />不构成评价，不得作为筛选依据</small>
       </div>
     </aside>
+
+    <button v-if="navOpen" class="m-nav-mask" aria-label="关闭导航菜单" @click="navOpen = false"></button>
+
     <div class="main-shell">
       <TopbarSearch />
       <main class="page-content">
