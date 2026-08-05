@@ -1,26 +1,60 @@
 <script setup>
-import { CaretRight, ArrowSquareOut, PlayCircle } from "@/icons";
+import {
+  CaretRight, ArrowSquareOut, PlayCircle, LinkSimple,
+  Drop, Compass, Flag, ChartLine, MagnifyingGlass, ShieldCheck,
+  PenNib, ArchiveBox, UsersThree, Hammer, Radar, ChatCircleDots,
+} from "@/icons";
 import { tripleCore } from "../../../data/chuxintang";
 import { scientists } from "../../../data/people";
 import { BILIBILI_LIBRARY } from "../../../data/videos";
 
 
-/* 初心堂首页：英雄楷模 + 视频材料 + 12 个模块入口
-   图文并茂：真实人物照片与金句在前，模块入口在后 */
+/* 初心堂首页：四阶段逻辑流程 + 楷模之声 + 视频材料
+   立心 → 筑基 → 践行 → 笃行：一条初心之水，阶段间以流程线相连
+   卡片以图标 + 品牌渐变代替旧水墨小图（低清重复图已移除） */
 
-const features = [
-  { title: "三重内核", sub: "尚为水 · 韧为水 · 善为水", desc: "平台精神的三块基石", to: "/student/triple-core", art: "home-feature-1.jpg" },
-  { title: "领航理念总纲", sub: "解放思想，实事求是", desc: "四条领航理念与平台动作对照", to: "/student/guiding-principles", art: "home-feature-2.jpg", featured: true },
-  { title: "入营第一课", sub: "科学之道，如水之道", desc: "开场三问、热点 vs 真问题、主动劝退", to: "/student/first-lesson", art: "home-feature-3.jpg" },
-  { title: "能量流物质流模型", sub: "先算账，再看另一种看法", desc: "六步推演 + 六个战略自问", to: "/student/energy-flow", art: "home-feature-4.jpg" },
-  { title: "战略方法论与产业调研", sub: "文献是二手信息，现场是真需求", desc: "从原话墙出发找真问题", to: "/student/strategy-research", art: "home-feature-5.jpg" },
-  { title: "治学军规签署", sub: "恪守科研诚信", desc: "逐条确认自己的治学约定", to: "/student/oath", art: "home-feature-6.jpg" },
-  { title: "思想札记提交", sub: "只看诚实，不看文采", desc: "记录真实困惑与判断", to: "/student/thought-notes", art: "home-feature-1.jpg" },
-  { title: "初心档案", sub: "封存大一初心，四年后归还", desc: "记录每一次选择与行动", to: "/student/origin-archive", art: "home-feature-2.jpg" },
-  { title: "科学家精神馆", sub: "走近科学大家", desc: "四类人物，同样式、同权重", to: "/student/scientist-hall", art: "home-feature-3.jpg" },
-  { title: "啃硬骨头·记录", sub: "科研路上的攻坚时刻", desc: "四种结局，完全平权", to: "/student/hard-bone", art: "home-feature-4.jpg" },
-  { title: "认知侧写", sub: "六轴倾向图", desc: "只自己 vs 自己，不与他人比较", to: "/student/cognitive-profile", art: "home-feature-5.jpg" },
-  { title: "AI 导师 · 水问", sub: "初心堂只反问，不给答案", desc: "苏格拉底式对话伙伴", to: "/student/ai-mentor", art: "home-feature-6.jpg" },
+/* 四阶段：每阶段 3 个模块，link 字段标注模块间的逻辑衔接 */
+const stages = [
+  {
+    name: "立心",
+    sub: "想清楚为什么出发",
+    icon: Drop,
+    items: [
+      { title: "三重内核", sub: "尚为水 · 韧为水 · 善为水", desc: "平台精神的三块基石", to: "/student/triple-core", icon: Drop, link: "由此展开：领航理念总纲" },
+      { title: "领航理念总纲", sub: "解放思想，实事求是", desc: "四条领航理念与平台动作对照", to: "/student/guiding-principles", icon: Compass, link: "落到实处：入营第一课", featured: true },
+      { title: "入营第一课", sub: "科学之道，如水之道", desc: "开场三问、热点 vs 真问题、主动劝退", to: "/student/first-lesson", icon: Flag, link: "先过第一关：把系统画出来" },
+    ],
+  },
+  {
+    name: "筑基",
+    sub: "学会把账算清楚",
+    icon: ChartLine,
+    items: [
+      { title: "能量流物质流模型", sub: "先算账，再看另一种看法", desc: "六步推演 + 六个战略自问", to: "/student/energy-flow", icon: ChartLine, link: "算清账后：去现场找真问题" },
+      { title: "战略方法论与产业调研", sub: "文献是二手信息，现场是真需求", desc: "从原话墙出发找真问题", to: "/student/strategy-research", icon: MagnifyingGlass, link: "立下规矩：治学军规" },
+      { title: "治学军规签署", sub: "恪守科研诚信", desc: "逐条确认自己的治学约定", to: "/student/oath", icon: ShieldCheck, link: "从此诚实：思想札记" },
+    ],
+  },
+  {
+    name: "践行",
+    sub: "诚实地记录过程",
+    icon: PenNib,
+    items: [
+      { title: "思想札记提交", sub: "只看诚实，不看文采", desc: "记录真实困惑与判断", to: "/student/thought-notes", icon: PenNib, link: "封存此刻：初心档案" },
+      { title: "初心档案", sub: "封存大一初心，四年后归还", desc: "记录每一次选择与行动", to: "/student/origin-archive", icon: ArchiveBox, link: "对照前人：科学家精神馆" },
+      { title: "科学家精神馆", sub: "走近科学大家", desc: "四类人物，同样式、同权重", to: "/student/scientist-hall", icon: UsersThree, link: "轮到你了：啃硬骨头" },
+    ],
+  },
+  {
+    name: "笃行",
+    sub: "从容地面对困难",
+    icon: Hammer,
+    items: [
+      { title: "啃硬骨头·记录", sub: "科研路上的攻坚时刻", desc: "四种结局，完全平权", to: "/student/hard-bone", icon: Hammer, link: "攻坚之后：认知侧写" },
+      { title: "认知侧写", sub: "六轴倾向图", desc: "只自己 vs 自己，不与他人比较", to: "/student/cognitive-profile", icon: Radar, link: "回到自己：与水问对话" },
+      { title: "AI 导师 · 水问", sub: "初心堂只反问，不给答案", desc: "苏格拉底式对话伙伴", to: "/student/ai-mentor", icon: ChatCircleDots, link: "随时回来：初心堂任何一站" },
+    ],
+  },
 ];
 
 /* 楷模之声：真实照片 + 真实金句，只取有照片的人物 */
@@ -37,6 +71,43 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
         <blockquote>初心如水，方能行稳致远；<br />上善若水，终成无限可能。</blockquote>
       </div>
     </div>
+
+    <!-- 四阶段流程：立心 → 筑基 → 践行 → 笃行 -->
+    <section class="journey">
+      <div class="journey-head">
+        <h2>一段初心之旅</h2>
+        <p>十二个站点，四个阶段——每一站都为下一站埋下伏笔</p>
+      </div>
+
+      <div class="stages">
+        <section v-for="(s, si) in stages" :key="s.name" class="stage">
+          <div class="stage-head">
+            <span class="stage-node" :class="{ last: si === stages.length - 1 }">
+              <component :is="s.icon" :size="20" weight="duotone" />
+            </span>
+            <div>
+              <h3>{{ s.name }}</h3>
+              <p>{{ s.sub }}</p>
+            </div>
+          </div>
+
+          <div class="stage-grid">
+            <article v-for="f in s.items" :key="f.title" class="card f-card" :class="{ featured: f.featured }">
+              <div class="f-icon"><component :is="f.icon" :size="26" weight="duotone" /></div>
+              <div class="f-body">
+                <h4>{{ f.title }}</h4>
+                <p class="f-sub">{{ f.sub }}</p>
+                <p class="f-desc">{{ f.desc }}</p>
+              </div>
+              <div class="f-foot">
+                <router-link class="btn" :to="f.to">进入查看 <CaretRight :size="13" /></router-link>
+                <p class="f-link"><LinkSimple :size="11" />{{ f.link }}</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
 
     <!-- 楷模之声：图文并茂，先见人，再见理 -->
     <section class="models">
@@ -56,29 +127,12 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
     </section>
 
     <div class="principles">
-      <article v-for="(p, i) in tripleCore" :key="p.name" class="card">
-        <img class="principle-art" :src="`/assets/principle-${i + 1}.jpg`" alt="" />
+      <article v-for="p in tripleCore" :key="p.name" class="card">
+        <span class="principle-icon"><Drop :size="30" weight="duotone" /></span>
         <div>
           <h3>{{ p.name }}</h3>
           <p>{{ p.sub }}<br />{{ p.desc }}</p>
         </div>
-      </article>
-    </div>
-
-    <div class="feature-grid">
-      <article
-        v-for="f in features"
-        :key="f.title"
-        class="card feature"
-        :class="{ featured: f.featured }"
-      >
-        <div>
-          <h2>{{ f.title }}</h2>
-          <h4>{{ f.sub }}</h4>
-          <p>{{ f.desc }}</p>
-          <router-link class="btn" :to="f.to">进入查看 <CaretRight :size="14" /></router-link>
-        </div>
-        <img class="feature-art" :src="`/assets/${f.art}`" alt="" />
       </article>
     </div>
 
@@ -122,8 +176,71 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .home-hero h1 { font-family: var(--font-kai); font-size: 54px; margin: 0 0 3px; letter-spacing: 7px; }
 .home-hero blockquote { margin: 0; font-family: var(--font-kai); line-height: 1.8; }
 
+/* 四阶段旅程 */
+.journey { margin: 0 0 22px; }
+.journey-head { margin: 0 0 14px; }
+.journey-head h2 { margin: 0 0 4px; font-size: 19px; color: #0d5e68; }
+.journey-head p { margin: 0; font-size: 12px; color: #7a8d95; }
+
+.stages { display: grid; gap: 26px; }
+.stage { position: relative; }
+.stage-head { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
+.stage-node {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #eaf7f9, #d4edf0);
+  border: 1px solid #c3e3e7;
+  color: #14727d;
+  flex: 0 0 auto;
+}
+.stage-head h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: #0d5e68; letter-spacing: 4px; }
+.stage-head p { margin: 1px 0 0; font-size: 11px; color: #7a8d95; }
+
+/* 阶段间连接线：从上一节点垂下的水线 */
+.stage:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: -26px; left: 19px;
+  width: 2px; height: 26px;
+  background: linear-gradient(180deg, #c9e6ea, #e8f4f6);
+}
+.stage:not(:first-child) .stage-head::before {
+  content: "";
+  position: absolute;
+  top: -13px; left: 16px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #8fd0d6;
+  animation: stage-drop 2.4s ease-in-out infinite;
+}
+@keyframes stage-drop {
+  0% { transform: translateY(-8px); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translateY(6px); opacity: 0; }
+}
+
+.stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.f-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.f-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(13, 94, 104, 0.1); }
+.f-card.featured { background: linear-gradient(125deg, #fff, #eaf7f9); }
+.f-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #eaf7f9, #d8eef1);
+  border: 1px solid #d2e9ec;
+  color: #14727d;
+}
+.f-body { flex: 1; }
+.f-body h4 { margin: 0 0 5px; font-size: 16px; color: #0d5e68; }
+.f-sub { margin: 0 0 4px; font-size: 12px; color: #16848a; }
+.f-desc { margin: 0; font-size: 11px; line-height: 1.7; color: #6b828b; }
+.f-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px dashed #dce9ec; padding-top: 11px; }
+.f-foot .btn { text-decoration: none; min-height: 30px; padding: 0 12px; font-size: 11px; flex: 0 0 auto; }
+.f-link { margin: 0; display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: #8aa0a8; }
+.f-link svg { flex: 0 0 auto; }
+
 /* 楷模之声 */
-.models { margin-bottom: 14px; }
+.models { margin-bottom: 22px; }
 .models-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; }
 .models-head h2 { margin: 0; font-size: 18px; color: #0d5e68; }
 .models-more { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: #16848a; text-decoration: none; }
@@ -145,22 +262,20 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .model-name { margin: 0; font-size: 13px; font-weight: 700; color: #0d5e68; }
 .model-name span { display: block; font-size: 10px; font-weight: 400; color: #7a8d95; margin-top: 2px; }
 
-.principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 0 0 14px; transform: translateY(-2px); }
-.principles .card { min-height: 116px; padding: 20px 26px; display: flex; align-items: center; gap: 24px; }
-.principle-art { width: 108px; height: 76px; object-fit: cover; border-radius: 12px; mix-blend-mode: multiply; }
+.principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 0 0 22px; }
+.principles .card { min-height: 112px; padding: 20px 26px; display: flex; align-items: center; gap: 20px; }
+.principle-icon {
+  width: 52px; height: 52px; border-radius: 14px; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #eaf7f9, #d8eef1);
+  border: 1px solid #d2e9ec;
+  color: #14727d;
+}
 .principles h3 { font-family: var(--font-kai); font-size: 23px; margin: 0 0 7px; color: #0e6670; }
 .principles p { margin: 0; line-height: 1.7; color: #5d7782; font-size: 13px; }
-.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.feature { height: 182px; padding: 23px 26px; display: flex; align-items: center; justify-content: space-between; overflow: hidden; }
-.feature.featured { background: linear-gradient(125deg, #fff, #eaf7f9); }
-.feature h2 { margin: 0 0 10px; color: #0d5e68; font-size: 20px; }
-.feature h4 { margin: 0 0 6px; }
-.feature p { margin: 0 0 18px; color: #6b828b; font-size: 12px; }
-.feature .btn { text-decoration: none; min-height: 32px; padding: 0 14px; font-size: 12px; }
-.feature-art { width: 42%; height: 150px; object-fit: cover; border-radius: 10px; mix-blend-mode: multiply; opacity: 0.9; flex: 0 0 auto; }
 
 /* 视频材料 */
-.videos { padding: 18px 22px; margin-top: 14px; }
+.videos { padding: 18px 22px; }
 .videos-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
 .videos-head h2 { margin: 0; font-size: 18px; color: #0d5e68; }
 .videos-head span { font-size: 11px; color: #7a8d95; }
@@ -187,8 +302,18 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 }
 
 @media (max-width: 1100px) {
+  .stage-grid { grid-template-columns: 1fr 1fr; }
   .models-grid { grid-template-columns: repeat(2, 1fr); }
   .videos-list { grid-template-columns: 1fr; }
 }
-@media (max-width: 640px) { .models-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .stage-grid { grid-template-columns: 1fr; }
+  .models-grid { grid-template-columns: 1fr; }
+  .f-foot { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-text { animation: none; }
+  .stage:not(:first-child) .stage-head::before { animation: none; }
+}
 </style>

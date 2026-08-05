@@ -60,6 +60,11 @@ import {
   PhListBullets as ListBullets,
   PhHandshake as Handshake,
   PhDrop as Drop,
+  PhFlag as Flag,
+  PhArchiveBox as ArchiveBox,
+  PhHammer as Hammer,
+  PhChartPieSlice as Radar,
+  PhChatCircleDots as ChatCircleDots,
 } from "@phosphor-icons/vue";
 
 export {
@@ -72,4 +77,5 @@ export {
   Eye, PenNib, LockSimple, Timer, Plus, Compass, CheckCircle,
   WarningCircle, LinkSimple, Clock, X, PlayCircle, ArrowSquareOut, Funnel, File,
   DownloadSimple, ListBullets, Handshake, Drop,
+  Flag, ArchiveBox, Hammer, Radar, ChatCircleDots,
 };

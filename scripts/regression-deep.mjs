@@ -102,7 +102,7 @@ check("毕设翻页到下一段", page.url().includes("graduation/proposal"));
 await goto("/student/home");
 await page.locator(".ai-fab").click();
 await page.waitForTimeout(400);
-await page.locator(".feature-grid .feature .btn").first().click();
+await page.locator(".f-card .btn").first().click();
 await page.waitForTimeout(400);
 check("AI dock 打开时仍可点击功能卡跳转", page.url().includes("/student/triple-core"));
 // 路由切换后 dock 保持打开；直接在打开的 dock 内对话（不再重复点 fab）
