@@ -103,5 +103,5 @@ const resourceEntries = () => {
 .notice-item span { font-size: 12px; color: #284c5c; }
 .notice-item small { font-size: 10px; color: #8a9ba2; }
 .profile-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #284c5c; text-decoration: none; }
-.resource-link { display: block; font-size: 13px; color: #284c5c; text-decoration: none; padding: 2px 0; }
+.resource-link { display: block; font-size: 13px; color: #284c5c; text-decoration: none; padding: 5px 0; min-height: 30px; }
 </style>

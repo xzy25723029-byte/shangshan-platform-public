@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { ElMessage } from "element-plus";
 import { mockApi } from "../../api";
 import { voiceTopics, voiceScenes } from "../../data/community";
 import SectionTitle from "../../components/common/SectionTitle.vue";
@@ -22,6 +23,11 @@ const filtered = () =>
       (scene.value === "全部场景" || v.scene === scene.value) &&
       (v.text + v.tag).includes(query.value.trim()),
   );
+
+/* 关联课题：记录意向（演示阶段只提示，不写入课题库） */
+function relateTopic(v) {
+  ElMessage({ message: `已标记意向：「${v.text.slice(0, 16)}…」可到战略方法论继续展开（演示）`, type: "success" });
+}
 </script>
 
 <template>
@@ -51,7 +57,7 @@ const filtered = () =>
         <span class="pill">{{ v.tag }}</span>
         <footer>
           <Clock :size="13" />调研时间：{{ v.date }}
-          <button>关联课题 <CaretRight :size="13" /></button>
+          <button @click="relateTopic(v)">关联课题 <CaretRight :size="13" /></button>
         </footer>
       </article>
     </div>
@@ -98,7 +104,8 @@ const filtered = () =>
   color: #3d5560;
 }
 .voice-card footer { margin-top: 6px; padding-top: 6px; border-top: 1px solid #e4edef; display: flex; align-items: center; gap: 5px; font-size: 10px; color: #78909a; }
-.voice-card footer button { margin-left: auto; border: 0; background: transparent; color: #14727d; display: flex; align-items: center; }
+.voice-card footer button { margin-left: auto; border: 1px solid #d3e9ec; background: #f4fafb; color: #14727d; display: flex; align-items: center; gap: 4px; padding: 4px 10px; min-height: 28px; border-radius: 999px; font-size: 10px; transition: background 0.3s, color 0.3s; }
+.voice-card footer button:hover { background: #14727d; color: #fff; border-color: #14727d; }
 .voice-bottom { display: grid; grid-template-columns: 2fr 0.8fr 1fr; gap: 10px; margin-top: 12px; }
 .voice-bottom > .card { padding: 13px; }
 .topic-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }

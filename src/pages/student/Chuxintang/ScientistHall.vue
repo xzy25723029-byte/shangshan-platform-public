@@ -43,7 +43,12 @@ const photoSrc = (p) => (p.photo ? `/assets/people/${p.photo}` : `/assets/${p.av
     <div class="sh-grid">
       <article v-for="p in filtered()" :key="p.name + p.unit" class="card sh-card">
         <div class="sh-photo">
-          <img :src="photoSrc(p)" :alt="p.name" loading="lazy" />
+          <img
+            :src="photoSrc(p)"
+            :style="{ objectPosition: p.photoPos || 'center 40%' }"
+            :alt="p.name"
+            loading="lazy"
+          />
         </div>
         <div class="sh-main">
           <h3>{{ p.name }}</h3>
@@ -64,7 +69,8 @@ const photoSrc = (p) => (p.photo ? `/assets/people/${p.photo}` : `/assets/${p.av
   border: 0;
   background: #f1f6f7;
   border-radius: 999px;
-  padding: 7px 14px;
+  padding: 9px 16px;
+  min-height: 36px;
   font-size: 12px;
   color: #4a5f68;
   transition: background 0.3s, color 0.3s, transform 0.3s;
@@ -84,7 +90,7 @@ const photoSrc = (p) => (p.photo ? `/assets/people/${p.photo}` : `/assets/${p.av
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 40%;
   transition: transform 0.4s ease;
 }
 .sh-card:hover .sh-photo img { transform: scale(1.04); }

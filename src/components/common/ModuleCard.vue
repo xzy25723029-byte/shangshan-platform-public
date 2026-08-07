@@ -34,5 +34,6 @@ defineProps({
 .module-card h3 { margin: 0; font-size: 15px; color: #0d5e68; }
 .mc-meta { margin: 0; display: flex; gap: 12px; font-size: 11px; color: #7a8d95; }
 .mc-accept { margin: 0; font-size: 11px; color: #5e747e; line-height: 1.6; flex: 1; }
-.mc-link { font-size: 12px; color: var(--teal); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.mc-link { font-size: 12px; color: var(--teal); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; min-height: 32px; border: 1px solid #d3e9ec; border-radius: 999px; background: #f4fafb; align-self: flex-start; transition: background 0.3s, color 0.3s; }
+.mc-link:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
 </style>

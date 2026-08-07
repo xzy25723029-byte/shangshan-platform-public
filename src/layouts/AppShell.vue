@@ -75,5 +75,6 @@ watch(() => route.fullPath, () => { navOpen.value = false; });
 }
 .brand {
   text-decoration: none;
+  color: inherit;
 }
 </style>

@@ -73,7 +73,12 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
     <!-- 核心理念 · 毛泽东思想：初心堂首位，指导科研素养 -->
     <section class="ideology">
       <div class="card idea-banner">
-        <img class="idea-photo" :src="`/assets/people/${coreIdeology.banner.photo}`" :alt="coreIdeology.banner.title" />
+        <img
+          class="idea-photo"
+          :src="`/assets/people/${coreIdeology.banner.photo}`"
+          :style="{ objectPosition: coreIdeology.banner.photoPos || 'center 50%' }"
+          :alt="coreIdeology.banner.title"
+        />
         <div class="idea-banner-main">
           <p class="idea-kicker">{{ coreIdeology.banner.title }}</p>
           <h2>{{ coreIdeology.banner.essence }}</h2>
@@ -92,7 +97,8 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
           loading="lazy"
         />
         <div class="self-main">
-          <p class="self-kicker">{{ coreIdeology.selfReliance.spirit }}</p>
+          <h3 class="self-kicker">{{ coreIdeology.selfReliance.spirit }}</h3>
+          <p class="self-sub">{{ coreIdeology.selfReliance.spiritSub }}</p>
           <p class="self-origin">{{ coreIdeology.selfReliance.origin }}</p>
           <p class="self-story">{{ coreIdeology.selfReliance.story }}</p>
           <p class="self-mapping">{{ coreIdeology.selfReliance.mapping }}</p>
@@ -251,7 +257,12 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
       <div class="models-grid">
         <article v-for="m in roleModels" :key="m.name" class="card model-card">
           <div class="model-photo">
-            <img :src="`/assets/people/${m.photo}`" :alt="m.name" loading="lazy" />
+            <img
+              :src="`/assets/people/${m.photo}`"
+              :style="{ objectPosition: m.photoPos || 'center 40%' }"
+              :alt="m.name"
+              loading="lazy"
+            />
           </div>
           <blockquote class="model-quote">{{ m.quote }}</blockquote>
           <p class="model-name">{{ m.name }}<span>{{ m.unit }}</span></p>
@@ -364,9 +375,15 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   justify-self: start;
   display: inline-flex; align-items: center; gap: 3px;
   margin-top: 3px;
+  padding: 6px 12px;
+  min-height: 32px;
   font-size: 10.5px; color: #16848a; text-decoration: none;
+  border: 1px solid #d5e9ec;
+  border-radius: 999px;
+  background: #f4fafb;
+  transition: background 0.3s, color 0.3s;
 }
-.idea-points a:hover { color: #0d5e68; }
+.idea-points a:hover { color: #fff; background: #16848a; border-color: #16848a; }
 
 /* 自己动手，丰衣足食：毛体题词 + 南泥湾精神 */
 .idea-self {
@@ -389,7 +406,15 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   border: 1px solid #eee3c8;
 }
 .self-main { display: grid; gap: 8px; }
-.self-kicker { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #a8743f; }
+.self-kicker {
+  margin: 0;
+  font-family: var(--font-kai);
+  font-size: 30px;
+  letter-spacing: 6px;
+  color: #7a4a1e;
+  line-height: 1.4;
+}
+.self-sub { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #a8743f; }
 .self-origin { margin: 0; font-size: 10px; color: #a08d6a; }
 .self-story { margin: 0; font-size: 12.5px; line-height: 1.9; color: #5d5340; }
 .self-mapping {
@@ -405,7 +430,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .self-links { display: flex; gap: 10px; flex-wrap: wrap; }
 .self-links a {
   display: inline-flex; align-items: center; gap: 4px;
-  padding: 5px 12px;
+  padding: 6px 12px; min-height: 32px;
   border: 1px solid #e0d2ac;
   border-radius: 999px;
   font-size: 11px;

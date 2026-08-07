@@ -94,7 +94,8 @@ import { ArrowRight } from "@/icons";
   background: #eef8f9;
   border: 1px solid #d3e9ec;
   border-radius: 999px;
-  padding: 5px 12px;
+  padding: 6px 13px;
+  min-height: 34px;
   text-decoration: none;
   font-weight: 700;
 }

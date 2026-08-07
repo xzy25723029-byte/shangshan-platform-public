@@ -8,6 +8,7 @@
 export const coreIdeology = {
   banner: {
     photo: "mao-zedong.jpg",
+    photoPos: "center 55%",
     title: "核心理念 · 毛泽东思想",
     essence: "实事求是",
     quote:
@@ -44,7 +45,8 @@ export const coreIdeology = {
     photo: "zi-ji-dong-shou.jpg",
     essence: "自己动手，丰衣足食",
     origin: "1943 年毛泽东为陕甘宁边区工农业生产成绩展览会题词",
-    spirit: "南泥湾精神 · 自力更生，艰苦奋斗",
+    spirit: "南泥湾精神",
+    spiritSub: "自力更生，艰苦奋斗",
     story:
       "1941 年春，八路军三五九旅开进南泥湾垦荒屯田，把荒山变成了「陕北的好江南」。这道题词，正是那一代人自己动手、白手起家的写照。",
     mapping:

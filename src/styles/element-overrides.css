@@ -54,3 +54,15 @@
 .el-message {
   border-radius: 8px;
 }
+/* 下拉菜单项：提高点击目标高度 */
+.el-dropdown-menu__item {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #284c5c;
+}
+.el-dropdown-menu__item:hover {
+  background: #eef7f8;
+  color: #14727d;
+}
