@@ -4,14 +4,12 @@ import {
   Drop, Compass, Flag, ChartLine, MagnifyingGlass, ShieldCheck,
   PenNib, ArchiveBox, UsersThree, Hammer, Radar, ChatCircleDots,
 } from "@/icons";
-import { tripleCore } from "../../../data/chuxintang";
+import { tripleCore, coreIdeology } from "../../../data/chuxintang";
 import { scientists } from "../../../data/people";
 import { BILIBILI_LIBRARY } from "../../../data/videos";
 
 
-/* 初心堂首页：四阶段逻辑流程 + 楷模之声 + 视频材料
-   立心 → 筑基 → 践行 → 笃行：一条初心之水，阶段间以流程线相连
-   卡片以图标 + 品牌渐变代替旧水墨小图（低清重复图已移除） */
+/* 初心堂首页：核心理念（毛泽东思想·首位）→ 四阶段旅程 → 楷模之声 → 视频材料 */
 
 /* 四阶段：每阶段 3 个模块，link 字段标注模块间的逻辑衔接 */
 const stages = [
@@ -57,8 +55,8 @@ const stages = [
   },
 ];
 
-/* 楷模之声：真实照片 + 真实金句，只取有照片的人物 */
-const roleModels = scientists.filter((p) => p.photo).slice(0, 4);
+/* 楷模之声：真实照片 + 真实金句，只取有照片的人物（不含核心理念的领袖） */
+const roleModels = scientists.filter((p) => p.photo && p.name !== "毛泽东").slice(0, 4);
 const hallVideos = BILIBILI_LIBRARY.chuxintang;
 </script>
 
@@ -71,6 +69,37 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
         <blockquote>初心如水，方能行稳致远；<br />上善若水，终成无限可能。</blockquote>
       </div>
     </div>
+
+    <!-- 核心理念 · 毛泽东思想：初心堂首位，指导科研素养 -->
+    <section class="ideology">
+      <div class="card idea-banner">
+        <img class="idea-photo" :src="`/assets/people/${coreIdeology.banner.photo}`" :alt="coreIdeology.banner.title" />
+        <div class="idea-banner-main">
+          <p class="idea-kicker">{{ coreIdeology.banner.title }}</p>
+          <h2>{{ coreIdeology.banner.essence }}</h2>
+          <blockquote>{{ coreIdeology.banner.quote }}</blockquote>
+          <p class="idea-source">{{ coreIdeology.banner.source }}</p>
+        </div>
+        <p class="idea-mapping">{{ coreIdeology.banner.mapping }}</p>
+      </div>
+
+      <div class="idea-pillars">
+        <article v-for="p in coreIdeology.pillars" :key="p.name" class="card idea-pillar">
+          <header>
+            <h3>{{ p.name }}</h3>
+            <span>{{ p.origin }}</span>
+          </header>
+          <blockquote class="idea-quote">{{ p.quote }}</blockquote>
+          <ul class="idea-points">
+            <li v-for="pt in p.points" :key="pt.t">
+              <b>{{ pt.t }}</b>
+              <span>{{ pt.s }}</span>
+              <router-link v-if="pt.to" :to="pt.to">{{ pt.f }} <CaretRight :size="11" /></router-link>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
     <!-- 四阶段旅程：2×2 排布，S 型水流衔接，水到渠成 -->
     <section class="journey">
@@ -259,6 +288,65 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .home-hero h1 { font-family: var(--font-kai); font-size: 54px; margin: 0 0 3px; letter-spacing: 7px; }
 .home-hero blockquote { margin: 0; font-family: var(--font-kai); line-height: 1.8; }
 
+/* 核心理念 · 毛泽东思想（首位） */
+.ideology { margin: 0 0 22px; }
+.idea-banner {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 10px 20px;
+  padding: 24px 28px;
+  background: linear-gradient(125deg, #fff, #eaf7f9);
+  align-items: center;
+}
+.idea-photo {
+  width: 92px; height: 92px; border-radius: 14px;
+  object-fit: cover; object-position: center 18%;
+  border: 2px solid #d3e9ec;
+}
+.idea-kicker { margin: 0 0 2px; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #16848a; }
+.idea-banner-main h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-kai);
+  font-size: 38px; color: #0d5862;
+  letter-spacing: 12px;
+}
+.idea-banner-main blockquote { margin: 0 0 6px; font-size: 13px; line-height: 1.9; color: #245260; }
+.idea-source { margin: 0; font-size: 10px; color: #8aa0a8; }
+.idea-mapping {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: #eef7f8;
+  font-size: 12px;
+  color: #245260;
+}
+.idea-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.idea-pillar { padding: 18px 22px; }
+.idea-pillar header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.idea-pillar h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: #0d5e68; letter-spacing: 2px; }
+.idea-pillar header span { font-size: 10px; color: #8aa0a8; }
+.idea-quote {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-left: 3px solid #6fc3ca;
+  border-radius: 0 8px 8px 0;
+  background: #f0f9fa;
+  font-size: 12.5px; line-height: 1.8;
+  color: #17586a;
+}
+.idea-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.idea-points li { display: grid; gap: 2px; padding: 9px 11px; border: 1px solid #e6eff1; border-radius: 8px; background: #fafdfd; }
+.idea-points b { font-size: 12px; color: #14727d; }
+.idea-points span { font-size: 11px; line-height: 1.7; color: #5e747e; }
+.idea-points a {
+  justify-self: start;
+  display: inline-flex; align-items: center; gap: 3px;
+  margin-top: 3px;
+  font-size: 10.5px; color: #16848a; text-decoration: none;
+}
+.idea-points a:hover { color: #0d5e68; }
+
 /* 四阶段旅程：2×2 + S 型水流 */
 .journey { margin: 0 0 22px; }
 .journey-head { margin: 0 0 14px; }
@@ -433,6 +521,10 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   .flow-row { flex-direction: column; gap: 8px; }
   .flow-h, .flow-v { display: none; }
   .stage + .stage { margin-top: 4px; }
+  .idea-pillars { grid-template-columns: 1fr; }
+  .idea-banner { grid-template-columns: 64px 1fr; }
+  .idea-photo { width: 64px; height: 64px; }
+  .idea-banner-main h2 { font-size: 30px; letter-spacing: 8px; }
   /* 手机上同一阶段的卡片横向滑动，减少纵向长度 */
   .stage-grid {
     display: flex;
