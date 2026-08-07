@@ -83,6 +83,27 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
         <p class="idea-mapping">{{ coreIdeology.banner.mapping }}</p>
       </div>
 
+      <!-- 自己动手，丰衣足食：毛体题词大字 + 南泥湾精神 -->
+      <div class="card idea-self">
+        <img
+          class="self-photo"
+          :src="`/assets/ideology/${coreIdeology.selfReliance.photo}`"
+          alt="毛泽东题词：自己动手，丰衣足食"
+          loading="lazy"
+        />
+        <div class="self-main">
+          <p class="self-kicker">{{ coreIdeology.selfReliance.spirit }}</p>
+          <p class="self-origin">{{ coreIdeology.selfReliance.origin }}</p>
+          <p class="self-story">{{ coreIdeology.selfReliance.story }}</p>
+          <p class="self-mapping">{{ coreIdeology.selfReliance.mapping }}</p>
+          <div class="self-links">
+            <router-link v-for="l in coreIdeology.selfReliance.links" :key="l.to" :to="l.to">
+              {{ l.name }} <CaretRight :size="11" />
+            </router-link>
+          </div>
+        </div>
+      </div>
+
       <div class="idea-pillars">
         <article v-for="p in coreIdeology.pillars" :key="p.name" class="card idea-pillar">
           <header>
@@ -347,6 +368,53 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 }
 .idea-points a:hover { color: #0d5e68; }
 
+/* 自己动手，丰衣足食：毛体题词 + 南泥湾精神 */
+.idea-self {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(260px, 42%) 1fr;
+  gap: 22px;
+  align-items: center;
+  padding: 18px 24px;
+  background: linear-gradient(125deg, #fffdf6, #f7f2e2);
+  border-color: #eadfc0;
+}
+.self-photo {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #eee3c8;
+}
+.self-main { display: grid; gap: 8px; }
+.self-kicker { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #a8743f; }
+.self-origin { margin: 0; font-size: 10px; color: #a08d6a; }
+.self-story { margin: 0; font-size: 12.5px; line-height: 1.9; color: #5d5340; }
+.self-mapping {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: #f7f2e2;
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: #5d4a2a;
+  font-weight: 700;
+}
+.self-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.self-links a {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px;
+  border: 1px solid #e0d2ac;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #8a6d3a;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+.self-links a:hover { background: #8a6d3a; color: #fff; border-color: #8a6d3a; }
+
 /* 四阶段旅程：2×2 + S 型水流 */
 .journey { margin: 0 0 22px; }
 .journey-head { margin: 0 0 14px; }
@@ -491,7 +559,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .videos-head h2 { margin: 0; font-size: 18px; color: #0d5e68; }
 .videos-head span { font-size: 11px; color: #7a8d95; }
 .videos-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
-.videos-list li { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; background: #f6fafb; border: 1px solid #e6eff1; transition: background 0.3s; }
+.videos-list li { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; background: #f6fafb; border: 1px solid #e6eff1; transition: background 0.3s; min-width: 0; }
 .videos-list li:hover { background: #eef7f8; }
 .videos-idx { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; background: #d9eff2; color: #14727d; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
 .videos-main { flex: 1; min-width: 0; }
@@ -525,6 +593,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   .idea-banner { grid-template-columns: 64px 1fr; }
   .idea-photo { width: 64px; height: 64px; }
   .idea-banner-main h2 { font-size: 30px; letter-spacing: 8px; }
+  .idea-self { grid-template-columns: 1fr; }
   /* 手机上同一阶段的卡片横向滑动，减少纵向长度 */
   .stage-grid {
     display: flex;
