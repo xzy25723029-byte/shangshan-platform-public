@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const browser = await chromium.launch({ executablePath: exe, headless: true });
+const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+const statuses = [];
+page.on("response", (r) => { if (r.url().includes("edgeone.cool")) statuses.push(`${r.status()} ${r.url().slice(0, 70)}`); });
+await page.goto("https://shangshan-platform-5tstn20u.edgeone.cool/", { waitUntil: "domcontentloaded", timeout: 20000 });
+await page.waitForTimeout(2500);
+console.log("最终URL:", page.url().slice(0, 80));
+console.log("标题:", (await page.title()).slice(0, 40));
+console.log("请求序列:");
+for (const s of statuses.slice(0, 8)) console.log("  ", s);
+await browser.close();
