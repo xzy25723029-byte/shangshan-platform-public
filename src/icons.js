@@ -65,6 +65,8 @@ import {
   PhHammer as Hammer,
   PhChartPieSlice as Radar,
   PhChatCircleDots as ChatCircleDots,
+  PhWechatLogo as WechatLogo,
+  PhPhone as Phone,
 } from "@phosphor-icons/vue";
 
 export {
@@ -78,4 +80,5 @@ export {
   WarningCircle, LinkSimple, Clock, X, PlayCircle, ArrowSquareOut, Funnel, File,
   DownloadSimple, ListBullets, Handshake, Drop,
   Flag, ArchiveBox, Hammer, Radar, ChatCircleDots,
+  WechatLogo, Phone,
 };

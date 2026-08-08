@@ -80,7 +80,13 @@ const resourceEntries = () => {
       <el-dropdown trigger="click" @visible-change="(v) => (menuVisible = v)">
         <button class="profile">
           <img :src="`/assets/${auth.user?.avatar || 'avatar-user.png'}`" :alt="auth.user?.name" />
-          <div><strong>{{ auth.user?.name }}</strong><span>{{ auth.user?.grade || roleLabel() }}</span></div>
+          <div>
+            <strong>{{ auth.user?.name }}</strong>
+            <span>
+              {{ auth.isFormal() ? `正式学员 · 手机尾号 ${(auth.user?.phone || "").slice(-4)}` : (auth.user?.grade || roleLabel()) }}
+              <em v-if="!auth.isFormal()" class="mode-tag">演示</em>
+            </span>
+          </div>
           <CaretDown :size="16" />
         </button>
         <template #dropdown>
@@ -99,6 +105,16 @@ const resourceEntries = () => {
 
 <style scoped>
 .notice-menu { min-width: 240px; }
+.mode-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #f2f0ea;
+  color: #a08d6a;
+  font-size: 9px;
+  font-style: normal;
+}
 .notice-item { display: grid; gap: 2px; }
 .notice-item span { font-size: 12px; color: #284c5c; }
 .notice-item small { font-size: 10px; color: #8a9ba2; }

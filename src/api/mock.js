@@ -77,6 +77,58 @@ export async function redeemInvite(code) {
   return { ...demo, invited: true };
 }
 
+/* ---------- 正式模式：手机号注册 / 登录（mock）
+   演示环境验证码固定为 123456 并在返回中带出；接入真实短信服务后
+   仅需替换 sendSmsCode 与校验逻辑，前端流程不变 ---------- */
+const FORMAL_USERS_KEY = "ss_formal_users";
+const readFormalUsers = () => {
+  try {
+    return JSON.parse(localStorage.getItem(FORMAL_USERS_KEY)) || [];
+  } catch {
+    return [];
+  }
+};
+const writeFormalUsers = (list) => localStorage.setItem(FORMAL_USERS_KEY, JSON.stringify(list));
+
+const smsStore = {}; // phone -> code
+
+export async function sendSmsCode(phone) {
+  await delay(400);
+  if (!/^1\d{10}$/.test(phone)) throw new Error("请输入正确的 11 位手机号");
+  const code = "123456"; // 演示环境固定验证码；正式接入短信服务后改为随机 6 位
+  smsStore[phone] = code;
+  return { demoCode: code }; // 演示环境直接返回验证码，便于体验完整流程
+}
+
+export async function registerByPhone({ phone, code, name }) {
+  await delay(400);
+  if (smsStore[phone] !== code) throw new Error("验证码不正确，请重新获取");
+  const users = readFormalUsers();
+  if (users.some((u) => u.phone === phone)) throw new Error("该手机号已注册，请直接登录");
+  const user = {
+    id: "f" + Date.now(),
+    username: "p_" + phone,
+    phone,
+    name: (name || "").trim() || "新学员",
+    role: "student",
+    grade: "环境工程 · 新生",
+    avatar: "avatar-user.png",
+    mode: "formal",
+    createdAt: new Date().toISOString().slice(0, 10),
+  };
+  users.push(user);
+  writeFormalUsers(users);
+  return { ...user };
+}
+
+export async function loginByPhone({ phone, code }) {
+  await delay(400);
+  if (smsStore[phone] !== code) throw new Error("验证码不正确，请重新获取");
+  const user = readFormalUsers().find((u) => u.phone === phone);
+  if (!user) throw new Error("该手机号未注册，请先完成注册");
+  return { ...user };
+}
+
 /* ---------- 初心堂 ---------- */
 export async function getOathStatus() {
   await delay(150);

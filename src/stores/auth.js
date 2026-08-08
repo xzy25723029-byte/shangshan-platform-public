@@ -66,6 +66,48 @@ export const useAuthStore = defineStore("auth", {
       this.user = { ...acc };
       localStorage.setItem(KEY, JSON.stringify(this.user));
     },
+    // 正式模式：发送短信验证码
+    async sendSms(phone) {
+      this.error = "";
+      try {
+        return await api.sendSmsCode(phone);
+      } catch (e) {
+        this.error = e.message || "发送失败";
+        throw e;
+      }
+    },
+    // 正式模式：手机号注册
+    async registerPhone(payload) {
+      this.loading = true;
+      this.error = "";
+      try {
+        this.user = await api.registerByPhone(payload);
+        localStorage.setItem(KEY, JSON.stringify(this.user));
+      } catch (e) {
+        this.error = e.message || "注册失败";
+        throw e;
+      } finally {
+        this.loading = false;
+      }
+    },
+    // 正式模式：手机号登录
+    async loginPhone(payload) {
+      this.loading = true;
+      this.error = "";
+      try {
+        this.user = await api.loginByPhone(payload);
+        localStorage.setItem(KEY, JSON.stringify(this.user));
+      } catch (e) {
+        this.error = e.message || "登录失败";
+        throw e;
+      } finally {
+        this.loading = false;
+      }
+    },
+    // 是否为正式模式用户（手机号注册的真实学员）
+    isFormal() {
+      return this.user?.mode === "formal";
+    },
     homePath() {
       if (this.role === "mentor") return "/mentor/week";
       if (this.role === "admin" || this.role === "super_admin") return "/admin/people";
