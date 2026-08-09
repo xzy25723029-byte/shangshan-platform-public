@@ -38,6 +38,7 @@ const routes = [
       { path: "alumni", component: () => import("../pages/student/Alumni.vue"), meta: { title: "师兄师姐 · 传承" } },
       { path: "members", component: () => import("../pages/student/Members.vue"), meta: { title: "成员名录" } },
       { path: "ai-settings", component: () => import("../pages/student/AISettings.vue"), meta: { title: "AI 导师设置" } },
+      { path: "pending", component: () => import("../pages/student/PendingReview.vue"), meta: { title: "等待审核" } },
       { path: ":any(.*)", component: () => import("../pages/ComingSoon.vue") },
     ],
   },
@@ -61,6 +62,7 @@ const routes = [
       { path: "people", component: () => import("../pages/admin/PeopleLib.vue"), meta: { title: "人物库" } },
       { path: "videos", component: () => import("../pages/admin/VideoLib.vue"), meta: { title: "视频资源" } },
       { path: "modules", component: () => import("../pages/admin/ModuleConfig.vue"), meta: { title: "模块配置" } },
+      { path: "users", component: () => import("../pages/admin/UserReview.vue"), meta: { title: "用户与角色" } },
       { path: ":any(.*)", component: () => import("../pages/ComingSoon.vue") },
     ],
   },
@@ -81,6 +83,8 @@ router.beforeEach((to) => {
   if (!auth.user && !isGuest) return { path: "/login", query: { redirect: to.fullPath } };
   if (auth.user) {
     if (isGuest) return auth.homePath();
+    /* 正式学员待审核：只能停留在等待审核页 */
+    if (auth.isPending() && to.path !== "/student/pending") return "/student/pending";
     const required = to.matched.find((r) => r.meta.role)?.meta.role;
     if (required && auth.role !== required && !(required === "admin" && auth.role === "super_admin")) {
       return auth.homePath();

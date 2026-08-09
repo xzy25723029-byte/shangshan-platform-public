@@ -77,9 +77,7 @@ export async function redeemInvite(code) {
   return { ...demo, invited: true };
 }
 
-/* ---------- 正式模式：手机号注册 / 登录（mock）
-   演示环境验证码固定为 123456 并在返回中带出；接入真实短信服务后
-   仅需替换 sendSmsCode 与校验逻辑，前端流程不变 ---------- */
+/* ---------- 正式模式：邮箱注册（内部使用，邀请码必填）+ 管理员审核 ---------- */
 const FORMAL_USERS_KEY = "ss_formal_users";
 const readFormalUsers = () => {
   try {
@@ -90,30 +88,27 @@ const readFormalUsers = () => {
 };
 const writeFormalUsers = (list) => localStorage.setItem(FORMAL_USERS_KEY, JSON.stringify(list));
 
-const smsStore = {}; // phone -> code
-
-export async function sendSmsCode(phone) {
+export async function registerByEmail({ email, password, name, invite }) {
   await delay(400);
-  if (!/^1\d{10}$/.test(phone)) throw new Error("请输入正确的 11 位手机号");
-  const code = "123456"; // 演示环境固定验证码；正式接入短信服务后改为随机 6 位
-  smsStore[phone] = code;
-  return { demoCode: code }; // 演示环境直接返回验证码，便于体验完整流程
-}
-
-export async function registerByPhone({ phone, code, name }) {
-  await delay(400);
-  if (smsStore[phone] !== code) throw new Error("验证码不正确，请重新获取");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) throw new Error("请输入正确的邮箱地址");
+  if (!password || password.length < 6) throw new Error("密码至少 6 位");
+  const code = (invite || "").trim().toUpperCase();
+  const role = inviteCodes[code];
+  if (!role) throw new Error("邀请码无效——本平台仅供团队内部使用，请向管理员获取邀请码");
+  if (role !== "student") throw new Error("学员注册请使用学生邀请码");
   const users = readFormalUsers();
-  if (users.some((u) => u.phone === phone)) throw new Error("该手机号已注册，请直接登录");
+  if (users.some((u) => u.email === email.trim().toLowerCase())) throw new Error("该邮箱已注册，请直接登录");
   const user = {
     id: "f" + Date.now(),
-    username: "p_" + phone,
-    phone,
-    name: (name || "").trim() || "新学员",
+    email: email.trim().toLowerCase(),
+    password, // mock 环境明文存储；接入 Supabase 后改为 Auth 密码哈希
+    name: (name || "").trim() || email.split("@")[0],
     role: "student",
     grade: "环境工程 · 新生",
     avatar: "avatar-user.png",
     mode: "formal",
+    status: "pending", // 待审核：管理员通过后方可进入平台
+    invite: code,
     createdAt: new Date().toISOString().slice(0, 10),
   };
   users.push(user);
@@ -121,12 +116,30 @@ export async function registerByPhone({ phone, code, name }) {
   return { ...user };
 }
 
-export async function loginByPhone({ phone, code }) {
+export async function loginByEmail({ email, password }) {
   await delay(400);
-  if (smsStore[phone] !== code) throw new Error("验证码不正确，请重新获取");
-  const user = readFormalUsers().find((u) => u.phone === phone);
-  if (!user) throw new Error("该手机号未注册，请先完成注册");
+  const user = readFormalUsers().find((u) => u.email === (email || "").trim().toLowerCase());
+  if (!user) throw new Error("该邮箱未注册，请先完成注册");
+  if (user.password !== password) throw new Error("密码不正确");
   return { ...user };
+}
+
+/* 审核：待审核列表 / 通过 / 拒绝（正式学员） */
+export async function listFormalUsers() {
+  await delay(300);
+  return readFormalUsers()
+    .slice()
+    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
+    .map(({ password: _p, ...u }) => u);
+}
+export async function reviewUser(id, action) {
+  await delay(300);
+  const users = readFormalUsers();
+  const u = users.find((x) => x.id === id);
+  if (!u) throw new Error("用户不存在");
+  u.status = action === "approve" ? "approved" : "rejected";
+  writeFormalUsers(users);
+  return { ...u };
 }
 
 /* ---------- 初心堂 ---------- */

@@ -66,22 +66,12 @@ export const useAuthStore = defineStore("auth", {
       this.user = { ...acc };
       localStorage.setItem(KEY, JSON.stringify(this.user));
     },
-    // 正式模式：发送短信验证码
-    async sendSms(phone) {
-      this.error = "";
-      try {
-        return await api.sendSmsCode(phone);
-      } catch (e) {
-        this.error = e.message || "发送失败";
-        throw e;
-      }
-    },
-    // 正式模式：手机号注册
-    async registerPhone(payload) {
+    // 正式模式：邮箱注册（内部使用，需邀请码，注册后待审核）
+    async registerEmail(payload) {
       this.loading = true;
       this.error = "";
       try {
-        this.user = await api.registerByPhone(payload);
+        this.user = await api.registerByEmail(payload);
         localStorage.setItem(KEY, JSON.stringify(this.user));
       } catch (e) {
         this.error = e.message || "注册失败";
@@ -90,12 +80,12 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
-    // 正式模式：手机号登录
-    async loginPhone(payload) {
+    // 正式模式：邮箱登录
+    async loginEmail(payload) {
       this.loading = true;
       this.error = "";
       try {
-        this.user = await api.loginByPhone(payload);
+        this.user = await api.loginByEmail(payload);
         localStorage.setItem(KEY, JSON.stringify(this.user));
       } catch (e) {
         this.error = e.message || "登录失败";
@@ -104,9 +94,13 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
-    // 是否为正式模式用户（手机号注册的真实学员）
+    // 是否为正式模式用户（邮箱注册的真实学员）
     isFormal() {
       return this.user?.mode === "formal";
+    },
+    // 是否待审核（正式学员注册后需管理员审核通过）
+    isPending() {
+      return this.user?.mode === "formal" && this.user?.status === "pending";
     },
     homePath() {
       if (this.role === "mentor") return "/mentor/week";

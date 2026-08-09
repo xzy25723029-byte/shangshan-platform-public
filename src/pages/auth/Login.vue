@@ -9,25 +9,28 @@ const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-/* 双模式：测试模式（演示账号快速体验）/ 正式模式（手机号注册，真实学员） */
+/* 双模式：测试模式（演示账号快速体验）/ 正式模式（邮箱注册，真实学员，需邀请码） */
 const mode = ref("test");
 const username = ref("limingyuan");
 const password = ref("");
 const submitting = ref(false);
 
-/* 正式模式：手机号 + 短信验证码 */
-const phone = ref("");
-const smsCode = ref("");
+/* 正式模式：邮箱 + 密码 + 邀请码 */
+const email = ref("");
+const emailPassword = ref("");
 const realName = ref("");
+const invite = ref("");
 const testTab = ref("demo"); // demo | form（测试模式子标签）
 const formalTab = ref("register"); // register | login（正式模式子标签）
-const sending = ref(false);
-const countdown = ref(0);
-const demoCode = ref(""); // 演示环境带出的验证码提示
 
 const roleLabel = { student: "学生", mentor: "导师", admin: "内容管理员", super_admin: "平台管理员" };
 
 async function goHome() {
+  // 正式学员待审核：先到等待审核页
+  if (auth.isPending()) {
+    router.push("/student/pending");
+    return;
+  }
   const target = route.query.redirect;
   if (target && target.startsWith("/") && !target.startsWith("//")) {
     router.push(target);
@@ -54,32 +57,19 @@ async function login() {
   }
 }
 
-/* 发送验证码（演示环境返回固定 123456，接入短信服务后流程不变） */
-async function sendSms() {
-  sending.value = true;
-  try {
-    const res = await auth.sendSms(phone.value);
-    demoCode.value = res.demoCode || "";
-    countdown.value = 60;
-    const timer = setInterval(() => {
-      countdown.value -= 1;
-      if (countdown.value <= 0) clearInterval(timer);
-    }, 1000);
-  } catch {
-    // 错误信息在 auth.error
-  } finally {
-    sending.value = false;
-  }
-}
-
-/* 正式模式注册 / 登录 */
+/* 正式模式注册 / 登录（邮箱 + 邀请码，内部使用） */
 async function formalSubmit() {
   submitting.value = true;
   try {
     if (formalTab.value === "register") {
-      await auth.registerPhone({ phone: phone.value, code: smsCode.value, name: realName.value });
+      await auth.registerEmail({
+        email: email.value,
+        password: emailPassword.value,
+        name: realName.value,
+        invite: invite.value,
+      });
     } else {
-      await auth.loginPhone({ phone: phone.value, code: smsCode.value });
+      await auth.loginEmail({ email: email.value, password: emailPassword.value });
     }
     goHome();
   } catch {
@@ -91,7 +81,7 @@ async function formalSubmit() {
 
 /* 微信登录：需学校主体资质开通，当前仅预留入口 */
 function wechat() {
-  auth.error = "微信登录正在接入学校认证体系，当前请使用手机号注册（手机号亦可绑定微信）";
+  auth.error = "微信登录正在接入学校认证体系，当前请使用邮箱注册（内部邀请码由管理员发放）";
 }
 </script>
 
@@ -156,29 +146,26 @@ function wechat() {
         </form>
       </template>
 
-      <!-- 正式模式：手机号注册 / 登录 -->
+      <!-- 正式模式：邮箱注册 / 登录（内部使用，需邀请码） -->
       <template v-else>
         <div class="login-tabs">
-          <button :class="{ active: formalTab === 'register' }" @click="formalTab = 'register'">手机号注册</button>
-          <button :class="{ active: formalTab === 'login' }" @click="formalTab = 'login'">手机号登录</button>
+          <button :class="{ active: formalTab === 'register' }" @click="formalTab = 'register'">邮箱注册</button>
+          <button :class="{ active: formalTab === 'login' }" @click="formalTab = 'login'">邮箱登录</button>
         </div>
 
         <form class="login-form formal-form" @submit.prevent="formalSubmit">
           <label v-if="formalTab === 'register'">姓名（可后改）
             <input v-model="realName" placeholder="你的真实姓名" />
           </label>
-          <label>手机号
-            <div class="phone-row">
-              <input v-model="phone" type="tel" maxlength="11" required placeholder="11 位手机号" />
-              <button type="button" class="btn ghost sms-btn" :disabled="sending || countdown > 0 || !/^1\d{10}$/.test(phone)" @click="sendSms">
-                {{ countdown > 0 ? `${countdown}s 后重发` : "发送验证码" }}
-              </button>
-            </div>
+          <label>邮箱
+            <input v-model="email" type="email" required placeholder="name@example.com" />
           </label>
-          <label>验证码
-            <input v-model="smsCode" maxlength="6" required placeholder="6 位验证码" />
+          <label>密码
+            <input v-model="emailPassword" type="password" minlength="6" required placeholder="至少 6 位" />
           </label>
-          <p v-if="demoCode" class="sms-hint">演示环境验证码：<b>{{ demoCode }}</b>（接入短信服务后自动隐藏）</p>
+          <label v-if="formalTab === 'register'">邀请码（团队内部使用）
+            <input v-model="invite" required placeholder="向团队管理员获取，如 STU2026" />
+          </label>
           <p v-if="auth.error" class="login-error">{{ auth.error }}</p>
           <button class="btn login-submit" type="submit" :disabled="submitting">
             <SignIn :size="16" />{{ formalTab === "register" ? "注册并进入" : "登 录" }}

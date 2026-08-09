@@ -83,7 +83,7 @@ const resourceEntries = () => {
           <div>
             <strong>{{ auth.user?.name }}</strong>
             <span>
-              {{ auth.isFormal() ? `正式学员 · 手机尾号 ${(auth.user?.phone || "").slice(-4)}` : (auth.user?.grade || roleLabel()) }}
+              {{ auth.isFormal() ? (auth.user?.status === "pending" ? "正式学员 · 待审核" : `正式学员 · ${(auth.user?.email || "").split("@")[0]}`) : (auth.user?.grade || roleLabel()) }}
               <em v-if="!auth.isFormal()" class="mode-tag">演示</em>
             </span>
           </div>
