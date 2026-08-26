@@ -91,7 +91,7 @@ async function linkDeliverable(d) {
 
 <style scoped>
 .gd-head { padding: 20px 24px; display: grid; grid-template-columns: 1fr 260px; gap: 20px; }
-.gd-title h2 { margin: 0 0 12px; font-size: 20px; color: #0d5e68; }
+.gd-title h2 { margin: 0 0 12px; font-size: 20px; color: var(--ink); }
 .gd-meta { display: flex; gap: 28px; flex-wrap: wrap; }
 .gd-meta span { font-size: 12px; color: #3d5560; }
 .gd-meta b { display: block; font-size: 10px; color: #8a9ba2; margin-bottom: 3px; }

@@ -45,7 +45,7 @@ import SectionTitle from "../../../components/common/SectionTitle.vue";
   box-shadow: 0 8px 20px rgba(5, 111, 124, 0.22);
   margin-bottom: 6px;
 }
-.triple-card h2 { margin: 0; font-family: var(--font-kai); font-size: 24px; color: #0d5e68; letter-spacing: 2px; }
+.triple-card h2 { margin: 0; font-family: var(--font-kai); font-size: 24px; color: var(--ink); letter-spacing: 2px; }
 .triple-card h3 { margin: 0; font-size: 14px; color: #14727d; }
 .triple-card p { margin: 0; font-size: 12px; color: #5e747e; }
 .triple-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; mix-blend-mode: multiply; margin-top: 10px; }

@@ -88,7 +88,7 @@ onMounted(async () => {
   background: #e3f4f4; color: #0d7d88;
   font-weight: 800; font-size: 14px;
 }
-.l2-group-head h3 { margin: 0; font-size: 15px; color: #0d5e68; }
+.l2-group-head h3 { margin: 0; font-size: 15px; color: var(--ink); }
 .l2-group-head p { margin: 2px 0 0; font-size: 11px; color: #7a8d95; }
 .l2-status { margin-left: auto; }
 
@@ -96,7 +96,7 @@ onMounted(async () => {
 
 .l2-topics { padding: 18px 22px; margin-top: 6px; border-color: #bcd8dd; background: linear-gradient(160deg, #fbfefe, #f2fafb); }
 .l2-topics-head { display: flex; align-items: center; gap: 8px; }
-.l2-topics-head h3 { margin: 0; font-size: 14px; color: #0d5e68; }
+.l2-topics-head h3 { margin: 0; font-size: 14px; color: var(--ink); }
 .l2-topics-sub { margin: 6px 0 12px; font-size: 11px; color: #6f8791; }
 .l2-topics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .topic-card { border: 1px solid #d9e9ec; border-radius: 10px; padding: 10px 12px; background: #fff; }

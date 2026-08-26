@@ -3,22 +3,23 @@
    覆盖默认蓝色后台模板感，统一为平台冰蓝青绿令牌
    ============================================================ */
 :root {
-  --el-color-primary: #087b86;
-  --el-color-primary-light-3: #1995a0;
+  --el-color-primary: #0b747e;
+  --el-color-primary-light-3: #2a97a3;
   --el-color-primary-light-5: #59b6bf;
   --el-color-primary-light-7: #9bd2d8;
   --el-color-primary-light-8: #bfe3e6;
   --el-color-primary-light-9: #e6f3f4;
-  --el-color-primary-dark-2: #0b5360;
+  --el-color-primary-dark-2: #0b4f59;
   --el-border-radius-base: 8px;
   --el-border-radius-small: 6px;
   --el-font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
-  --el-text-color-primary: #183747;
-  --el-text-color-regular: #44616b;
-  --el-border-color: #dbe9ed;
-  --el-border-color-light: #e3edef;
-  --el-border-color-lighter: #edf2f4;
-  --el-fill-color-light: #f3f8f9;
+  --el-text-color-primary: #1c3138;
+  --el-text-color-regular: #4c6067;
+  --el-text-color-secondary: #829398;
+  --el-border-color: #e2e8e7;
+  --el-border-color-light: #e6eceb;
+  --el-border-color-lighter: #edf1f0;
+  --el-fill-color-light: #f3f6f5;
   --el-bg-color: #ffffff;
 }
 
@@ -27,12 +28,12 @@
   box-shadow: var(--shadow);
 }
 .el-drawer {
-  background: linear-gradient(135deg, #f9fcfd, #f4fafb);
+  background: linear-gradient(135deg, #fafcfb, #f4f7f6);
 }
 .el-input__wrapper,
 .el-textarea__inner,
 .el-select__wrapper {
-  box-shadow: 0 0 0 1px #dce7eb inset;
+  box-shadow: 0 0 0 1px #dce5e4 inset;
   border-radius: 7px;
 }
 .el-input__wrapper.is-focus,
@@ -60,9 +61,9 @@
   display: flex;
   align-items: center;
   font-size: 13px;
-  color: #284c5c;
+  color: var(--head);
 }
 .el-dropdown-menu__item:hover {
-  background: #eef7f8;
-  color: #14727d;
+  background: var(--bg-soft);
+  color: var(--teal);
 }

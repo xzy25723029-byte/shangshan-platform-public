@@ -101,7 +101,7 @@ async function grant() {
 .sg-packs, .sg-form { padding: 18px 22px; margin-bottom: 14px; }
 .sg-pack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
 .sg-pack { padding: 14px; border: 1px solid #e0eaec; border-radius: 10px; background: #fafdfd; }
-.sg-pack h3 { margin: 0 0 6px; font-size: 14px; color: #0d5e68; }
+.sg-pack h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); }
 .sg-pack p { margin: 0 0 10px; font-size: 11px; line-height: 1.7; color: #5e747e; }
 .sg-form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
 .sg-form-row label { display: grid; gap: 5px; font-size: 11px; font-weight: 700; color: #44616b; }

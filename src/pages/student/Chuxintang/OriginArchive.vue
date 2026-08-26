@@ -66,7 +66,7 @@ async function seal() {
 <style scoped>
 .oa-seal, .oa-sealed { max-width: 720px; margin: 0 auto; padding: 34px 40px; text-align: center; }
 .oa-icon { color: #1b93a0; }
-.oa-seal h2, .oa-sealed h2 { font-family: var(--font-kai); letter-spacing: 2px; color: #0d5e68; margin: 10px 0 8px; }
+.oa-seal h2, .oa-sealed h2 { font-family: var(--font-kai); letter-spacing: 2px; color: var(--ink); margin: 10px 0 8px; }
 .oa-seal p { font-size: 12px; line-height: 1.9; color: #5e747e; margin: 0 0 16px; }
 .oa-seal textarea {
   width: 100%; height: 170px; resize: none;

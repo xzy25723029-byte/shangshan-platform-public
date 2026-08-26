@@ -69,7 +69,7 @@ import { ArrowRight } from "@/icons";
   background: linear-gradient(145deg, #2eb5c4, #077581);
   color: white; font-size: 13px;
 }
-.gp-card h2 { margin: 0; font-family: var(--font-kai); font-size: 22px; color: #0d5e68; letter-spacing: 2px; }
+.gp-card h2 { margin: 0; font-family: var(--font-kai); font-size: 22px; color: var(--ink); letter-spacing: 2px; }
 .gp-card blockquote {
   margin: 12px 0 0;
   padding: 10px 14px;

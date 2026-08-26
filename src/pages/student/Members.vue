@@ -86,7 +86,7 @@ function sendAsk() {
 .member-card { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .member-card header { display: flex; align-items: center; gap: 10px; }
 .member-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-.member-card h3 { margin: 0; font-size: 15px; color: #0d5e68; }
+.member-card h3 { margin: 0; font-size: 15px; color: var(--ink); }
 .member-card header span { font-size: 10px; color: #7a8d95; }
 .member-tags { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; align-content: start; }
 .member-ask { align-self: flex-start; min-height: 30px; font-size: 11px; }

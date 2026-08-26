@@ -1,21 +1,38 @@
 /* ============================================================
-   上善若水 · 设计令牌（移植自 HTML 原型 src/styles.css）
-   现代水科技：白底 / 冰蓝 / 青绿 / 浅灰蓝；禁用黑色大屏与鲜红告警
+   上善若水 · 设计令牌（v2 色彩分层重构）
+   层级体系：墨色标题 / 灰色正文 / 浅灰辅助（中性基座）
+   + 唯一 accent（青绿 teal，用于行动按钮与品牌点）
+   背景中性灰白，减少全站青色感；状态色平权保留
    ============================================================ */
 :root {
   font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
-  color: #183747;
-  background: #f7fbfc;
+  color: var(--body);
+  background: var(--bg-page);
   font-synthesis: none;
 
-  /* 平台色板 */
-  --teal: #087b86;
-  --teal2: #1995a0;
-  --deep: #0b5360;
-  --line: #dbe9ed;
-  --muted: #6f8791;
-  --pale: #eff8fa;
-  --shadow: 0 8px 28px rgba(41, 95, 107, 0.08);
+  /* 中性基座（文字层级） */
+  --ink: #1c3138;        /* 页面级大标题（近墨，带冷青） */
+  --head: #29434c;       /* 卡片级标题 */
+  --body: #4c6067;       /* 正文 */
+  --muted: #829398;      /* 辅助文字 */
+  --faint: #a8b6ba;      /* 占位/最弱文字 */
+
+  /* 背景与边框 */
+  --bg-page: #f5f7f6;    /* 页面底：中性灰白（替代冰蓝白） */
+  --bg-card: #ffffff;
+  --bg-soft: #eef3f2;    /* hover / 浅区块 */
+  --line: #e2e8e7;       /* 边框：中性冷灰 */
+  --line-strong: #cbd8d7;
+
+  /* 品牌 accent（全站唯一主色，用于行动/激活/品牌点） */
+  --teal: #0b747e;
+  --teal2: #2a97a3;
+  --deep: #0b4f59;
+  --teal-soft: #e6f3f3;
+  --teal-pale: #f2f9f8;
+
+  /* 阴影：带青调、低透明度 */
+  --shadow: 0 8px 28px rgba(41, 70, 78, 0.09);
 
   /* 失败/继续打磨类状态色：低饱和暖色，与正向状态同视觉权重 */
   --state-warm: #a8743f;

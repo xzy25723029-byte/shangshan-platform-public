@@ -184,7 +184,7 @@ function sendQuick(q) {
 }
 .ai-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .ai-title img { width: 38px; height: 38px; object-fit: contain; }
-.ai-title strong { display: block; font-size: 14px; color: #0f5a65; }
+.ai-title strong { display: block; font-size: 14px; color: var(--ink); }
 .ai-title span { display: block; font-size: 10px; color: #6f8791; margin-top: 2px; }
 .ai-head-actions { display: flex; align-items: center; gap: 6px; }
 .model-picker { position: relative; }

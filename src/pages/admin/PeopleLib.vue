@@ -231,7 +231,7 @@ async function createPerson() {
 
 <style scoped>
 .admin-head { display: flex; align-items: baseline; gap: 20px; }
-.admin-head h1 { font-family: var(--font-kai); color: #0f5a65; margin: 0; font-size: 37px; letter-spacing: 2px; }
+.admin-head h1 { font-family: var(--font-kai); color: var(--ink); margin: 0; font-size: 37px; letter-spacing: 2px; }
 .admin-head p { color: #728a93; font-size: 13px; }
 .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0; }
 .admin-stats > .card { padding: 12px; display: flex; align-items: center; justify-content: space-between; }
@@ -266,7 +266,7 @@ async function createPerson() {
 .pagination .current { background: #167f89; color: white; }
 .drawer { padding: 15px; align-self: start; }
 .drawer-head { display: flex; justify-content: space-between; align-items: center; }
-.drawer-head h2 { margin: 0; font-size: 16px; color: #0d5e68; }
+.drawer-head h2 { margin: 0; font-size: 16px; color: var(--ink); }
 .drawer-head button { border: 0; background: transparent; color: #5e747e; }
 .form-progress { display: flex; justify-content: space-between; margin: 12px 0; font-size: 10px; }
 .form-progress span { color: #95a5aa; }

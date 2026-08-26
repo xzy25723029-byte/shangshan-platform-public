@@ -49,7 +49,7 @@ const isComingSoon = computed(() => comingSoonPaths.some((p) => route.path.start
   gap: 10px;
   color: #4a7a85;
 }
-.soon-card h2 { margin: 4px 0 0; font-family: var(--font-kai); letter-spacing: 4px; color: #0f5a65; }
+.soon-card h2 { margin: 4px 0 0; font-family: var(--font-kai); letter-spacing: 4px; color: var(--ink); }
 .soon-card p { max-width: 520px; font-size: 13px; line-height: 1.9; color: #6f8791; margin: 0; }
 .soon-actions { display: flex; gap: 10px; margin-top: 14px; }
 </style>

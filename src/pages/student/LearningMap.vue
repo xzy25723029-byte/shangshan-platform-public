@@ -110,7 +110,7 @@ const moduleTotal = computed(() => layer1.value.length + layer2.value.reduce((n,
 
 <style scoped>
 .map-title { display: flex; justify-content: space-between; align-items: flex-start; }
-.map-title h1 { font-family: var(--font-kai); color: #0f5a65; margin: 0; font-size: 37px; letter-spacing: 2px; }
+.map-title h1 { font-family: var(--font-kai); color: var(--ink); margin: 0; font-size: 37px; letter-spacing: 2px; }
 .map-title p { margin: 5px 0; color: #5c7882; }
 .map-stats { display: flex; gap: 32px; margin: 16px 0; color: #183f4d; flex-wrap: wrap; }
 .map-stats span { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 13px; }

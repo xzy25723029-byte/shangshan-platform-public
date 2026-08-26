@@ -156,7 +156,7 @@ function reset() {
 }
 
 .ef-panel { padding: 16px 18px; border: 1px solid #e0eaec; border-radius: 12px; background: #fff; display: flex; flex-direction: column; gap: 12px; }
-.ef-panel h4 { margin: 0; font-size: 13px; color: #0d5e68; }
+.ef-panel h4 { margin: 0; font-size: 13px; color: var(--ink); }
 .ef-slider { display: grid; gap: 6px; }
 .ef-slider span { display: flex; justify-content: space-between; font-size: 12px; color: #4a5f68; }
 .ef-slider b { color: #0d5e68; }

@@ -76,7 +76,7 @@ onMounted(async () => {
   background: #e3f4f4; color: #0d7d88;
 }
 .l3-dir { font-size: 11px; color: #14727d; background: #e9f7f5; border-radius: 999px; padding: 3px 9px; font-weight: 700; }
-.l3-card h3 { margin: 2px 0 0; font-size: 17px; color: #0d5e68; }
+.l3-card h3 { margin: 2px 0 0; font-size: 17px; color: var(--ink); }
 .l3-deliverable { margin: 0; font-size: 12px; color: #12606c; font-weight: 700; }
 .l3-base { margin: 0; font-size: 11px; color: #8a9ba2; }
 .l3-body { margin: 0; font-size: 12px; line-height: 1.8; color: #4a5f68; flex: 1; }

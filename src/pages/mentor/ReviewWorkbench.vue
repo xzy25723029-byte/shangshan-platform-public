@@ -132,7 +132,7 @@ async function submit(verdict) {
 
 <style scoped>
 .review-heading { display: flex; gap: 18px; align-items: center; margin: 0 0 14px; }
-.review-heading h1 { font-family: var(--font-kai); color: #0f5a65; margin: 0; font-size: 37px; letter-spacing: 2px; }
+.review-heading h1 { font-family: var(--font-kai); color: var(--ink); margin: 0; font-size: 37px; letter-spacing: 2px; }
 .review-heading span { color: #7b9199; font-size: 13px; }
 .review-layout { display: grid; grid-template-columns: 310px 1fr 420px; gap: 12px; }
 .review-queue { padding: 12px; align-self: start; }
@@ -160,7 +160,7 @@ async function submit(verdict) {
   padding: 14px;
 }
 .student-head img { width: 68px; height: 68px; border-radius: 50%; }
-.student-head h2 { margin: 0; font-size: 20px; color: #0d5e68; }
+.student-head h2 { margin: 0; font-size: 20px; color: var(--ink); }
 .student-head span, .student-head p { font-size: 11px; color: #3d5560; margin: 2px 0; }
 .doc-viewer { padding: 13px; margin-top: 10px; }
 .doc-toolbar { display: flex; align-items: center; gap: 7px; padding: 10px; border: 1px solid #e0e9ec; border-radius: 7px; font-size: 11px; color: #3d5560; margin-top: 10px; }

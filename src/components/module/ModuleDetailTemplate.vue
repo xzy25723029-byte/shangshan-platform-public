@@ -87,7 +87,7 @@ defineProps({
   font-size: 10px;
   font-weight: 700;
 }
-.group-standard h4 { margin: 10px 0 4px; font-size: 12px; color: #0d5e68; }
+.group-standard h4 { margin: 10px 0 4px; font-size: 12px; color: var(--ink); }
 .clean-list { list-style: none; margin: 5px 0 16px; padding: 0; }
 .clean-list li { font-size: 11px; margin: 9px 0; padding-left: 18px; position: relative; color: #3d5560; }
 .clean-list li::before { content: "✓"; position: absolute; left: 0; color: #2799a1; }

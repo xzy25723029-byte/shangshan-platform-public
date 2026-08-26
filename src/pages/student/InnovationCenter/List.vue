@@ -67,7 +67,7 @@ onMounted(async () => {
 .pc-card { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
 .pc-card header { display: flex; justify-content: space-between; align-items: center; }
 .pc-card em { font-style: normal; font-size: 11px; color: #168678; background: #e7f6f2; border-radius: 12px; padding: 4px 9px; }
-.pc-card h2 { margin: 0; font-size: 18px; color: #0d5e68; }
+.pc-card h2 { margin: 0; font-size: 18px; color: var(--ink); }
 .pc-card p { margin: 0; font-size: 12px; line-height: 1.8; color: #5e747e; flex: 1; }
 .pc-card dl { margin: 0; display: flex; gap: 22px; }
 .pc-card dt { font-size: 10px; color: #8a9ba2; }

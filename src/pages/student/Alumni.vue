@@ -106,10 +106,10 @@ onMounted(async () => {
 .alumni-detail { padding: 16px; position: sticky; top: 88px; height: max-content; }
 .detail-person { display: flex; gap: 13px; }
 .detail-person img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; }
-.detail-person h2 { margin: 0; font-size: 18px; color: #0d5e68; }
+.detail-person h2 { margin: 0; font-size: 18px; color: var(--ink); }
 .detail-person p { margin: 4px 0; font-size: 11px; color: #7b9199; }
 .detail-person em { font-style: normal; font-size: 11px; color: #238894; }
-.growth-title { margin: 18px 0 4px; font-size: 13px; color: #0d5e68; }
+.growth-title { margin: 18px 0 4px; font-size: 13px; color: var(--ink); }
 .growth { list-style: none; padding: 0; margin: 0; }
 .growth li { padding: 9px 0 9px 58px; position: relative; font-size: 11px; color: #4a5f68; line-height: 1.6; }
 .growth li::before { content: ""; width: 8px; height: 8px; border: 2px solid #1a929c; border-radius: 50%; position: absolute; left: 45px; top: 14px; }

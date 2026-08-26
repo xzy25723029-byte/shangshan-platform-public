@@ -21,7 +21,7 @@ const emit = defineEmits(["action-click"]);
 </template>
 
 <style scoped>
-.section-title { display: flex; align-items: center; gap: 8px; min-height: 34px; color: #125664; }
+.section-title { display: flex; align-items: center; gap: 8px; min-height: 34px; color: var(--ink); }
 .section-title b {
   width: 24px; height: 24px; border-radius: 50%;
   display: grid; place-items: center;

@@ -54,7 +54,7 @@ import SectionTitle from "../../../components/common/SectionTitle.vue";
 .fl-questions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
 .fl-q { padding: 16px; border: 1px solid #e0eaec; border-radius: 10px; background: #fafdfd; }
 .fl-q b { font-size: 11px; color: #16848a; }
-.fl-q h3 { margin: 8px 0 8px; font-size: 15px; color: #0d5e68; }
+.fl-q h3 { margin: 8px 0 8px; font-size: 15px; color: var(--ink); }
 .fl-q p { margin: 0; font-size: 12px; line-height: 1.7; color: #5e747e; }
 .fl-hv { display: grid; gap: 10px; margin-top: 12px; }
 .fl-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: center; }

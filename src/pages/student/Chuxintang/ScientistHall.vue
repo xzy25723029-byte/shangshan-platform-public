@@ -95,7 +95,7 @@ const photoSrc = (p) => (p.photo ? `/assets/people/${p.photo}` : `/assets/${p.av
 }
 .sh-card:hover .sh-photo img { transform: scale(1.04); }
 .sh-main { padding: 13px 15px 15px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-.sh-card h3 { margin: 0; font-size: 16px; color: #0d5e68; }
+.sh-card h3 { margin: 0; font-size: 16px; color: var(--ink); }
 .sh-meta { margin: 0; font-size: 10px; color: #7a8d95; }
 .sh-direction { margin: 0; font-size: 12px; font-weight: 700; color: #14727d; }
 .sh-quote {

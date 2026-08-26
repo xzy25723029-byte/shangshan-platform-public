@@ -99,11 +99,11 @@ function reveal(i) {
   display: grid; place-items: center;
   background: #1a929b; color: white; font-size: 12px;
 }
-.ef-step h3 { margin: 10px 0 6px; font-size: 14px; color: #0d5e68; }
+.ef-step h3 { margin: 10px 0 6px; font-size: 14px; color: var(--ink); }
 .ef-step p { margin: 0; font-size: 11px; line-height: 1.8; color: #5e747e; }
 .ef-cases { display: grid; gap: 14px; margin-top: 14px; }
 .ef-case { padding: 16px; border: 1px solid #e0eaec; border-radius: 10px; }
-.ef-case h3 { margin: 0 0 10px; font-size: 14px; color: #0d5e68; }
+.ef-case h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink); }
 .ef-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .ef-paths > div { display: flex; gap: 8px; padding: 10px 12px; background: #f7fafb; border-radius: 8px; font-size: 12px; line-height: 1.7; color: #4a5f68; }
 .ef-paths span { flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%; background: #e2f5f4; color: #16848a; display: grid; place-items: center; font-size: 11px; font-weight: 700; }

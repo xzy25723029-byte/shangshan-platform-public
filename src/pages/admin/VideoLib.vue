@@ -127,7 +127,7 @@ async function bulkCheckLinks() {
 
 <style scoped>
 .admin-head { display: flex; align-items: baseline; gap: 20px; }
-.admin-head h1 { font-family: var(--font-kai); color: #0f5a65; margin: 0; font-size: 37px; letter-spacing: 2px; }
+.admin-head h1 { font-family: var(--font-kai); color: var(--ink); margin: 0; font-size: 37px; letter-spacing: 2px; }
 .admin-head p { color: #728a93; font-size: 13px; }
 .vl-table { padding: 14px; }
 .vl-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -149,7 +149,7 @@ async function bulkCheckLinks() {
 .pill.warn { background: #f6efe6; color: #a8743f; }
 .drawer { padding: 16px; margin-top: 12px; }
 .drawer-head { display: flex; justify-content: space-between; align-items: center; }
-.drawer-head h2 { margin: 0; font-size: 16px; color: #0d5e68; }
+.drawer-head h2 { margin: 0; font-size: 16px; color: var(--ink); }
 .drawer-head button { border: 0; background: transparent; font-size: 18px; color: #5e747e; }
 .drawer form { display: grid; gap: 10px; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }

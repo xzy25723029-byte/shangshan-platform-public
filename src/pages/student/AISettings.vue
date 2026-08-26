@@ -246,7 +246,7 @@ const activeId = ref(getActiveModel()?.id || "");
 .model-card { padding: 14px; border: 1px solid #e0eaec; border-radius: 10px; background: #fafdfd; display: flex; flex-direction: column; gap: 8px; }
 .model-card.disabled { opacity: 0.55; }
 .model-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.model-card h3 { margin: 0; font-size: 14px; color: #0d5e68; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.model-card h3 { margin: 0; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .model-card h3 em { font-style: normal; font-size: 9px; }
 .model-card h3 .pill.custom { background: #f0f2f4; color: #5f7781; }
 .model-card header span { display: block; margin-top: 3px; font-size: 10px; color: #7a8d95; }

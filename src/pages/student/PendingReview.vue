@@ -57,7 +57,7 @@ async function logout() {
   border: 1px solid #d2e9ec;
   color: #14727d;
 }
-.pending-card h1 { margin: 0; font-size: 21px; color: #0d5e68; }
+.pending-card h1 { margin: 0; font-size: 21px; color: var(--ink); }
 .pending-mail { margin: 0; font-size: 13px; color: #245260; }
 .pending-mail b { color: #0f7c87; }
 .pending-desc { margin: 0; font-size: 12px; line-height: 1.9; color: #5e747e; }

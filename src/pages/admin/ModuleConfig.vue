@@ -66,7 +66,7 @@ onMounted(async () => {
 
 <style scoped>
 .admin-head { display: flex; align-items: baseline; gap: 20px; }
-.admin-head h1 { font-family: var(--font-kai); color: #0f5a65; margin: 0; font-size: 37px; letter-spacing: 2px; }
+.admin-head h1 { font-family: var(--font-kai); color: var(--ink); margin: 0; font-size: 37px; letter-spacing: 2px; }
 .admin-head p { color: #728a93; font-size: 13px; }
 .mc-block { padding: 16px 20px; margin-bottom: 14px; }
 .mc-block table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
@@ -80,7 +80,7 @@ onMounted(async () => {
   display: grid; place-items: center;
   background: #1a929b; color: white; font-size: 11px;
 }
-.mc-group h3 { margin: 0; font-size: 14px; color: #0d5e68; }
+.mc-group h3 { margin: 0; font-size: 14px; color: var(--ink); }
 .mc-group header .pill { margin-left: auto; font-size: 9px; }
 .mc-q { margin: 8px 0; font-size: 11px; color: #5e747e; }
 .mc-group ul { margin: 0; padding-left: 16px; font-size: 11px; line-height: 2; color: #4a5f68; }

@@ -317,7 +317,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .hero-text { animation: hero-in 0.8s ease both; }
 @keyframes hero-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .home-hero p { margin: 0 0 2px; font-size: 12px; }
-.home-hero h1 { font-family: var(--font-kai); font-size: 54px; margin: 0 0 3px; letter-spacing: 7px; }
+.home-hero h1 { font-family: var(--font-kai); font-size: 54px; margin: 0 0 3px; letter-spacing: 7px; color: var(--ink); }
 .home-hero blockquote { margin: 0; font-family: var(--font-kai); line-height: 1.8; }
 
 /* 核心理念 · 毛泽东思想（首位） */
@@ -339,7 +339,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .idea-banner-main h2 {
   margin: 0 0 8px;
   font-family: var(--font-kai);
-  font-size: 38px; color: #0d5862;
+  font-size: 38px; color: var(--ink);
   letter-spacing: 12px;
 }
 .idea-banner-main blockquote { margin: 0 0 6px; font-size: 13px; line-height: 1.9; color: #245260; }
@@ -356,7 +356,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 .idea-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
 .idea-pillar { padding: 18px 22px; }
 .idea-pillar header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
-.idea-pillar h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: #0d5e68; letter-spacing: 2px; }
+.idea-pillar h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: var(--ink); letter-spacing: 2px; }
 .idea-pillar header span { font-size: 10px; color: #8aa0a8; }
 .idea-quote {
   margin: 0 0 12px;
@@ -443,7 +443,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 /* 四阶段旅程：2×2 + S 型水流 */
 .journey { margin: 0 0 22px; }
 .journey-head { margin: 0 0 14px; }
-.journey-head h2 { margin: 0 0 4px; font-size: 19px; color: #0d5e68; }
+.journey-head h2 { margin: 0 0 4px; font-size: 19px; color: var(--ink); }
 .journey-head p { margin: 0; font-size: 12px; color: #7a8d95; }
 
 .flow-row { display: flex; align-items: stretch; gap: 0; }
@@ -457,7 +457,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   color: #14727d;
   flex: 0 0 auto;
 }
-.stage-head h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: #0d5e68; letter-spacing: 4px; }
+.stage-head h3 { margin: 0; font-family: var(--font-kai); font-size: 21px; color: var(--ink); letter-spacing: 4px; }
 .stage-head p { margin: 1px 0 0; font-size: 11px; color: #7a8d95; }
 
 /* 阶段间横向水流：波纹 + 流动水滴 */
@@ -535,7 +535,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   color: #14727d;
 }
 .f-body { flex: 1; }
-.f-body h4 { margin: 0 0 5px; font-size: 16px; color: #0d5e68; }
+.f-body h4 { margin: 0 0 5px; font-size: 16px; color: var(--ink); }
 .f-sub { margin: 0 0 4px; font-size: 12px; color: #16848a; }
 .f-desc { margin: 0; font-size: 11px; line-height: 1.7; color: #6b828b; }
 .f-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px dashed #dce9ec; padding-top: 11px; }
@@ -546,7 +546,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
 /* 楷模之声 */
 .models { margin-bottom: 22px; }
 .models-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; }
-.models-head h2 { margin: 0; font-size: 18px; color: #0d5e68; }
+.models-head h2 { margin: 0; font-size: 18px; color: var(--ink); }
 .models-more { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: #16848a; text-decoration: none; }
 .models-more:hover { color: #0d5e68; }
 .models-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -563,7 +563,7 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   color: #17586a;
   flex: 1;
 }
-.model-name { margin: 0; font-size: 13px; font-weight: 700; color: #0d5e68; }
+.model-name { margin: 0; font-size: 13px; font-weight: 700; color: var(--ink); }
 .model-name span { display: block; font-size: 10px; font-weight: 400; color: #7a8d95; margin-top: 2px; }
 
 .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 0 0 22px; }
@@ -575,13 +575,13 @@ const hallVideos = BILIBILI_LIBRARY.chuxintang;
   border: 1px solid #d2e9ec;
   color: #14727d;
 }
-.principles h3 { font-family: var(--font-kai); font-size: 23px; margin: 0 0 7px; color: #0e6670; }
+.principles h3 { font-family: var(--font-kai); font-size: 23px; margin: 0 0 7px; color: var(--ink); }
 .principles p { margin: 0; line-height: 1.7; color: #5d7782; font-size: 13px; }
 
 /* 视频材料 */
 .videos { padding: 18px 22px; }
 .videos-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
-.videos-head h2 { margin: 0; font-size: 18px; color: #0d5e68; }
+.videos-head h2 { margin: 0; font-size: 18px; color: var(--ink); }
 .videos-head span { font-size: 11px; color: #7a8d95; }
 .videos-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
 .videos-list li { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; background: #f6fafb; border: 1px solid #e6eff1; transition: background 0.3s; min-width: 0; }

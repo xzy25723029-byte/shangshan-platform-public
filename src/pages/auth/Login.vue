@@ -3,14 +3,16 @@ import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import { demoAccounts } from "../../api/mock";
-import { SignIn, Phone, WechatLogo, Flask } from "@/icons";
+import { useMock } from "../../api";
+import { SignIn, Flask, Phone } from "@/icons";
 
 const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-/* 双模式：测试模式（演示账号快速体验）/ 正式模式（邮箱注册，真实学员，需邀请码） */
-const mode = ref("test");
+/* 双模式：测试模式（本地演示）/ 正式模式（邮箱注册，真实学员）
+   云端部署（VITE_USE_MOCK=false）时只显示正式模式 */
+const mode = ref(useMock ? "test" : "formal");
 const username = ref("limingyuan");
 const password = ref("");
 const submitting = ref(false);
@@ -79,10 +81,6 @@ async function formalSubmit() {
   }
 }
 
-/* 微信登录：需学校主体资质开通，当前仅预留入口 */
-function wechat() {
-  auth.error = "微信登录正在接入学校认证体系，当前请使用邮箱注册（内部邀请码由管理员发放）";
-}
 </script>
 
 <template>
@@ -101,10 +99,10 @@ function wechat() {
 
     <div class="login-card card">
       <h2>登录</h2>
-      <p class="login-sub">测试模式快速体验；正式模式用手机号注册，记录真实学习历程</p>
+      <p class="login-sub">测试模式快速体验；正式模式邮箱注册（团队内部使用）</p>
 
-      <!-- 测试 / 正式 模式切换 -->
-      <div class="mode-switch">
+      <!-- 测试 / 正式 模式切换（云端部署时仅正式模式） -->
+      <div v-if="useMock" class="mode-switch">
         <button :class="{ active: mode === 'test' }" @click="mode = 'test'">
           <Flask :size="18" />
           <b>测试模式</b>
@@ -113,12 +111,12 @@ function wechat() {
         <button :class="{ active: mode === 'formal' }" @click="mode = 'formal'">
           <Phone :size="18" />
           <b>正式模式</b>
-          <small>手机号注册 · 真实学员</small>
+          <small>邮箱注册 · 团队内部</small>
         </button>
       </div>
 
-      <!-- 测试模式：演示账号 + 账号登录 -->
-      <template v-if="mode === 'test'">
+      <!-- 测试模式：演示账号 + 账号登录（仅本地 mock） -->
+      <template v-if="mode === 'test' && useMock">
         <div class="login-tabs">
           <button :class="{ active: testTab === 'demo' }" @click="testTab = 'demo'">演示账号</button>
           <button :class="{ active: testTab === 'form' }" @click="testTab = 'form'">账号登录</button>
@@ -171,15 +169,6 @@ function wechat() {
             <SignIn :size="16" />{{ formalTab === "register" ? "注册并进入" : "登 录" }}
           </button>
         </form>
-
-        <div class="wechat-row">
-          <span class="wechat-line"></span>
-          <span>其他方式</span>
-          <span class="wechat-line"></span>
-        </div>
-        <button class="btn ghost wechat-btn" @click="wechat">
-          <WechatLogo :size="18" />微信登录（接入中）
-        </button>
       </template>
 
       <div class="login-foot">
@@ -228,7 +217,7 @@ function wechat() {
   font-size: 46px;
   letter-spacing: 8px;
   margin: 0 0 4px;
-  color: #0d5862;
+  color: var(--ink);
 }
 .login-brand p { margin: 0 0 10px; color: #44616b; font-size: 14px; }
 .login-brand blockquote { margin: 0; font-family: var(--font-kai); color: #28707a; line-height: 1.8; }
@@ -237,7 +226,7 @@ function wechat() {
   margin: 24px 40px;
   padding: 30px 34px;
 }
-.login-card h2 { margin: 0 0 6px; color: #0f5a65; font-size: 24px; }
+.login-card h2 { margin: 0 0 6px; color: var(--ink); font-size: 24px; }
 .login-sub { margin: 0 0 16px; color: #6f8791; font-size: 12px; line-height: 1.6; }
 
 /* 测试 / 正式 模式切换 */
@@ -307,11 +296,7 @@ function wechat() {
 .sms-hint b { color: #0f7c87; }
 .login-error { margin: 0; color: #a8743f; font-size: 12px; }
 .login-submit { justify-content: center; }
-
-.wechat-row { display: flex; align-items: center; gap: 10px; margin: 18px 0 10px; color: #9aacb3; font-size: 11px; }
-.wechat-line { flex: 1; height: 1px; background: #e2eaed; }
-.wechat-btn { justify-content: center; width: 100%; }
-
-.login-foot { margin-top: 18px; font-size: 12px; color: #6f8791; }
+.login-foot { margin-top: 18px; font-size: 12px; color: var(--muted); }
 .login-foot a { color: var(--teal); font-weight: 700; }
 </style>
+

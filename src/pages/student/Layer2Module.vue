@@ -48,7 +48,7 @@ onMounted(async () => {
   margin-bottom: 18px;
 }
 .module-head > img { width: 198px; height: 144px; object-fit: cover; border-radius: 12px; }
-.module-head h1 { margin: 6px 0 8px; font-size: 27px; color: #0d5e68; }
+.module-head h1 { margin: 6px 0 8px; font-size: 27px; color: var(--ink); }
 .module-head p { margin: 0 0 13px; color: #5e747e; line-height: 1.7; font-size: 13px; }
 .tags { display: flex; gap: 8px; }
 .eyebrow { font-size: 12px; color: #728991; }

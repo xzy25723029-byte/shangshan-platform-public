@@ -111,7 +111,7 @@ async function submit() {
 .tn-grid { display: grid; gap: 12px; margin-top: 12px; }
 .tn-note { padding: 16px 18px; }
 .tn-note header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.tn-note h3 { margin: 0; font-size: 14px; color: #0d5e68; }
+.tn-note h3 { margin: 0; font-size: 14px; color: var(--ink); }
 .tn-body { margin: 10px 0; font-size: 12px; line-height: 1.8; color: #4a5f68; white-space: pre-wrap; }
 .tn-feedback { padding: 10px 12px; background: #eef7f8; border-radius: 8px; }
 .tn-feedback b { font-size: 11px; color: #14727d; }
