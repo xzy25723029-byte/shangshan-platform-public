@@ -1,5 +1,17 @@
 # 后端接入说明（Supabase + Edge Function）
 
+## 零、当前进度（2026-08 已就绪）
+
+**代码已全部就绪**，只需在 Supabase 控制台建项目并跑迁移：
+
+- ✅ `src/api/supabase.js` 完整实现：邮箱注册（邀请码校验）/ 登录 / 学员审核 / 思想札记 / 啃硬骨头 / 认知侧写 / 治学军规 / 初心档案 / 原话墙（真实表 + RLS）
+- ✅ `supabase/migrations/0004_cloud.sql`：profiles 审核状态列 + 邀请码种子
+- ✅ Edge Function `validate-invite`（邀请码校验，service role）
+- 🔄 大创 / 毕设 / 导师端等：本地演示降级（控制台告警），后续逐个接入
+- ❌ 微信登录：需学校主体资质，暂缓
+
+**操作步骤见文末「五、实操清单」**。
+
 ## 一、逻辑分界：直接接口 vs Edge Function
 
 | 逻辑 | 走哪里 | 原因 |
@@ -11,7 +23,7 @@
 | 内容写入（管理端人物/视频/模块配置） | Supabase 直接接口（admin/super_admin 角色命中 RLS 写入策略） | RLS 校验角色 |
 | **AI 对话代理（水问）** | **Edge Function `ai-mentor`** | LLM 密钥只放函数环境变量 |
 | **文件上传** | **Edge Function `storage-signed`** | 签发预签名 URL，service role 只在函数内 |
-| **邀请码发放** | **Edge Function**（预留） | 需要服务端生成随机码并校验 |
+| **邀请码校验** | **Edge Function `validate-invite`** | invitations 表对匿名不可读（RLS），service role 校验 |
 | **管理员批量操作 / 审计写入** | **Edge Function**（预留） | service role + audit_logs 无普通用户写入策略 |
 
 ## 二、接入步骤
@@ -36,6 +48,19 @@
 4. **创建 Storage bucket**：`shangshan-files`（private）。
 5. **本地运行**：`npm run dev`（此时页面数据走 `src/api/supabase.js`，按 `src/api/mock.js` 的函数签名逐个对接真实查询）。
 6. **角色账号**：通过 Auth 创建用户后，在 `profiles` 表补一行 `role`（学生/导师/管理员），并设置 `mentor_id` 建立指导关系——导师端可见性依赖该字段。
+
+## 五、实操清单（2026-08 版）
+
+1. **建项目**：https://supabase.com → New project → Name `shangshan`、Region **Singapore**、免费 Plan
+2. **跑迁移**：SQL Editor 按序执行 `0001_schema.sql` → `0002_rls.sql` → `0003_seed.sql` → `0004_cloud.sql`
+3. **部署函数**：Edge Functions → `validate-invite`（粘贴 `supabase/functions/validate-invite/index.ts`）→ Secrets 添加 `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
+4. **拿凭据**：Settings → API → Project URL + anon public key → 发给开发者
+5. **配置部署**：`.env` 填三项 → `npm run build` → 部署 Cloudflare Pages（`shangshan.pages.dev`）
+6. **管理员账号**：注册任意邮箱 → SQL Editor：
+   ```sql
+   update profiles set role = 'admin', status = 'approved' where username = '你的注册邮箱';
+   ```
+7. **验证**：云端注册（邀请码 STU2026）→ 待审核 → 管理员通过 → 登录写数据
 
 ## 三、权限模型速查（RLS 已实现）
 
