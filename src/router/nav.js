@@ -44,8 +44,6 @@ export const adminNav = [
 
 /* 尚未开启项集合（渲染统一占位页，符合红线「尚未开启的远方模块」） */
 export const comingSoonPaths = [
-  "/student/layer2",
-  "/student/layer3",
   "/student/research-records",
   "/student/achievements",
   "/student/track",

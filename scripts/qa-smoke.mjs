@@ -70,8 +70,10 @@ const studentRoutes = [
   ["/student/alumni", "师兄师姐"],
   ["/student/members", "成员名录"],
   ["/student/ai-settings", "AI 设置"],
-  ["/student/layer2", "第2层（尚未开启）"],
-  ["/student/layer3", "第3层（尚未开启）"],
+  ["/student/layer2", "第2层（专业基础）"],
+  ["/student/layer2/A1", "第2层模块详情（XRD）"],
+  ["/student/layer3", "第3层（独立产出）"],
+  ["/student/layer3/A", "第3层方向（论文写作）"],
 ];
 for (const [hash, name] of studentRoutes) {
   await go(hash);
@@ -146,7 +148,7 @@ check("水问反问（不判对错）", aiReply.includes("？") && !aiReply.incl
 
 // 毕设关联第3层
 await go("/student/graduation");
-await page.locator("button:has-text('关联为第3层交付物')").click();
+await page.locator("button:has-text('方向 A · 论文写作')").click();
 await page
   .waitForFunction(() => document.querySelector(".gd-link-row")?.textContent.includes("已关联"), null, { timeout: 6000 })
   .catch(() => {});

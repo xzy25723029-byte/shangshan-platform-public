@@ -5,20 +5,21 @@ import { mockApi } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import MilestoneTimeline from "../../../components/project/MilestoneTimeline.vue";
 import { graduationSections } from "../../../data/projects";
-import { ArrowRight, LinkSimple, FileText } from "@/icons";
+import { ArrowRight, FileText } from "@/icons";
 
 /* 毕设总览：题目/导师/方向/当前阶段/关键文件 + 里程碑 + 8 个阶段入口 + 关联第3层交付物 */
 
 const g = ref(null);
+const directions = ref([]);
 
 onMounted(async () => {
-  g.value = await mockApi.getGraduation();
+  [g.value, directions.value] = await Promise.all([mockApi.getGraduation(), mockApi.getLayer3Directions()]);
 });
 
-async function linkDeliverable() {
+async function linkDeliverable(d) {
   if (!g.value) return;
-  g.value = await mockApi.linkDeliverable("A");
-  ElMessage({ message: "已关联为第3层交付物（方向 A · 论文写作），不重复提交、不重复验收", type: "success" });
+  g.value = await mockApi.linkDeliverable(d.id);
+  ElMessage({ message: `已关联为第3层交付物（方向 ${d.id} · ${d.name}），不重复提交、不重复验收`, type: "success" });
 }
 </script>
 
@@ -74,7 +75,16 @@ async function linkDeliverable() {
       <div class="gd-link-row">
         <span v-for="d in g.linkedDeliverables" :key="d" class="pill">{{ d }}</span>
       </div>
-      <button class="btn" @click="linkDeliverable"><LinkSimple :size="15" />关联为第3层交付物</button>
+      <div class="gd-link-dirs">
+        <button
+          v-for="d in directions"
+          :key="d.id"
+          class="btn ghost"
+          @click="linkDeliverable(d)"
+        >
+          方向 {{ d.id }} · {{ d.name }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -96,4 +106,5 @@ async function linkDeliverable() {
 .gd-link { padding: 18px 24px; margin-top: 14px; }
 .gd-link p { margin: 8px 0; font-size: 12px; line-height: 1.8; color: #4a5f68; }
 .gd-link-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.gd-link-dirs { display: flex; gap: 8px; flex-wrap: wrap; }
 </style>

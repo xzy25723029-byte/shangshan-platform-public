@@ -1,20 +1,38 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { mockApi } from "../../api";
-import { BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target, Gear, Sparkle, Notebook } from "@/icons";
+import { BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target, Gear, Sparkle, Notebook, FileText, Code, Cpu } from "@/icons";
 
 /* 学习地图：以水为脉的水流路径
-   不用阶梯、关卡、锁头；远方模块标「尚未开启」 */
+   不用阶梯、关卡、锁头；第1层模块节点 + 第2层群节点 + 第3层方向节点 */
 
 const layer1 = ref([]);
+const layer2 = ref([]);
+const layer3 = ref([]);
 const router = useRouter();
 
 onMounted(async () => {
-  layer1.value = await mockApi.getModules();
+  [layer1.value, layer2.value, layer3.value] = await Promise.all([
+    mockApi.getModules(),
+    mockApi.getLayer2Groups(),
+    mockApi.getLayer3Directions(),
+  ]);
 });
 
 const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
+const dirIcons = { FileText, ShieldCheck, Code, Cpu };
+
+/* 第2层节点：群字母 + 短名 */
+const layer2Nodes = computed(() =>
+  layer2.value.map((g) => ({
+    key: g.key,
+    name: { A: "材料表征", B: "电化学", C: "水质", D: "机理计算", E: "过程模拟", F: "环境经济" }[g.key] || g.name,
+    count: g.modules.length,
+  })),
+);
+
+const moduleTotal = computed(() => layer1.value.length + layer2.value.reduce((n, g) => n + g.modules.length, 0));
 </script>
 
 <template>
@@ -28,7 +46,7 @@ const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
     </div>
 
     <div class="map-stats">
-      <span><Notebook :size="16" />28 个模块</span>
+      <span><Notebook :size="16" />{{ moduleTotal }} 个模块已开启</span>
       <span><ChartLine />3 条主线：练动作 → 学专业 → 做真的</span>
       <span><Sparkle />按需选路，不是一条道走到黑</span>
     </div>
@@ -36,7 +54,7 @@ const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
     <div class="map-canvas" style="background-image: url(/assets/learning-river-map.png)">
       <div class="layer layer-1">
         <h3>第1层　基础底座</h3>
-        <p>新兵连 · 夯实科研基本功（{{ layer1.length }} 个模块已开启）</p>
+        <p>新兵连 · 夯实科研基本功（{{ layer1.length }} 个模块）</p>
       </div>
       <div class="layer layer-2">
         <h3>第2层　专业基础</h3>
@@ -58,14 +76,33 @@ const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
         {{ m.name }}
       </button>
 
-      <span class="not-open open-a">第2层 · 尚未开启</span>
-      <span class="not-open open-b">第3层 · 尚未开启</span>
+      <button
+        v-for="(g, i) in layer2Nodes"
+        :key="g.key"
+        class="map-node l2-node"
+        :class="`l2-node-${i + 1}`"
+        @click="router.push('/student/layer2')"
+      >
+        <span>{{ g.key }}</span>
+        {{ g.name }}
+      </button>
+
+      <button
+        v-for="(d, i) in layer3"
+        :key="d.id"
+        class="map-node l3-node"
+        :class="`l3-node-${i + 1}`"
+        @click="router.push(`/student/layer3/${d.id}`)"
+      >
+        <span><component :is="dirIcons[d.icon] || FileText" weight="duotone" /></span>
+        {{ d.name }}
+      </button>
     </div>
 
     <div class="card map-advice">
       <Sparkle :size="20" />
       <strong>学习建议</strong>
-      <span>第1层从「实验室安全」与「AI 交互力」开始，逐步掌握科研基本动作；远方模块尚未开启，不着急，水会流到那里。</span>
+      <span>第1层从「实验室安全」与「AI 交互力」开始；第2层从材料表征与电化学入手，边做边问「结果可不可信」；第3层择一方向，做出真实交付物。</span>
       <router-link class="btn ghost" to="/student/layer1">进入第1层</router-link>
     </div>
   </div>
@@ -103,6 +140,7 @@ const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
   font-weight: 700;
   color: #145d68;
   font-size: 12px;
+  cursor: pointer;
 }
 .map-node span {
   width: 58px; height: 58px; border-radius: 50%;
@@ -118,16 +156,31 @@ const nodeIcons = [BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target];
 .node-4 { left: 54%; top: 66%; }
 .node-5 { left: 67%; top: 43%; }
 .node-6 { left: 80%; top: 29%; }
-.not-open {
-  position: absolute;
-  padding: 6px 12px;
-  border-radius: 7px;
-  background: #8ca2a7;
-  color: white;
-  font-size: 11px;
+/* 第2层：群节点（沿水流路径，进入第2层页） */
+.l2-node span {
+  width: 46px; height: 46px;
+  border: 3px solid #8fc7cf;
+  background: rgba(244, 252, 250, 0.95);
+  font-size: 15px; font-weight: 800; color: #12606c;
 }
-.open-a { left: 24%; top: 78%; }
-.open-b { right: 10%; bottom: 11%; }
+.l2-node { font-size: 11px; gap: 4px; }
+.l2-node-1 { left: 20%; top: 38%; }
+.l2-node-2 { left: 34%; top: 62%; }
+.l2-node-3 { left: 47%; top: 30%; }
+.l2-node-4 { left: 58%; top: 55%; }
+.l2-node-5 { left: 70%; top: 24%; }
+.l2-node-6 { left: 84%; top: 48%; }
+/* 第3层：方向节点（进入对应方向） */
+.l3-node span {
+  width: 52px; height: 52px;
+  border: 3px solid #f0b95c;
+  background: rgba(255, 252, 243, 0.95);
+}
+.l3-node { font-size: 11px; gap: 4px; }
+.l3-node-1 { left: 78%; top: 12%; }
+.l3-node-2 { left: 90%; top: 30%; }
+.l3-node-3 { left: 75%; top: 62%; }
+.l3-node-4 { left: 89%; top: 80%; }
 .map-advice {
   margin-top: 14px;
   min-height: 62px;

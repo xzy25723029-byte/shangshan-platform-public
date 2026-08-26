@@ -110,7 +110,7 @@ for (const [r, n] of [
 
 /* 学生关键功能端到端 */
 await goto("/student/graduation");
-await page.locator("button:has-text('关联为第3层交付物')").click();
+await page.locator("button:has-text('方向 A · 论文写作')").click();
 await page.waitForFunction(() => document.querySelector(".gd-link-row")?.textContent.includes("已关联"), null, { timeout: 6000 }).catch(() => {});
 check("student", "毕设关联第3层交付物", (await page.locator(".gd-link-row .pill").allTextContents()).some((t) => t.includes("已关联")));
 

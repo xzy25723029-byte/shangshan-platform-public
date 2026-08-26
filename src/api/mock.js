@@ -4,7 +4,7 @@
    接入 Supabase 后整体替换为 api/supabase.js
    ============================================================ */
 
-import { layer1Modules, moduleDemoContent, moduleBrief, layer2Groups, layer3Directions, trustTopics } from "../data/modules";
+import { layer1Modules, moduleDemoContent, moduleBrief, layer2Groups, layer2Modules, layer3Directions, trustTopics } from "../data/modules";
 import { scientists, personLibrary } from "../data/people";
 import { videoLibrary, BILIBILI_LIBRARY } from "../data/videos";
 import { projects, graduation } from "../data/projects";
@@ -232,16 +232,17 @@ export async function savePerson(person) {
   return person;
 }
 
-/* 模块详情：演示内容（科技论文绘图）优先，其余模块用 B 站视频库填充 */
+/* 模块详情：模块自带 detail 优先（第2层已配六段内容），
+   否则用演示内容（科技论文绘图）或通用空壳，再按模块用 B 站视频库填充 */
 function withVideos(m) {
-  const detail = m.id === "paper-figure" ? moduleDemoContent : moduleBrief(m);
+  const detail = m.detail || (m.id === "paper-figure" ? moduleDemoContent : moduleBrief(m));
   const lib = BILIBILI_LIBRARY[m.id];
   if (!lib) return { ...m, detail };
   const libVideos = {
     must: lib.filter((v) => v.level === "必看").map(({ level: _l, ...rest }) => rest),
     optional: lib.filter((v) => v.level === "需要时再看").map(({ level: _l, ...rest }) => rest),
   };
-  // 演示内容有自己视频时保留（科技论文绘图），否则用 B 站库
+  // 自带视频保留（如科技论文绘图），否则用 B 站库
   const videos = detail.videos.must.length ? detail.videos : libVideos;
   return { ...m, detail: { ...detail, videos } };
 }
@@ -252,13 +253,32 @@ export async function getModules() {
 }
 export async function getModule(id) {
   await delay(200);
-  const m = layer1Modules.find((x) => x.id === id);
+  const m = layer1Modules.find((x) => x.id === id) || layer2Modules.find((x) => x.id === id);
   if (!m) throw new Error("模块不存在");
   return withVideos(m);
 }
 export async function getLayer2Groups() {
   await delay(200);
-  return layer2Groups;
+  // 群结构 + 完整模块字段（type/hours/acceptance/tag）合并返回
+  return layer2Groups.map((g) => ({
+    ...g,
+    modules: g.modules.map(({ id, name }) => {
+      const full = layer2Modules.find((m) => m.id === id);
+      return full || { id, name };
+    }),
+  }));
+}
+export async function getLayer2Module(id) {
+  await delay(200);
+  const m = layer2Modules.find((x) => x.id === id);
+  if (!m) throw new Error("模块不存在");
+  return withVideos(m);
+}
+export async function getLayer3Direction(id) {
+  await delay(200);
+  const d = layer3Directions.find((x) => x.id === id);
+  if (!d) throw new Error("方向不存在");
+  return d;
 }
 export async function getTrustTopics() {
   await delay(150);

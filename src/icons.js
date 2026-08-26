@@ -67,6 +67,8 @@ import {
   PhChatCircleDots as ChatCircleDots,
   PhWechatLogo as WechatLogo,
   PhPhone as Phone,
+  PhCode as Code,
+  PhCpu as Cpu,
 } from "@phosphor-icons/vue";
 
 export {
@@ -80,5 +82,5 @@ export {
   WarningCircle, LinkSimple, Clock, X, PlayCircle, ArrowSquareOut, Funnel, File,
   DownloadSimple, ListBullets, Handshake, Drop,
   Flag, ArchiveBox, Hammer, Radar, ChatCircleDots,
-  WechatLogo, Phone,
+  WechatLogo, Phone, Code, Cpu,
 };

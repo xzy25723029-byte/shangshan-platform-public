@@ -9,6 +9,7 @@ defineProps({
   hours: { type: String, default: "" },
   acceptance: { type: String, default: "" },
   tag: { type: String, default: "" },
+  layer: { type: String, default: "layer1" },
 });
 </script>
 
@@ -21,7 +22,7 @@ defineProps({
     <h3>{{ name }}</h3>
     <p class="mc-meta"><span v-if="type">{{ type }}</span><span v-if="hours">{{ hours }}</span></p>
     <p class="mc-accept">验收物：{{ acceptance || "—" }}</p>
-    <router-link class="mc-link" :to="`/student/layer1/${id}`">
+    <router-link class="mc-link" :to="`/student/${layer}/${id}`">
       进入模块 <CaretRight :size="14" />
     </router-link>
   </article>

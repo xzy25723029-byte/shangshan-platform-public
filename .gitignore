@@ -10,3 +10,4 @@ npm-debug.log*
 qa/dev-server.log
 qa/audit/screenshots/
 outputs/
+.mimosa/
