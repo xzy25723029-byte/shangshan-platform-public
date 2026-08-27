@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import { cognitiveAxes } from "../../../data/chuxintang";
 import RadarProfile from "../../../components/profile/RadarProfile.vue";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
@@ -14,7 +14,7 @@ const profile = ref(null);
 const draft = ref({});
 
 onMounted(async () => {
-  profile.value = await mockApi.getCognitiveProfile();
+  profile.value = await api.getCognitiveProfile();
   draft.value = { ...profile.value.current };
 });
 
@@ -23,8 +23,8 @@ function update(key, v) {
 }
 
 async function save() {
-  await mockApi.submitCognitiveAnswers({ ...draft.value });
-  profile.value = await mockApi.getCognitiveProfile();
+  await api.submitCognitiveAnswers({ ...draft.value });
+  profile.value = await api.getCognitiveProfile();
   ElMessage({ message: "认知侧写已更新（仅用于自己 vs 自己）", type: "success" });
 }
 </script>

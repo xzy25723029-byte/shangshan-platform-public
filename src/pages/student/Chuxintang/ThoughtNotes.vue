@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import { PaperPlaneRight } from "@/icons";
 
@@ -14,7 +14,7 @@ const content = ref("");
 const submitting = ref(false);
 
 async function load() {
-  notes.value = await mockApi.getThoughtNotes();
+  notes.value = await api.getThoughtNotes();
 }
 onMounted(load);
 
@@ -24,7 +24,7 @@ async function submit() {
     return;
   }
   submitting.value = true;
-  await mockApi.submitThoughtNote({ title: title.value.trim(), content: content.value.trim() });
+  await api.submitThoughtNote({ title: title.value.trim(), content: content.value.trim() });
   title.value = "";
   content.value = "";
   submitting.value = false;

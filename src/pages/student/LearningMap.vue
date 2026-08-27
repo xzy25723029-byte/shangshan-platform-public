@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { excellentCases } from "../../data/community";
 import { BookOpen, ChartLine, Flask, Atom, ShieldCheck, Target, Gear, Sparkle, Notebook, FileText, Code, Cpu } from "@/icons";
 
@@ -15,9 +15,9 @@ const router = useRouter();
 
 onMounted(async () => {
   [layer1.value, layer2.value, layer3.value] = await Promise.all([
-    mockApi.getModules(),
-    mockApi.getLayer2Groups(),
-    mockApi.getLayer3Directions(),
+    api.getModules(),
+    api.getLayer2Groups(),
+    api.getLayer3Directions(),
   ]);
 });
 

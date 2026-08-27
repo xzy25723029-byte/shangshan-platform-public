@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import { oathRules } from "../../../data/chuxintang";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import { PenNib } from "@/icons";
@@ -14,7 +14,7 @@ const agreed = ref(oathRules.map(() => false));
 const loading = ref(false);
 
 onMounted(async () => {
-  const res = await mockApi.getOathStatus();
+  const res = await api.getOathStatus();
   signed.value = res.signed;
   if (res.signed) agreed.value = oathRules.map(() => true);
 });
@@ -25,7 +25,7 @@ async function doSign() {
     return;
   }
   loading.value = true;
-  await mockApi.signOath();
+  await api.signOath();
   signed.value = true;
   loading.value = false;
   ElMessage({ message: "军规已签署。约定不是给别人看的，是给自己守的。", type: "success" });

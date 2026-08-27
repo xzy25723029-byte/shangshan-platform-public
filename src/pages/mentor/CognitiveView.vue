@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 import RadarProfile from "../../components/profile/RadarProfile.vue";
 import { cognitiveAxes } from "../../data/chuxintang";
@@ -12,7 +12,7 @@ const profiles = ref([]);
 const selected = ref(null);
 
 onMounted(async () => {
-  profiles.value = await mockApi.getStudentCognitiveProfiles();
+  profiles.value = await api.getStudentCognitiveProfiles();
   selected.value = profiles.value[0] || null;
 });
 

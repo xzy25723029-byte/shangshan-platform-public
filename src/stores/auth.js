@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { useMock, mockApi, remoteApi } from "../api";
+import { api } from "../api";
 import { demoAccounts } from "../api/mock";
 
-const api = useMock ? mockApi : remoteApi;
 const KEY = "ss_session";
 
 export const useAuthStore = defineStore("auth", {

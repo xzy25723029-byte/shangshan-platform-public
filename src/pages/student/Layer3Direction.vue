@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 import Checklist from "../../components/module/Checklist.vue";
 import SubmissionBox from "../../components/module/SubmissionBox.vue";
@@ -13,7 +13,7 @@ const route = useRoute();
 const dir = ref(null);
 
 onMounted(async () => {
-  dir.value = await mockApi.getLayer3Direction(route.params.id);
+  dir.value = await api.getLayer3Direction(route.params.id);
 });
 </script>
 

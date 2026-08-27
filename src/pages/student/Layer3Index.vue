@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { FileText, ShieldCheck, Code, Cpu, ArrowRight, Sparkle } from "@/icons";
 
 /* 第3层 · 独立产出
@@ -14,7 +14,7 @@ const router = useRouter();
 const icons = { FileText, ShieldCheck, Code, Cpu };
 
 onMounted(async () => {
-  directions.value = await mockApi.getLayer3Directions();
+  directions.value = await api.getLayer3Directions();
 });
 </script>
 

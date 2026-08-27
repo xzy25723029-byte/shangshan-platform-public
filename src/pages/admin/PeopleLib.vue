@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 
 import {
   UsersThree, VideoCamera, FileText, BookOpen,
@@ -20,7 +20,7 @@ const stats = { people: 1246, videos: 3682, cases: 2158, papers: 1024 };
 const totalPages = 63;
 
 onMounted(async () => {
-  persons.value = await mockApi.getPersons();
+  persons.value = await api.getPersons();
 });
 
 function toggleSelect(name) {
@@ -43,9 +43,9 @@ async function bulkImport() {
       { name: "导入示例三", unit: "示例单位 C", direction: "固废资源化", status: "审核中" },
     ];
     for (const s of samples) {
-      await mockApi.savePerson({ ...s, subject: "环境科学与工程", avatar: `avatar-${(persons.value.length % 8) + 1}.png`, videos: 0, cases: 0, papers: 0 });
+      await api.savePerson({ ...s, subject: "环境科学与工程", avatar: `avatar-${(persons.value.length % 8) + 1}.png`, videos: 0, cases: 0, papers: 0 });
     }
-    persons.value = await mockApi.getPersons();
+    persons.value = await api.getPersons();
     ElMessage({ message: `批量导入完成：新增 ${samples.length} 条（演示）`, type: "success" });
   } catch {
     /* 用户取消 */
@@ -106,7 +106,7 @@ async function createPerson() {
     ElMessage({ message: "姓名与人物简介（Markdown）为必填", type: "warning" });
     return;
   }
-  await mockApi.savePerson({
+  await api.savePerson({
     ...form.value,
     avatar: `avatar-${(persons.value.length % 8) + 1}.png`,
     videos: 0,
@@ -114,7 +114,7 @@ async function createPerson() {
     papers: 0,
     status: "审核中",
   });
-  persons.value = await mockApi.getPersons();
+  persons.value = await api.getPersons();
   drawer.value = false;
   step.value = 1;
   form.value = { name: "", category: "本学科先辈", subject: "环境科学与工程", unit: "", title: "", bio: "", markdown: "" };

@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import MilestoneTimeline from "../../../components/project/MilestoneTimeline.vue";
 import {
@@ -21,7 +21,7 @@ const milestoneDialog = ref(false);
 const notesDialog = ref(false);
 
 onMounted(async () => {
-  project.value = await mockApi.getProject(route.params.id);
+  project.value = await api.getProject(route.params.id);
   if (project.value) todos.value = project.value.todos.map((t) => ({ text: t, done: false }));
 });
 

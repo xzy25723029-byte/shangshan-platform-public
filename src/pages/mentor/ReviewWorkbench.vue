@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 import { MagnifyingGlass, Funnel, FileText, DownloadSimple, File } from "@/icons";
 
@@ -15,7 +15,7 @@ const statusMsg = ref("");
 const tab = ref("待批阅");
 
 onMounted(async () => {
-  queue.value = await mockApi.getReviewQueue();
+  queue.value = await api.getReviewQueue();
   if (queue.value.length) select(queue.value[0].id);
 });
 
@@ -24,7 +24,7 @@ const filtered = () =>
 
 async function select(id) {
   selectedId.value = id;
-  current.value = await mockApi.getReview(id);
+  current.value = await api.getReview(id);
   reply.value = current.value.feedback || "";
   statusMsg.value = "";
 }
@@ -34,10 +34,10 @@ async function submit(verdict) {
     statusMsg.value = "请先填写具体反馈，再请学生再想想";
     return;
   }
-  await mockApi.submitReview(current.value.id, { verdict, feedback: reply.value.trim() });
-  const updated = await mockApi.getReviewQueue();
+  await api.submitReview(current.value.id, { verdict, feedback: reply.value.trim() });
+  const updated = await api.getReviewQueue();
   queue.value = updated;
-  current.value = await mockApi.getReview(current.value.id);
+  current.value = await api.getReview(current.value.id);
   statusMsg.value = verdict === "ok" ? "已通过" : "已请学生再想想";
 }
 </script>

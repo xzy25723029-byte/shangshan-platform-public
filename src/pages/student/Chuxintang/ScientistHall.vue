@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import { scientistCategories } from "../../../data/chuxintang";
 
 
@@ -12,7 +12,7 @@ const people = ref([]);
 const activeCategory = ref("全部");
 
 onMounted(async () => {
-  people.value = await mockApi.getScientists();
+  people.value = await api.getScientists();
 });
 
 const filtered = () =>

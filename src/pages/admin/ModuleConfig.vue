@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { layer2Groups, trustTopics } from "../../data/modules";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 
@@ -9,7 +9,7 @@ import SectionTitle from "../../components/common/SectionTitle.vue";
 const layer1 = ref([]);
 
 onMounted(async () => {
-  layer1.value = await mockApi.getModules();
+  layer1.value = await api.getModules();
 });
 </script>
 

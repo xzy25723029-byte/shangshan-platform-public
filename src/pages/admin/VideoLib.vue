@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 
 import { MagnifyingGlass, Plus, LinkSimple, PlayCircle } from "@/icons";
 
@@ -30,7 +30,7 @@ const drawer = ref(false);
 const form = ref({ title: "", module: "", level: "必看", time: "", url: "" });
 
 onMounted(async () => {
-  videos.value = await mockApi.getVideos();
+  videos.value = await api.getVideos();
 });
 
 async function createVideo() {
@@ -38,8 +38,8 @@ async function createVideo() {
     ElMessage({ message: "标题、模块与链接为必填", type: "warning" });
     return;
   }
-  await mockApi.saveVideo({ ...form.value, status: "有效" });
-  videos.value = await mockApi.getVideos();
+  await api.saveVideo({ ...form.value, status: "有效" });
+  videos.value = await api.getVideos();
   drawer.value = false;
   form.value = { title: "", module: "", level: "必看", time: "", url: "" };
   ElMessage({ message: "视频已保存（仅存链接，不下载转存）", type: "success" });

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import ModuleCard from "../../components/common/ModuleCard.vue";
 
 /* 第1层 · 基础底座（新兵连）
@@ -9,7 +9,7 @@ import ModuleCard from "../../components/common/ModuleCard.vue";
 const modules = ref([]);
 
 onMounted(async () => {
-  modules.value = await mockApi.getModules();
+  modules.value = await api.getModules();
 });
 </script>
 

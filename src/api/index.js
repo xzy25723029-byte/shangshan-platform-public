@@ -9,5 +9,11 @@ const useMock = (import.meta.env.VITE_USE_MOCK ?? "true") !== "false";
 
 export { useMock };
 
+import * as mock from "./mock";
+import * as supabase from "./supabase";
+
+/* 统一 api 出口：页面 import { api } 即可，数据层随 VITE_USE_MOCK 切换 */
+export const api = useMock ? mock : supabase;
+
 export * as mockApi from "./mock";
 export * as remoteApi from "./supabase";

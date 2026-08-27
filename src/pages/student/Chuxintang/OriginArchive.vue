@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 
 import { LockSimple, Timer } from "@/icons";
 
@@ -13,7 +13,7 @@ const content = ref("");
 const sealing = ref(false);
 
 async function load() {
-  archive.value = await mockApi.getArchive();
+  archive.value = await api.getArchive();
   if (archive.value) content.value = archive.value.content;
 }
 onMounted(load);
@@ -24,7 +24,7 @@ async function seal() {
     return;
   }
   sealing.value = true;
-  archive.value = await mockApi.sealArchive({ content: content.value.trim() });
+  archive.value = await api.sealArchive({ content: content.value.trim() });
   sealing.value = false;
   ElMessage({ message: "初心已封存。四年后，我们在这里等你回来。", type: "success" });
 }

@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import FileUploadBox from "../../../components/common/FileUploadBox.vue";
 import { graduationSections } from "../../../data/projects";
@@ -15,7 +15,7 @@ const route = useRoute();
 const g = ref(null);
 
 onMounted(async () => {
-  g.value = await mockApi.getGraduation();
+  g.value = await api.getGraduation();
 });
 
 const sectionId = computed(() => route.params.section || "overview");
@@ -32,7 +32,7 @@ async function addCard() {
     ElMessage({ message: "先写一句记录", type: "warning" });
     return;
   }
-  g.value = await mockApi.updateGraduation({
+  g.value = await api.updateGraduation({
     experimentLogs: [
       ...(g.value.experimentLogs || []),
       { date: new Date().toISOString().slice(0, 10), type: cardType.value === "顺利" ? "实验" : "异常", content: cardPoints.value.trim() },

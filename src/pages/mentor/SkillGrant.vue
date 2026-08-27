@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 
 /* 技能包授权（导师端）
@@ -19,8 +19,8 @@ const students = ref([
 const form = ref({ student: "", packId: "", note: "" });
 
 onMounted(async () => {
-  packs.value = await mockApi.getSkillPacks();
-  grants.value = await mockApi.getSkillGrants();
+  packs.value = await api.getSkillPacks();
+  grants.value = await api.getSkillGrants();
 });
 
 async function grant() {
@@ -28,8 +28,8 @@ async function grant() {
     ElMessage({ message: "请选择学生与技能包", type: "warning" });
     return;
   }
-  await mockApi.grantSkillPack(form.value);
-  grants.value = await mockApi.getSkillGrants();
+  await api.grantSkillPack(form.value);
+  grants.value = await api.getSkillGrants();
   form.value = { student: "", packId: "", note: "" };
   ElMessage({ message: "已授权。技能包仅用于检查和对照，不得用于生成。", type: "success" });
 }

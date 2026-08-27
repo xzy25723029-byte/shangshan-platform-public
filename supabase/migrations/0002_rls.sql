@@ -123,7 +123,7 @@ create policy "thought_notes_mentor_read_feedback" on thought_notes for select
   using (is_mentor_of(student_id));
 create policy "thought_notes_mentor_feedback" on thought_notes for update
   using (is_mentor_of(student_id))
-  with check (is_mentor_of(student_id) and (new.student_id = old.student_id));
+  with check (is_mentor_of(student_id));
 
 create policy "oath_own" on oath_signatures for all
   using (student_id = auth.uid()) with check (student_id = auth.uid());

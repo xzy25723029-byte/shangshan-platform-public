@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import ModuleDetailTemplate from "../../components/module/ModuleDetailTemplate.vue";
 import { ArrowLeft } from "@/icons";
 
@@ -12,7 +12,7 @@ const router = useRouter();
 const mod = ref(null);
 
 onMounted(async () => {
-  mod.value = await mockApi.getModule(route.params.id);
+  mod.value = await api.getModule(route.params.id);
 });
 
 /* 返回上一层（学习地图/第1层列表），保留浏览器滚动记忆 */

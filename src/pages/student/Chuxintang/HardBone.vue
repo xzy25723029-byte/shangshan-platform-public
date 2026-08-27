@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import HardBoneRecord from "../../../components/profile/HardBoneRecord.vue";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import { Plus } from "@/icons";
@@ -16,7 +16,7 @@ const content = ref("");
 const outcomes = ["仍在啃", "啃下来了", "换路子", "放弃了"];
 
 async function load() {
-  records.value = await mockApi.getHardBoneRecords();
+  records.value = await api.getHardBoneRecords();
 }
 onMounted(load);
 
@@ -25,7 +25,7 @@ async function add() {
     ElMessage({ message: "写清楚你卡在哪、做了什么尝试", type: "warning" });
     return;
   }
-  await mockApi.addHardBoneRecord({ outcome: outcome.value, content: content.value.trim() });
+  await api.addHardBoneRecord({ outcome: outcome.value, content: content.value.trim() });
   content.value = "";
   showForm.value = false;
   load();

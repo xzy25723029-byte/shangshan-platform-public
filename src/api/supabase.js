@@ -51,38 +51,26 @@ export async function logout() {
   await delay(100);
 }
 
-/* 正式模式：邮箱注册（邀请码校验走 Edge Function） */
+/* 正式模式：邮箱注册（邀请码校验+用户创建全部走 Edge Function，service role 完成） */
 export async function registerByEmail({ email, password, name, invite }) {
-  const checkRes = await fetch(`${FUNCTION_URL}/validate-invite`, {
+  const res = await fetch(`${FUNCTION_URL}/validate-invite`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code: invite }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${anonKey}`,
+    },
+    body: JSON.stringify({ action: "register", invite, email, password, name }),
   });
-  const check = await checkRes.json();
-  if (!check.valid) throw new Error(check.message || "邀请码无效");
-  if (check.role !== "student") throw new Error("学员注册请使用学生邀请码");
+  const result = await res.json();
+  if (!result.valid) throw new Error(result.message || "注册失败");
 
-  const mail = String(email || "").trim().toLowerCase();
-  const { data, error } = await supabase.auth.signUp({
-    email: mail,
-    password,
-    options: { data: { real_name: (name || "").trim(), invited_code: invite.trim().toUpperCase() } },
-  });
-  if (error) throw new Error(error.message);
-  if (!data.user) throw new Error("注册提交失败，请检查邮箱格式后重试");
+  /* 函数已创建用户并写入档案；前端登录一次以建立会话（RLS 查询需要） */
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw new Error("账号已创建，请用邮箱密码登录");
+  if (!data.user) throw new Error("登录异常，请稍后再试");
 
-  await supabase.from("profiles").insert({
-    id: data.user.id,
-    username: mail,
-    real_name: (name || "").trim() || mail.split("@")[0],
-    role: "student",
-    grade: "环境工程 · 新生",
-    avatar_url: "avatar-user.png",
-    invited_code: invite.trim().toUpperCase(),
-    status: "pending",
-  });
   const p = await profileOf(data.user.id);
-  return toClientUser(p);
+  return toClientUser(p || { ...result.user, username: result.user.email });
 }
 
 /* 正式模式：邮箱登录 */

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { Check, X, Clock, UserCircle } from "@/icons";
 
 /* 用户与角色 · 学员审核
@@ -13,7 +13,7 @@ const tab = ref("pending"); // pending | all
 onMounted(load);
 
 async function load() {
-  users.value = await mockApi.listFormalUsers();
+  users.value = await api.listFormalUsers();
 }
 
 const pendingList = () => users.value.filter((u) => u.status === "pending");
@@ -22,7 +22,7 @@ const allList = () => users.value;
 const statusLabel = { pending: "待审核", approved: "已通过", rejected: "已拒绝" };
 
 async function review(u, action) {
-  await mockApi.reviewUser(u.id, action);
+  await api.reviewUser(u.id, action);
   ElMessage({
     message: action === "approve" ? `已通过「${u.name}」的注册` : `已拒绝「${u.name}」的注册`,
     type: action === "approve" ? "success" : "info",

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 import { CalendarDots, ChalkboardTeacher, ShieldCheck, UsersThree } from "@/icons";
 
@@ -9,7 +9,7 @@ import { CalendarDots, ChalkboardTeacher, ShieldCheck, UsersThree } from "@/icon
 const status = ref(null);
 
 onMounted(async () => {
-  status.value = await mockApi.getMentorWeekStatus();
+  status.value = await api.getMentorWeekStatus();
 });
 </script>
 

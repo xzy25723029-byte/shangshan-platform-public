@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { CaretDown } from "@/icons";
 
 /* 师兄师姐 · 传承：大一第一件做成的事 / 卡过什么 / 如何选定方向 / 现在在做什么
@@ -10,7 +10,7 @@ const alumni = ref([]);
 const selected = ref(0);
 
 onMounted(async () => {
-  alumni.value = await mockApi.getAlumni();
+  alumni.value = await api.getAlumni();
 });
 </script>
 

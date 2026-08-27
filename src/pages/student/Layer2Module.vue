@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import ModuleDetailTemplate from "../../components/module/ModuleDetailTemplate.vue";
 
 /* 第2层模块详情：统一 ModuleDetailTemplate（六段式），
@@ -11,7 +11,7 @@ const route = useRoute();
 const mod = ref(null);
 
 onMounted(async () => {
-  mod.value = await mockApi.getLayer2Module(route.params.id);
+  mod.value = await api.getLayer2Module(route.params.id);
 });
 </script>
 

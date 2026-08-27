@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import { voiceTopics, voiceScenes } from "../../data/community";
 import SectionTitle from "../../components/common/SectionTitle.vue";
 import { MagnifyingGlass, Quotes, Clock, CaretRight } from "@/icons";
@@ -14,7 +14,7 @@ const query = ref("");
 const scene = ref("全部场景");
 
 onMounted(async () => {
-  voices.value = await mockApi.getVoices();
+  voices.value = await api.getVoices();
 });
 
 const filtered = () =>

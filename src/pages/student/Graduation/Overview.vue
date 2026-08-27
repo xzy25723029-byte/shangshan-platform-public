@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import MilestoneTimeline from "../../../components/project/MilestoneTimeline.vue";
 import { graduationSections } from "../../../data/projects";
@@ -13,12 +13,12 @@ const g = ref(null);
 const directions = ref([]);
 
 onMounted(async () => {
-  [g.value, directions.value] = await Promise.all([mockApi.getGraduation(), mockApi.getLayer3Directions()]);
+  [g.value, directions.value] = await Promise.all([api.getGraduation(), api.getLayer3Directions()]);
 });
 
 async function linkDeliverable(d) {
   if (!g.value) return;
-  g.value = await mockApi.linkDeliverable(d.id);
+  g.value = await api.linkDeliverable(d.id);
   ElMessage({ message: `已关联为第3层交付物（方向 ${d.id} · ${d.name}），不重复提交、不重复验收`, type: "success" });
 }
 </script>

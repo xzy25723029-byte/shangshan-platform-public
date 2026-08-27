@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 
 import SkillTag from "../../components/common/SkillTag.vue";
 import { Handshake } from "@/icons";
@@ -16,7 +16,7 @@ const askTarget = ref(null);
 const askText = ref("");
 
 onMounted(async () => {
-  members.value = await mockApi.getMembers();
+  members.value = await api.getMembers();
 });
 
 function openAsk(m) {

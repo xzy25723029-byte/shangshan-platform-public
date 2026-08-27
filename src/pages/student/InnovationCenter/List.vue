@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../../api";
+import { api } from "../../../api";
 import { ArrowRight } from "@/icons";
 
 const projects = ref([]);
 
 onMounted(async () => {
-  projects.value = await mockApi.getProjects();
+  projects.value = await api.getProjects();
 });
 </script>
 

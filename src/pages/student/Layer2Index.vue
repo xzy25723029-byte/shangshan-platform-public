@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { mockApi } from "../../api";
+import { api } from "../../api";
 import ModuleCard from "../../components/common/ModuleCard.vue";
 import { WarningCircle } from "@/icons";
 
@@ -12,7 +12,7 @@ const groups = ref([]);
 const topics = ref([]);
 
 onMounted(async () => {
-  [groups.value, topics.value] = await Promise.all([mockApi.getLayer2Groups(), mockApi.getTrustTopics()]);
+  [groups.value, topics.value] = await Promise.all([api.getLayer2Groups(), api.getTrustTopics()]);
 });
 </script>
 
