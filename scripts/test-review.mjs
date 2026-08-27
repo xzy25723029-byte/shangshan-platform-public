@@ -1,6 +1,6 @@
 /* 邮箱注册审核闭环端到端验证（同一浏览器串行，共享 localStorage） */
 import { chromium } from "playwright";
-const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const exe = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const BASE = process.env.CLOUD_URL || "http://127.0.0.1:4173";
 const browser = await chromium.launch({ executablePath: exe, headless: true });
 const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();

@@ -22,7 +22,7 @@ const log = (line) => {
 fs.writeFileSync(path.join(RUN_DIR, "final_script_log.txt"), "");
 
 const BASE = "http://127.0.0.1:4173";
-const EXEC = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const EXEC = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const issues = []; // { page, severity, type, detail }
 const addIssue = (page, severity, type, detail) => issues.push({ page, severity, type, detail });
 

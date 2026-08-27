@@ -1,6 +1,6 @@
 /* 桌面+手机双视口截图验证 S 型水流布局 */
 import { chromium } from "playwright";
-const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const exe = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const base = "http://127.0.0.1:4173";
 const browser = await chromium.launch({ executablePath: exe, headless: true });
 

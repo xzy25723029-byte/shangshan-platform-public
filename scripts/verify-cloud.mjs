@@ -1,6 +1,6 @@
 /* 云端部署验证：真实浏览器访问 EdgeOne 域名 */
 import { chromium } from "playwright";
-const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const exe = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const BASE = process.env.CLOUD_URL || "https://shangshan.pages.dev"; /* 云端部署验证：真实浏览器跑全流程（curl 会被 eo_time 防爬拦 401，属正常） */
 const browser = await chromium.launch({ executablePath: exe, headless: true });
 

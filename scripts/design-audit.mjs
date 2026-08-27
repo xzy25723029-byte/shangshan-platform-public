@@ -6,7 +6,7 @@
    ============================================================ */
 import { chromium } from "playwright";
 
-const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const exe = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const BASE = "http://127.0.0.1:4173";
 
 const routes = [

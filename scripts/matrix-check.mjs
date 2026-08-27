@@ -19,7 +19,7 @@ const OUT_DIR = path.join(ROOT, "qa", "matrix");
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 const BASE = "http://127.0.0.1:4173";
-const EXEC = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const EXEC = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 
 const results = [];
 let failures = 0;

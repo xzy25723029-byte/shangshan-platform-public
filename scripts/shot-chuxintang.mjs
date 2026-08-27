@@ -1,7 +1,7 @@
 /* 初心堂丰富版视觉验证截图脚本 */
 import { chromium } from "playwright";
 
-const exe = "C:/Users/ydx15/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe";
+const exe = "D:/dev/caches/playwright/chromium-1234/chrome-win64/chrome.exe";
 const base = "http://localhost:4174";
 
 const shots = [
