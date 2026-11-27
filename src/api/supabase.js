@@ -2,7 +2,7 @@
    Supabase 实现（云服务）
    接入步骤（见 README「接入 Supabase」）：
    1. .env 填写 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY
-   2. Supabase SQL Editor 按序执行 supabase/migrations/*.sql（0001-0004）
+   2. Supabase SQL Editor 按序执行 supabase/migrations/*.sql
    3. 部署 Edge Function：validate-invite / ai-mentor / storage-signed
    4. VITE_USE_MOCK=false 即切换到此实现
    未接入的函数返回本地演示数据并告警，页面不崩
@@ -241,8 +241,95 @@ export const getLayer2Module = localFallback("getLayer2Module", mock.getLayer2Mo
 export const getLayer3Direction = localFallback("getLayer3Direction", mock.getLayer3Direction);
 export const getTrustTopics = localFallback("getTrustTopics", mock.getTrustTopics);
 export const getLayer3Directions = localFallback("getLayer3Directions", mock.getLayer3Directions);
-export const getProjects = localFallback("getProjects", mock.getProjects);
-export const getProject = localFallback("getProject", mock.getProject);
+const projectColumns = `id, name, type, field, abstract, status, started_at,
+  owner:profiles!projects_owner_id_fkey(real_name), mentor:profiles!projects_mentor_id_fkey(real_name, avatar_url)`;
+
+function toProject(row) {
+  return {
+    id: row.id, name: row.name, type: row.type, field: row.field, abstract: row.abstract,
+    start: row.started_at, status: row.status === "archived" ? "已归档" : "进行中",
+    owner: row.owner?.real_name || "课题负责人",
+    mentor: row.mentor && { name: row.mentor.real_name, avatar: row.mentor.avatar_url || "avatar-user.png" },
+  };
+}
+
+export async function getProjects() {
+  const { data, error } = await supabase.from("projects").select(projectColumns).order("created_at", { ascending: false });
+  if (error) throw error;
+  return data.map(toProject);
+}
+
+export async function getProject(id) {
+  if (!/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(id)) return null;
+  const { data, error } = await supabase.from("projects").select(projectColumns).eq("id", id).maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const [members, tasks] = await Promise.all([
+    supabase.from("project_members").select("id, role, duty, profile:profiles!project_members_student_id_fkey(real_name, avatar_url)")
+      .eq("project_id", id),
+    supabase.from("project_tasks").select("id, title, due_date, done, assignee:profiles(real_name, avatar_url)")
+      .eq("project_id", id).order("sort_order"),
+  ]);
+  if (members.error || tasks.error) throw members.error || tasks.error;
+
+  return {
+    ...toProject(data),
+    members: members.data.map((member) => ({
+      id: member.id, role: member.role, duty: member.duty,
+      name: member.profile?.real_name || "课题成员", avatar: member.profile?.avatar_url || "avatar-user.png",
+    })),
+    tasks: tasks.data.map((task) => ({
+      id: task.id, name: task.title, date: task.due_date, owner: task.assignee?.avatar_url || "avatar-user.png",
+    })),
+    todos: tasks.data.filter((task) => !task.done).map((task) => task.title),
+    milestones: [], files: [], notes: [],
+  };
+}
+
+const progressColumns = "id, project_id, student_id, summary, challenges, next_steps, submitted_at, feedback, feedback_at";
+
+function toProjectProgress(row) {
+  return {
+    id: row.id, projectId: row.project_id, studentId: row.student_id,
+    projectName: row.project?.name, studentName: row.student?.real_name,
+    summary: row.summary, challenges: row.challenges, nextSteps: row.next_steps, submittedAt: row.submitted_at,
+    feedback: row.feedback, feedbackAt: row.feedback_at,
+  };
+}
+
+export async function getProjectProgress(projectId) {
+  const { data, error } = await supabase.from("project_progress").select(progressColumns)
+    .eq("project_id", projectId).order("submitted_at", { ascending: false }).order("id", { ascending: false });
+  if (error) throw error;
+  return data.map(toProjectProgress);
+}
+
+export async function submitProjectProgress(projectId, { id, summary, challenges, nextSteps }) {
+  const { data, error } = await supabase.from("project_progress")
+    .insert({ id, project_id: projectId, summary, challenges, next_steps: nextSteps }).select(progressColumns).single();
+  if (error?.code === "23505") {
+    const existing = await supabase.from("project_progress").select(progressColumns).eq("id", id).eq("project_id", projectId).maybeSingle();
+    if (existing.data) return toProjectProgress(existing.data);
+  }
+  if (error) throw error;
+  return toProjectProgress(data);
+}
+
+export async function getMentorProjectProgress() {
+  const { data, error } = await supabase.from("project_progress")
+    .select(`${progressColumns}, project:projects(name), student:profiles!project_progress_student_id_fkey(real_name)`)
+    .order("submitted_at", { ascending: false }).order("id", { ascending: false });
+  if (error) throw error;
+  return data.map(toProjectProgress);
+}
+
+export async function submitProjectFeedback(id, feedback) {
+  const { data, error } = await supabase.from("project_progress").update({ feedback }).eq("id", id).select(progressColumns).single();
+  if (error) throw error;
+  return toProjectProgress(data);
+}
+
 export const getGraduation = localFallback("getGraduation", mock.getGraduation);
 export const updateGraduation = localFallback("updateGraduation", mock.updateGraduation);
 export const linkDeliverable = localFallback("linkDeliverable", mock.linkDeliverable);
