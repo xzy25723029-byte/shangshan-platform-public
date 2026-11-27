@@ -53,7 +53,6 @@ const routes = [
     children: [
       { path: "week", component: () => import("../pages/mentor/WeekStatus.vue"), meta: { title: "本周状态" } },
       { path: "review", component: () => import("../pages/mentor/ReviewWorkbench.vue"), meta: { title: "批阅工作台" } },
-      { path: "projects", component: () => import("../pages/mentor/ProjectProgress.vue"), meta: { title: "大创管理" } },
       { path: "cognitive", component: () => import("../pages/mentor/CognitiveView.vue"), meta: { title: "认知侧写查看" } },
       { path: "skill-grant", component: () => import("../pages/mentor/SkillGrant.vue"), meta: { title: "技能包授权" } },
       { path: ":any(.*)", component: () => import("../pages/ComingSoon.vue") },

@@ -1,11 +1,10 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { api, useMock } from "../../../api";
+import { api } from "../../../api";
 import SectionTitle from "../../../components/common/SectionTitle.vue";
 import MilestoneTimeline from "../../../components/project/MilestoneTimeline.vue";
-import Progress from "./Progress.vue";
 import {
   ClipboardText, Target, UserCircle, CalendarDots,
   Folder, FileText, Plus, PaperPlaneRight, CheckCircle, WarningCircle,
@@ -15,31 +14,16 @@ import {
 
 const route = useRoute();
 const project = ref(null);
-const loading = ref(true);
-const loadError = ref(false);
 const todos = ref([]);
 const chat = ref("");
 const memberDialog = ref(false);
 const milestoneDialog = ref(false);
 const notesDialog = ref(false);
 
-watch(() => route.params.id, async (id, _previous, onCleanup) => {
-  let cancelled = false;
-  onCleanup(() => { cancelled = true; });
-  loading.value = true;
-  loadError.value = false;
-  project.value = null;
-  try {
-    const result = await api.getProject(id);
-    if (cancelled) return;
-    project.value = result;
-    todos.value = (result?.todos || []).map((text) => ({ text, done: false }));
-  } catch {
-    if (!cancelled) loadError.value = true;
-  } finally {
-    if (!cancelled) loading.value = false;
-  }
-}, { immediate: true });
+onMounted(async () => {
+  project.value = await api.getProject(route.params.id);
+  if (project.value) todos.value = project.value.todos.map((t) => ({ text: t, done: false }));
+});
 
 /* 新建任务：加入任务看板（演示数据内存态） */
 async function addTask() {
@@ -76,8 +60,6 @@ function askSuggestion(s) {
       </div>
     </div>
 
-    <Progress :key="project.id" :project-id="project.id" />
-
     <div class="project-grid">
       <div class="project-main">
         <div class="summary-row">
@@ -86,9 +68,9 @@ function askSuggestion(s) {
             <p>{{ project.abstract }}</p>
           </div>
           <div class="card">
-            <SectionTitle :title="`成员（${project.members.length}）`" action="查看成员" @action-click="memberDialog = true" />
+            <SectionTitle title="成员（{{ project.members.length }}）" action="管理成员" @action-click="memberDialog = true" />
             <div class="member-strip">
-              <div v-for="m in project.members" :key="m.id || m.name">
+              <div v-for="m in project.members" :key="m.name">
                 <img :src="`/assets/${m.avatar}`" :alt="m.name" />
                 <b>{{ m.name }}</b><span>{{ m.role }}</span>
               </div>
@@ -96,15 +78,15 @@ function askSuggestion(s) {
           </div>
         </div>
 
-        <div v-if="project.milestones.length" class="card">
+        <div class="card">
           <SectionTitle title="课题里程碑" action="查看里程碑详情" @action-click="milestoneDialog = true" />
           <MilestoneTimeline :items="project.milestones" />
         </div>
 
-        <div v-if="project.countdown || todos.length || project.tasks.length" class="project-widgets">
-          <div v-if="project.countdown || todos.length" class="card">
+        <div class="project-widgets">
+          <div class="card">
             <SectionTitle title="倒计时与待办" note="只提醒，不催促" />
-            <div v-if="project.countdown" class="countdown">
+            <div class="countdown">
               <b>{{ project.countdown.days }}</b>天 <b>{{ project.countdown.hours }}</b>小时 <b>{{ project.countdown.minutes }}</b>分钟
               <small>距中期检查</small>
             </div>
@@ -114,23 +96,23 @@ function askSuggestion(s) {
           </div>
           <div class="card">
             <SectionTitle title="任务看板" />
-            <div v-for="task in project.tasks" :key="task.id || task.name" class="task-row">
+            <div v-for="task in project.tasks" :key="task.name" class="task-row">
               <span>{{ task.name }}</span>
               <img :src="`/assets/${task.owner}`" alt="负责人" />
               <small>{{ task.date }}</small>
             </div>
-            <button v-if="useMock" class="text-link" @click="addTask"><Plus :size="14" />新建任务</button>
+            <button class="text-link" @click="addTask"><Plus :size="14" />新建任务</button>
           </div>
-          <div v-if="project.files.length" class="card">
+          <div class="card">
             <SectionTitle title="资料与文件" />
             <div v-for="f in project.files" :key="f" class="file-row"><Folder :size="15" />{{ f }}</div>
           </div>
         </div>
 
-        <div v-if="project.members.length" class="card">
+        <div class="card">
           <SectionTitle title="成员分工" />
           <div class="member-list">
-            <div v-for="m in project.members" :key="m.id || m.name">
+            <div v-for="m in project.members" :key="m.name">
               <img :src="`/assets/${m.avatar}`" :alt="m.name" />
               <span><b>{{ m.name }}</b><small>{{ m.role }}</small></span>
               <p>{{ m.duty }}</p>
@@ -138,7 +120,7 @@ function askSuggestion(s) {
           </div>
         </div>
 
-        <div v-if="project.retro" class="card">
+        <div class="card">
           <SectionTitle title="复盘记录" />
           <div class="retro">
             <div class="retro-ok">
@@ -153,12 +135,12 @@ function askSuggestion(s) {
         </div>
       </div>
 
-      <aside v-if="project.notes.length || project.mentor || project.ai">
-        <div v-if="project.notes.length" class="card">
+      <aside>
+        <div class="card">
           <SectionTitle title="课题笔记" action="全部笔记" @action-click="notesDialog = true" />
           <div v-for="n in project.notes" :key="n" class="note-row"><FileText :size="15" />{{ n }}</div>
         </div>
-        <div v-if="project.mentor" class="card">
+        <div class="card">
           <SectionTitle title="导师建议" />
           <div class="mentor">
             <img :src="`/assets/${project.mentor.avatar}`" :alt="project.mentor.name" />
@@ -166,7 +148,7 @@ function askSuggestion(s) {
           </div>
           <p>{{ project.mentor.advice }}</p>
         </div>
-        <div v-if="project.ai" class="card">
+        <div class="card">
           <SectionTitle title="AI 助手" />
           <p class="ai-greet">{{ project.ai.greeting }}</p>
           <div class="suggestions">
@@ -183,7 +165,7 @@ function askSuggestion(s) {
     <!-- 成员管理弹窗（查看成员与分工，不设排名） -->
     <el-dialog v-model="memberDialog" title="成员与分工" width="560px">
       <div class="dlg-member-list">
-        <div v-for="m in project.members" :key="m.id || m.name" class="dlg-member">
+        <div v-for="m in project.members" :key="m.name" class="dlg-member">
           <img :src="`/assets/${m.avatar}`" :alt="m.name" />
           <span><b>{{ m.name }}</b><small>{{ m.role }}</small></span>
           <p>{{ m.duty }}</p>
@@ -210,12 +192,6 @@ function askSuggestion(s) {
       <p class="dlg-note">笔记正在整理中，更多记录会在推进中补充。</p>
     </el-dialog>
   </div>
-  <div v-else class="card project-message">
-    <p v-if="loading" role="status">正在读取课题…</p>
-    <p v-else-if="loadError" role="alert">暂时无法读取课题，请返回列表后重试。</p>
-    <p v-else>无法访问此课题。</p>
-    <router-link v-if="!loading" to="/student/project">返回大创中心</router-link>
-  </div>
 </template>
 
 <style scoped>
@@ -232,8 +208,6 @@ function askSuggestion(s) {
 .project-meta { display: flex; gap: 25px; font-size: 11px; color: #3d5560; }
 .project-meta span { display: flex; gap: 5px; align-items: center; }
 .project-grid { display: grid; grid-template-columns: 1fr 315px; gap: 12px; }
-.project-grid:not(:has(aside)) { grid-template-columns: minmax(0, 1fr); }
-.project-message { padding: 14px; }
 .summary-row { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 10px; }
 .summary-row > .card, .project-main > .card, .project-widgets > .card, .project-grid > aside > .card { padding: 14px; }
 .summary-row p { font-size: 11px; line-height: 1.7; color: #4a5f68; }
@@ -290,8 +264,4 @@ function askSuggestion(s) {
 .dlg-milestones small { font-size: 10px; color: #7a8d95; }
 .dlg-note-row { display: flex; align-items: center; gap: 8px; padding: 9px 4px; border-bottom: 1px solid #e7eef0; font-size: 12px; color: #3d5560; }
 .dlg-note { margin: 12px 0 0; font-size: 11px; color: #8a9ba2; }
-@media (max-width: 900px) {
-  .project-grid, .summary-row, .project-widgets, .member-list { grid-template-columns: minmax(0, 1fr); }
-  .project-meta, .member-strip { flex-wrap: wrap; }
-}
 </style>

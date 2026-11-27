@@ -292,60 +292,11 @@ export async function getLayer3Directions() {
 /* ---------- 大创 ---------- */
 export async function getProjects() {
   await delay(200);
-  return db.projects.map(({ id, name, type, owner, start, status, abstract, field }) => ({
-    id, name, type, owner, start, status, abstract, field,
-  }));
+  return db.projects.map(({ name, type, owner, start, status, abstract }) => ({ id: "p1", name, type, owner, start, status, abstract }));
 }
 export async function getProject(id) {
   await delay(200);
   return db.projects.find((p) => p.id === id);
-}
-
-const projectProgressPrefix = "ss_project_progress:";
-
-function readProjectProgress() {
-  return Object.keys(localStorage).filter((key) => key.startsWith(projectProgressPrefix))
-    .map((key) => JSON.parse(localStorage.getItem(key))).filter(Boolean)
-    .sort((left, right) => right.submittedAt.localeCompare(left.submittedAt) || right.id.localeCompare(left.id));
-}
-
-export async function getProjectProgress(projectId, student) {
-  return readProjectProgress().filter((entry) => entry.projectId === projectId && entry.studentId === student.id);
-}
-
-export async function submitProjectProgress(projectId, { id, summary, challenges, nextSteps }, student) {
-  const project = db.projects.find((item) => item.id === projectId);
-  if (!project || student.role !== "student" || !summary.trim() || !nextSteps.trim()) {
-    throw new Error("请检查课题和中期进展内容");
-  }
-  const key = `${projectProgressPrefix}${id}`;
-  const existing = JSON.parse(localStorage.getItem(key));
-  if (existing?.studentId === student.id && existing.projectId === projectId) return existing;
-  if (existing) throw new Error("此进展记录已存在");
-
-  const entry = {
-    id, projectId, projectName: project.name, studentId: student.id, studentName: student.name,
-    summary, challenges, nextSteps, submittedAt: new Date().toISOString(), feedback: "", feedbackAt: null,
-  };
-  localStorage.setItem(key, JSON.stringify(entry));
-  return entry;
-}
-
-export async function getMentorProjectProgress(mentor) {
-  if (mentor.role !== "mentor") return [];
-  const assignedProjects = db.projects.filter((project) => project.mentor.id === mentor.id);
-  return readProjectProgress().filter((entry) => assignedProjects.some((project) => project.id === entry.projectId));
-}
-
-export async function submitProjectFeedback(id, feedback, mentor) {
-  const key = `${projectProgressPrefix}${id}`;
-  const entry = JSON.parse(localStorage.getItem(key));
-  const project = db.projects.find((item) => item.id === entry?.projectId);
-  if (mentor.role !== "mentor" || project?.mentor.id !== mentor.id || !feedback.trim()) throw new Error("无法提交导师反馈");
-  if (entry.feedback === feedback) return entry;
-  Object.assign(entry, { feedback, feedbackAt: new Date().toISOString() });
-  localStorage.setItem(key, JSON.stringify(entry));
-  return entry;
 }
 
 /* ---------- 毕设 ---------- */

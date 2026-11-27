@@ -4,22 +4,10 @@ import { api } from "../../../api";
 import { ArrowRight } from "@/icons";
 
 const projects = ref([]);
-const loading = ref(true);
-const loadError = ref(false);
 
-async function loadProjects() {
-  loading.value = true;
-  loadError.value = false;
-  try {
-    projects.value = await api.getProjects();
-  } catch {
-    loadError.value = true;
-  } finally {
-    loading.value = false;
-  }
-}
-
-onMounted(loadProjects);
+onMounted(async () => {
+  projects.value = await api.getProjects();
+});
 </script>
 
 <template>
@@ -38,13 +26,7 @@ onMounted(loadProjects);
       <span>能量流物质流六问初步回答</span>
     </div>
 
-    <p v-if="loading" role="status">正在读取课题…</p>
-    <div v-else-if="loadError" role="alert">
-      <p>暂时无法读取课题。</p>
-      <button type="button" class="btn ghost" @click="loadProjects">重试</button>
-    </div>
-    <p v-else-if="!projects.length">你还没有参与的大创课题。</p>
-    <div v-else class="pc-grid">
+    <div class="pc-grid">
       <article v-for="p in projects" :key="p.id" class="card pc-card">
         <header>
           <span class="pill">{{ p.type }}</span>
@@ -91,5 +73,4 @@ onMounted(loadProjects);
 .pc-card dt { font-size: 10px; color: #8a9ba2; }
 .pc-card dd { margin: 3px 0 0; font-size: 12px; font-weight: 700; color: #3d5560; }
 .pc-card .btn { align-self: flex-start; text-decoration: none; }
-@media (max-width: 700px) { .pc-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -47,7 +47,6 @@ export const projects = [
       stuck: ["部分时段 DO 波动较大，数据异常。", "曝气强度与能耗关系需要进一步验证。"],
     },
     mentor: {
-      id: "u2",
       name: "张涛 教授",
       unit: "环境工程学院",
       avatar: "avatar-2.png",
